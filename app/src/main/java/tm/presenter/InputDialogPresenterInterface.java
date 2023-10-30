@@ -1,5 +1,6 @@
 package tm.presenter;
 
-public class InputDialogPresenterInterface {
-    
+public interface InputDialogPresenterInterface {
+    void showAndWait();
+    void hide();
 }
