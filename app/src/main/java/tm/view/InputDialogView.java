@@ -53,7 +53,7 @@ public class InputDialogView extends Dialog<String> {
         setDialogPane(dialogPane);
         setTitle("Entität hinzufügen");
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("res/img/logo/Pepperminsk_Patty_256.png"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
     }
 
     public ButtonType getOkButtonType() {
