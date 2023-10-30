@@ -10,3 +10,7 @@
 - Darstellung von Studentendaten
 - Auswählen von Studenten zum Kopieren der Daten in die Zwischenablage mit wählbarem Separator
 - Auswählen von relevanten Spalten
+
+## Fehler
+
+- Alle Spalten abwählen führt zu StringIndexOutOfBoundsException: Range [0, -4]

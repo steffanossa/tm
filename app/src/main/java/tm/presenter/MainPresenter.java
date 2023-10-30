@@ -108,8 +108,8 @@ public class MainPresenter {
         ImageView imageView = new ImageView(image);
         alert.setGraphic(imageView);
 
-        alert.setTitle("Löschung bestätigen");
-        alert.setContentText(selectedStudents + " Einträge wirklich unwiderruflich löschen?");
+        alert.setTitle("Wirklich entfernen?");
+        alert.setContentText(selectedStudents + " Beobachtung/en wirklich unwiderruflich entfernen?");
         alert.setHeaderText(null);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
@@ -211,6 +211,7 @@ public class MainPresenter {
         alert.setHeaderText(null);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
+        //TODO:dynamisch
         alert.setContentText(
             "Tabelle: 'Students'\n" +
             "Spalte: 'firstname', Typ: 'TEXT'\n" +
