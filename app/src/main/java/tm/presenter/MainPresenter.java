@@ -108,7 +108,7 @@ public class MainPresenter {
         ImageView imageView = new ImageView(image);
         alert.setGraphic(imageView);
 
-        alert.setTitle("Wirklich entfernen?");
+        alert.setTitle("Löschen bestätigen");
         alert.setContentText(selectedStudents + " Beobachtung/en wirklich unwiderruflich entfernen?");
         alert.setHeaderText(null);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
