@@ -1,5 +1,5 @@
 # Transfermodul Programmieraufgabe
-
+#gradle, #javafx, #mvp, #jdbc, #sqlite
 ## Anforderungen
 
 <img src="https://github.com/steffanossa/tm/assets/94658723/dc33e8b4-7dbe-4861-9bb8-c1e292acef70.png" width="300" height="400">
@@ -14,3 +14,4 @@
 ## Fehler
 
 - Alle Spalten abwählen führt zu StringIndexOutOfBoundsException: Range [0, -4]
+  - catch, disable export buttons, preview auf leer
