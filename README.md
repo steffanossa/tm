@@ -11,7 +11,6 @@
 - Auswählen von Studenten zum Kopieren der Daten in die Zwischenablage mit wählbarem Separator
 - Auswählen von relevanten Spalten
 
-## Fehler
-
-- Alle Spalten abwählen führt zu StringIndexOutOfBoundsException: Range [0, -4]
-  - catch, disable export buttons, preview auf leer
+## TODO
+- [ ] UNIT TESTS, JUNGE
+- [ ] pentesting oder so. kp, hab schreibmaschine
