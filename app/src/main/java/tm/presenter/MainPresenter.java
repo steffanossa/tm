@@ -7,22 +7,21 @@ import java.util.Optional;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener.Change;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import tm.model.InputDialogModel;
 import tm.model.MainModel;
 import tm.model.Student;
+import tm.view.BadDatabaseAlertView;
+import tm.view.ConfirmDeletionAlertView;
 import tm.view.InputDialogView;
 import tm.view.MainView;
+
 
 public class MainPresenter {
     
@@ -102,19 +101,9 @@ public class MainPresenter {
     }
 
     private boolean showConfirmationDialog(int selectedStudents) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-
-        Image image = new Image(getClass().getResourceAsStream("/images/Confirmation.png"));
-        ImageView imageView = new ImageView(image);
-        alert.setGraphic(imageView);
-
-        alert.setTitle("Löschen bestätigen");
-        alert.setContentText(selectedStudents + " Beobachtung/en wirklich unwiderruflich entfernen?");
-        alert.setHeaderText(null);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
-        
+        ConfirmDeletionAlertView alert = new ConfirmDeletionAlertView(selectedStudents);
         Optional<ButtonType> result = alert.showAndWait();
+        //lol
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
@@ -160,6 +149,7 @@ public class MainPresenter {
         });
     }
 
+    //TODO:relocate?
     private void addSaveToFileButtonHandler() {
         mainView.getSaveToFileButton().setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
@@ -181,7 +171,7 @@ public class MainPresenter {
         });
     }
 
-    //TODO:am falschen platz
+    //TODO:relocate?
     private void openDatabase () {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Database");
@@ -206,22 +196,7 @@ public class MainPresenter {
     }
 
     private void showBadDatabaseAlert() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Fehlerhafte Datenbank");
-        alert.setHeaderText(null);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
-        //TODO:dynamisch
-        alert.setContentText(
-            "Tabelle: 'Students'\n" +
-            "Spalte: 'firstname', Typ: 'TEXT'\n" +
-            "Spalte: 'surname', Typ: 'TEXT'\n" +
-            "Spalte: 'matrikelnr', Typ: 'INTEGER', 'UNIQUE'\n" +
-            "Spalte: 'fhkennung', Typ: 'TEXT', 'UNIQUE'"
-            );
-        Image image = new Image(getClass().getResourceAsStream("/images/Info.png"));
-        ImageView imageView = new ImageView(image);
-        alert.setGraphic(imageView);
+        BadDatabaseAlertView alert = new BadDatabaseAlertView();
         alert.showAndWait();
         openDatabase();
     }

@@ -1,14 +1,12 @@
 package tm.presenter;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 import tm.model.InputDialogModel;
+import tm.view.BadInputAlertView;
 import tm.view.InputDialogView;
+
 
 public class InputDialogPresenter implements InputDialogPresenterInterface{
     private InputDialogView inputDialogView;
@@ -56,7 +54,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface{
             if (!inputDialogModel.validateFhKennung(fhKennung)) {
                 errorMessage.append("\nFH-Kennung");
 
-                this.showAlert(errorMessage.toString());
+                this.showBadInputAlert(errorMessage.toString());
 
                 return false;
             } else {
@@ -74,17 +72,8 @@ public class InputDialogPresenter implements InputDialogPresenterInterface{
         }
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Fehlerhafte Eingabe");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
-        Image image = new Image(getClass().getResourceAsStream("/images/Error.png"));
-        ImageView imageView = new ImageView(image);
-        alert.setGraphic(imageView);
+    private void showBadInputAlert(String message) {
+        BadInputAlertView alert = new BadInputAlertView(message);
         alert.show();
     }
-
 }
