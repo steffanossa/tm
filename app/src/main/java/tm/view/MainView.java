@@ -28,8 +28,6 @@ public class MainView extends VBox {
     private StackPane tablePane;
     private ImageView imageView;
 
-    private boolean imageToggle;
-
 
     public MainView() {
         
@@ -44,8 +42,6 @@ public class MainView extends VBox {
         this.buttonBar = new ToolBar();
         this.tablePane = new StackPane();
         this.imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
-
-        this.imageToggle = false;
 
         this.comboBox = new ComboBox<>();
         this.clipboardButton = new Button("Clipboard");

@@ -3,6 +3,7 @@ package tm.presenter;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.ArrayList;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -78,12 +79,13 @@ public class MainPresenter {
 
     private void prepareTableView(TableView<Student> tableView) {
 
-        tableView.getColumns().setAll(
-            mainModel.createTableColumn("Vorname", "firstname", String.class),
-            mainModel.createTableColumn("Nachname", "surname", String.class),
-            mainModel.createTableColumn("Matrikel-Nr.", "matrikelnummer", Integer.class),
-            mainModel.createTableColumn("FH-Kennung", "fhKennung", String.class)
-        );
+        ArrayList<TableColumn<Student, ?>> columns = new ArrayList<>();
+        columns.add(mainModel.createTableColumn("Vorname", "firstname", String.class));
+        columns.add(mainModel.createTableColumn("Nachname", "surname", String.class));
+        columns.add(mainModel.createTableColumn("Matrikel-Nr.", "matrikelnummer", Integer.class));
+        columns.add(mainModel.createTableColumn("FH-Kennung", "fhKennung", String.class));
+
+        tableView.getColumns().addAll(columns);
 
         this.updateTableView();
 
@@ -97,12 +99,14 @@ public class MainPresenter {
 
     private void updateButtonStates() {
         boolean isEmpty = selectedStudents.isEmpty();
+
         mainView.getClipboardButton().setDisable(isEmpty);
         mainView.getRemoveButton().setDisable(isEmpty);
-        mainView.getEditButton().setDisable(isEmpty);
         mainView.getSaveToFileButton().setDisable(isEmpty);
+
         if (selectedStudents.size() != 1)
             mainView.getEditButton().setDisable(true);
+        else mainView.getEditButton().setDisable(false);
     }
 
     private void updateTableView() {
@@ -114,9 +118,10 @@ public class MainPresenter {
         String separator = mainModel.getSeparator(mainView.getComboBox().getValue());
         String previewString = mainModel.createPreviewString(separator, mainView.getTableView());
         mainView.getPreviewString().setText(previewString);
-        if (previewString == "Nichts anzuzeigen")
+        if (previewString == "Nichts anzuzeigen") {
             mainView.showImage();
-        else mainView.hideImage();
+            mainView.getTableView().getSelectionModel().clearSelection();
+        } else mainView.hideImage();
     }
 
     private boolean showConfirmationDialog(int selectedStudents) {
