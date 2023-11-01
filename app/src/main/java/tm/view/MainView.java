@@ -6,6 +6,9 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import tm.model.Student;
 
@@ -21,6 +24,10 @@ public class MainView extends VBox {
     private ComboBox<String> comboBox;
     private Button clipboardButton;
     private Button saveToFileButton;
+    private StackPane tablePane;
+    private ImageView imageView;
+
+    private boolean imageToggle;
 
 
     public MainView() {
@@ -33,10 +40,19 @@ public class MainView extends VBox {
         this.labelPreviewString = new Label();
         this.labelPreviewString.setStyle("-fx-font-size: 16px;  -fx-translate-x: 6px;");
         this.buttonBar = new ToolBar();
+        this.tablePane = new StackPane();
+        this.imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
+
+        this.imageToggle = false;
 
         this.comboBox = new ComboBox<>();
         this.clipboardButton = new Button("Clipboard");
         this.saveToFileButton = new Button("Save as...");
+        
+        this.tablePane.getChildren().addAll(
+            tableView,
+            imageView
+        );
         
         //
         this.toolBar.getItems().addAll(
@@ -51,7 +67,7 @@ public class MainView extends VBox {
         
         getChildren().addAll(
             toolBar,
-            tableView,
+            tablePane,
             labelPreviewString,
             buttonBar
         );
@@ -87,5 +103,13 @@ public class MainView extends VBox {
 
     public ContextMenu getContextMenu() {
         return this.contextMenu;
+    }
+
+    public void hideImage() {
+        imageView.setVisible(false);
+    }
+
+    public void showImage() {
+        imageView.setVisible(true);
     }
 }

@@ -98,6 +98,9 @@ public class MainPresenter {
         String separator = mainModel.getSeparator(mainView.getComboBox().getValue());
         String previewString = mainModel.createPreviewString(separator, mainView.getTableView());
         mainView.getPreviewString().setText(previewString);
+        if (previewString == "Nichts anzuzeigen")
+            mainView.showImage();
+        else mainView.hideImage();
     }
 
     private boolean showConfirmationDialog(int selectedStudents) {
@@ -200,5 +203,6 @@ public class MainPresenter {
         alert.showAndWait();
         openDatabase();
     }
+
 }
 

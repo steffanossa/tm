@@ -55,10 +55,7 @@ public class MainModel {
             if (column.isVisible())
                 previewString += previewMap.get(columnName) + previewSeparator;
         }
-
-        // return previewString.substring(0, previewString.length() - previewSeparator.length());
         return previewString.isEmpty() ? "Nichts anzuzeigen" : previewString.substring(0, previewString.length() - previewSeparator.length());
-
     }
 
     public String getSeparator(String separatorKey) {
