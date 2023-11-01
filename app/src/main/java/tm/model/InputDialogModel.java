@@ -24,22 +24,6 @@ public class InputDialogModel {
         return matrikelnummer.matches(MATRNR_PATTERN);
     }
 
-    public boolean validateAll(String firstname, String lastname, String fhKennung, String matrikelnummer) throws Exception {
-        if (!validateName(firstname)){
-            return false;
-        }
-        if (!validateName(lastname)) {
-            return false;
-        }
-        if (!validateFhKennung(fhKennung)) {
-            return false;
-        }
-        if (!validateMatrikelnummer(matrikelnummer)){
-            return false;
-        }
-        return true;
-    }
-
     public void addStudent(String firstname, String lastname, String fhKennung, int matrikelnummer) {
         Student student = new Student(matrikelnummer, firstname, lastname, fhKennung);
         studentDAO.addStudent(student);

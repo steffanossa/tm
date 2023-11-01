@@ -61,60 +61,6 @@ public class SQLiteBuddy {
     public void setUrl(String url) {
         this.url = "jdbc:sqlite:" + url;
     }
-
-    public void getPragma() throws SQLException {
-        Connection connection = establishConnection();
-        
-        try {
-            PreparedStatement prepStmt = connection.prepareStatement("SELECT sql FROM sqlite_master WHERE type='table'");
-            ResultSet rs = prepStmt.executeQuery();
-            while (rs.next())
-                System.out.println(rs.getString(1)); // Use index 1 to retrieve the SQL statement
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeDatabase();
-        }
-    }
-
-    public boolean isAcceptedDatabase2() throws SQLException {
-        Connection connection = establishConnection();
-    
-    try {
-        DatabaseMetaData metaData = connection.getMetaData();
-        ResultSet rs = metaData.getColumns(null, null, "Students", null);
-
-        boolean isValid = true;
-
-        while (rs.next()) {
-            String columnName = rs.getString("COLUMN_NAME");
-            String dataType = rs.getString("TYPE_NAME");
-            //TODO:check for nullability && uniquenesS?
-
-            System.out.println("Column name: " + columnName + "\n" + "Data type: " + dataType);
-
-            if ((columnName.equals("firstname") && dataType.equals("TEXT")) ||
-                (columnName.equals("surname") && dataType.equals("TEXT")) ||
-                (columnName.equals("matrikelnr") && dataType.equals("INTEGER")) ||
-                (columnName.equals("fhkennung") && dataType.equals("TEXT"))) {
-                
-            } else {
-                
-                isValid = false;
-                break;
-            }
-        }
-
-        return isValid;
-
-    } catch (SQLException e) {
-        System.out.println("HIER");
-        e.printStackTrace();
-    } finally {
-        closeDatabase();
-    }
-    return false;
-    }
     
     public boolean isAcceptedDatabase() throws SQLException {
         Connection connection = establishConnection();

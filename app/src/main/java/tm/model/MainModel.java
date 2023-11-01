@@ -15,6 +15,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Clipboard;
+
+
 public class MainModel {
     private static final Map<String, String> separatorMap = Map.of(
         "Komma", ",",
@@ -40,6 +45,7 @@ public class MainModel {
         return studentDAO;
     }
     
+    //this is bad
     public String createPreviewString(String separator, TableView<Student> tableView)  {
         String previewString = "";
         String previewSeparator = separator;
@@ -66,8 +72,9 @@ public class MainModel {
         return separatorMap.keySet();
     }
 
+    //this is bad
     public TableView<Student> fillTableView(TableView<Student> tableView, ObservableList<Student> students) {
-        //keine elegante schleife, die nicht 3mal mehr Zeilen lang ist. java, ey, asozial
+        //
         TableColumn<Student, String> firstNameColumn = new TableColumn<>("Vorname");
         TableColumn<Student, String> lastNameColumn = new TableColumn<>("Nachname");
         TableColumn<Student, Integer> matrikelnummerColumn = new TableColumn<>("Matrikel-Nr.");
@@ -98,7 +105,14 @@ public class MainModel {
         {
         String concatenatedString = StringBuddy.concatenate(students, tableView, columnGetterMap, separator);
 
-        ClipboardBuddy.copyToClipboard(concatenatedString);
+        copyToClipboard(concatenatedString);
+    }
+
+    public void copyToClipboard(String string)
+    {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        StringSelection stringSelection = new StringSelection(string);
+        clipboard.setContents(stringSelection, null);
     }
 
     public ObservableList<Student> extractStudents() {
