@@ -91,7 +91,7 @@ public class StudentDAO {
 
     public boolean updateStudent(Student student)
     {
-        //TODO: ja, schreib halt
+        //lohnt nicht. remove+add
         return false;
     }
 }

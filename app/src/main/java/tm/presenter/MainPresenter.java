@@ -44,26 +44,24 @@ public class MainPresenter {
     }
 
     private void prepareAll() {
-        openDatabase();
+        showOpenDatabaseFileWindow();
         this.prepareTableView(mainView.getTableView());
 
         //TODO:move
         selectedStudents = mainView.getTableView().getSelectionModel().getSelectedItems();
-        selectedStudents.addListener((ListChangeListener.Change<? extends Student> change) -> {
-            boolean isEmpty = selectedStudents.isEmpty();
-            mainView.getClipboardButton().setDisable(isEmpty);
-            mainView.getRemoveButton().setDisable(isEmpty);
-            mainView.getSaveToFileButton().setDisable(isEmpty);
-        });
-        //handlers
-        addAddButtonHandler();
-        addRemoveButtonHandler();
-        addClipboardButtonHandler();
-        addSaveToFileButtonHandler();
 
-        mainView.getRemoveButton().setDisable(true);
-        mainView.getClipboardButton().setDisable(true);
-        mainView.getSaveToFileButton().setDisable(true);
+        selectedStudents.addListener((ListChangeListener.Change<? extends Student> change) -> {
+            updateButtonStates();
+        });
+
+        //handlers
+        addAddButtonAction();
+        addEditButtonActoin();
+        addRemoveButtonAction();
+        addClipboardButtonAction();
+        addSaveToFileButtonAction();
+
+        updateButtonStates();
 
         mainView.getComboBox().getItems().setAll(mainModel.getSeparatorKeySet());
         mainView.getComboBox().setValue("Komma");
@@ -79,7 +77,6 @@ public class MainPresenter {
     }
 
     private void prepareTableView(TableView<Student> tableView) {
-        // students = mainModel.extractStudents();
 
         tableView.getColumns().setAll(
             mainModel.createTableColumn("Vorname", "firstname", String.class),
@@ -96,6 +93,16 @@ public class MainPresenter {
             //TableColumn<?,?> oder eine Unterklasse davon
             updatePreviewString();
         });
+    }
+
+    private void updateButtonStates() {
+        boolean isEmpty = selectedStudents.isEmpty();
+        mainView.getClipboardButton().setDisable(isEmpty);
+        mainView.getRemoveButton().setDisable(isEmpty);
+        mainView.getEditButton().setDisable(isEmpty);
+        mainView.getSaveToFileButton().setDisable(isEmpty);
+        if (selectedStudents.size() != 1)
+            mainView.getEditButton().setDisable(true);
     }
 
     private void updateTableView() {
@@ -132,7 +139,7 @@ public class MainPresenter {
        tableView.setContextMenu(mainView.getContextMenu());
     }
 
-    private void addAddButtonHandler() {
+    private void addAddButtonAction() {
         mainView.getAddButton().setOnAction(event -> {
             InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
             inputDialogPresenterInterface.showAndWait();
@@ -140,7 +147,14 @@ public class MainPresenter {
         });
     }
 
-    private void addRemoveButtonHandler() {
+    private void addEditButtonActoin() {
+        mainView.getEditButton().setOnAction(event -> {
+            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
+            //TODO:fill textFields with selectedStudent's (can only be 1) values
+        });
+    }
+
+    private void addRemoveButtonAction() {
         mainView.getRemoveButton().setOnAction(event -> {
             if (showConfirmationDialog(selectedStudents.size())){
             selectedStudents.forEach(student -> {
@@ -151,7 +165,7 @@ public class MainPresenter {
         });
     }
     
-    private void addClipboardButtonHandler() {
+    private void addClipboardButtonAction() {
         mainView.getClipboardButton().setOnAction(event -> {
             mainModel.copyToClipboard(
                 selectedStudents,
@@ -162,7 +176,7 @@ public class MainPresenter {
     }
 
     //TODO:relocate?
-    private void addSaveToFileButtonHandler() {
+    private void addSaveToFileButtonAction() {
         mainView.getSaveToFileButton().setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
@@ -184,7 +198,7 @@ public class MainPresenter {
     }
 
     //TODO:relocate?
-    private void openDatabase () {
+    private void showOpenDatabaseFileWindow () {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Database");
         fileChooser.getExtensionFilters().addAll(
@@ -210,8 +224,7 @@ public class MainPresenter {
     private void showBadDatabaseAlert() {
         BadDatabaseAlertView alert = new BadDatabaseAlertView();
         alert.showAndWait();
-        openDatabase();
+        showOpenDatabaseFileWindow();
     }
-
 }
 

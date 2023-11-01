@@ -10,7 +10,15 @@
 - Darstellung von Studentendaten
 - Auswählen von Studenten zum Kopieren der Daten in die Zwischenablage mit wählbarem Separator
 - Auswählen von relevanten Spalten
+- Peppermint Patty
 
 ## TODO
 - [ ] UNIT TESTS, JUNGE
 - [ ] pentesting oder so. kp, hab schreibmaschine
+- [ ] DAO Interface
+- [ ] Edit-Button
+
+## Vorgehen
+### Was brauch ich?
+- Klasse für Datenbankverbindung
+- Klasse für

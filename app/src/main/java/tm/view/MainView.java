@@ -16,6 +16,7 @@ public class MainView extends VBox {
 
     private ToolBar toolBar;
     private Button addButton;
+    private Button editButton;
     private Button removeButton;
     private TableView<Student> tableView;
     private ContextMenu contextMenu;
@@ -35,6 +36,7 @@ public class MainView extends VBox {
         this.toolBar = new ToolBar();
         this.addButton = new Button("Add");
         this.removeButton = new Button("Remove");
+        this.editButton = new Button("Edit");
         this.tableView = new TableView<>();
         this.contextMenu = new ContextMenu();
         this.labelPreviewString = new Label();
@@ -57,6 +59,7 @@ public class MainView extends VBox {
         //
         this.toolBar.getItems().addAll(
             addButton,
+            editButton,
             removeButton
         );
         this.buttonBar.getItems().addAll(
@@ -75,6 +78,10 @@ public class MainView extends VBox {
 
     public Button getAddButton() {
         return addButton;
+    }
+
+    public Button getEditButton() {
+        return editButton;
     }
 
     public Button getRemoveButton() {
