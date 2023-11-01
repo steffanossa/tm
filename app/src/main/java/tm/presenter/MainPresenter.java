@@ -79,8 +79,17 @@ public class MainPresenter {
     }
 
     private void prepareTableView(TableView<Student> tableView) {
-        students = mainModel.extractStudents();
-        tableView = mainModel.fillTableView(tableView, students);
+        // students = mainModel.extractStudents();
+
+        tableView.getColumns().setAll(
+            mainModel.createTableColumn("Vorname", "firstname", String.class),
+            mainModel.createTableColumn("Nachname", "surname", String.class),
+            mainModel.createTableColumn("Matrikel-Nr.", "matrikelnummer", Integer.class),
+            mainModel.createTableColumn("FH-Kennung", "fhKennung", String.class)
+        );
+
+        this.updateTableView();
+
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         
         tableView.getColumns().addListener((Change<? extends TableColumn<?, ?>> change) -> {

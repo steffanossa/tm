@@ -72,21 +72,12 @@ public class MainModel {
         return separatorMap.keySet();
     }
 
-    //this is bad
-    public TableView<Student> fillTableView(TableView<Student> tableView, ObservableList<Student> students) {
-        //
-        TableColumn<Student, String> firstNameColumn = new TableColumn<>("Vorname");
-        TableColumn<Student, String> lastNameColumn = new TableColumn<>("Nachname");
-        TableColumn<Student, Integer> matrikelnummerColumn = new TableColumn<>("Matrikel-Nr.");
-        TableColumn<Student, String> fhKennungColumn = new TableColumn<>("FH-Kennung");
-        //
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        matrikelnummerColumn.setCellValueFactory(new PropertyValueFactory<>("matrikelnummer"));
-        fhKennungColumn.setCellValueFactory(new PropertyValueFactory<>("fhKennung"));
-        tableView.getColumns().setAll(firstNameColumn, lastNameColumn, matrikelnummerColumn, fhKennungColumn);
-        tableView.setItems(students);
-        return tableView;
+    //java is ugly
+    public <T> TableColumn<Student, T> createTableColumn(String header, String property, Class<T> valueClass) {
+        //how can i do this?
+        TableColumn<Student, T> tableColumn = new TableColumn<>(header);
+        tableColumn.setCellValueFactory(new PropertyValueFactory<>(property));
+        return tableColumn;
     }
 
     public static Map<String, Function<Student, ?>> getColumnGetterMap() {
