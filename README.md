@@ -19,6 +19,6 @@
 - [ ] Edit-Button
 
 ## Vorgehen
-### Was brauch ich?
-- Klasse für Datenbankverbindung
-- Klasse für
+## MVP-Architektur
+## Gradle
+## DAO
