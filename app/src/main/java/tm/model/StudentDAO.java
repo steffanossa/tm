@@ -22,7 +22,6 @@ public class StudentDAO {
     
     public ObservableList<Student> getAllStudents()
     {
-        // Connection connection = SQLiteHelper.establishConnection();
         Connection connection = sqLiteBuddy.establishConnection();
         ObservableList<Student> students = FXCollections.observableArrayList();
         try {
@@ -39,7 +38,6 @@ public class StudentDAO {
             e.printStackTrace();
             return null;
         } finally {
-            // SQLiteHelper.closeDatabase();
             this.sqLiteBuddy.closeDatabase();
         }
         return students;
@@ -48,7 +46,6 @@ public class StudentDAO {
     public boolean addStudent(Student student)
     {
         boolean wasSuccessful = false;
-        // Connection connection = SQLiteHelper.establishConnection();
         Connection connection = sqLiteBuddy.establishConnection();
         try {
             PreparedStatement prepStmt = connection.prepareStatement(
@@ -63,7 +60,6 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // SQLiteHelper.closeDatabase();
             this.sqLiteBuddy.closeDatabase();
         }
         return wasSuccessful;
@@ -72,7 +68,6 @@ public class StudentDAO {
     public boolean removeStudentByMatrikelnummer(int matrikelnummer)
     {
         boolean wasSuccessful = false;
-        // Connection connection = SQLiteHelper.establishConnection();
         Connection connection = sqLiteBuddy.establishConnection();
         try {
             PreparedStatement prepStmt = connection.prepareStatement("DELETE FROM Students WHERE matrikelnr=?");
@@ -83,7 +78,6 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // SQLiteHelper.closeDatabase();
             this.sqLiteBuddy.closeDatabase();
         }
         return wasSuccessful;
