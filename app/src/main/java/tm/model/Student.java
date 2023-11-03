@@ -1,7 +1,7 @@
 package tm.model;
 
 public class Student {
-    //record woulb be sufficent
+
     private int matrikelnummer;
     private String firstname;
     private String surname;
