@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
@@ -109,6 +109,21 @@ public class MainModel {
     public ObservableList<Student> extractStudents() {
         return studentDAO.getAllStudents();
     }
+
+    //TODO:ObservableList to ArrayList!
+    // public ArrayList<Student> retrieveStudents() {
+    //     return studentDAO.getAllStudents();
+    // }
+
+    // public void saveToFile(
+    //     File file,
+    //     ArrayList<Student> students,
+    //     //
+    //     Map<String, Function<Student, ?>> columnGetterMap,
+    //     String separator
+    // ) {
+    //     String concatenatedString = StringBuddy.concatenate(students, )
+    // }
 
     public void saveTextToFile(
         File file,
