@@ -35,4 +35,4 @@ kommt...
 
 ## JavaFX
 
-Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist zu meiden.
+Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist Mist.
