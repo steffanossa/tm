@@ -61,8 +61,8 @@ public class StudentDAO implements GenericDAO<Student>
             prepStmt.setString(4, student.getFhKennung());
             if (prepStmt.executeUpdate() == 1)
                 wasSuccessful = true;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException iDontCare) {
+            // e.printStackTrace();
         } finally {
             this.sqLiteBuddy.closeDatabase();
         }
@@ -86,11 +86,5 @@ public class StudentDAO implements GenericDAO<Student>
             this.sqLiteBuddy.closeDatabase();
         }
         return wasSuccessful;
-    }
-
-    public boolean updateStudent(Student student)
-    {
-        //lohnt nicht. remove+add
-        return false;
     }
 }

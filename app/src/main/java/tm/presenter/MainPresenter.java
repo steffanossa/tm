@@ -175,7 +175,11 @@ public class MainPresenter {
     {
         mainView.getEditButton().setOnAction(event -> {
             InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
-            //TODO:fill textFields with selectedStudent's (can only be 1) values
+            Student tempStudent = selectedStudents.get(0);
+            mainModel.removeStudent(tempStudent);
+            inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
+            
+            updateTableView();
         });
     }
 

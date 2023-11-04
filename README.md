@@ -18,7 +18,7 @@
 - [x] ObservableList to ArrayList in Model!
 - [x] remove all javafx imports from models
 - [x] DAO Interface
-- [ ] Edit-Button
+- [x] Edit-Button
 
 ## Vorgehen
 ## MVP-Architektur

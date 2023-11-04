@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class InputDialogView extends Dialog<String> {
+public class InputDialogView extends Dialog<ButtonType> {
     private DialogPane dialogPane;
     private GridPane gridPane;
     private Label firstNameLabel;
