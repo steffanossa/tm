@@ -15,11 +15,6 @@ public class StudentDAOTest {
     private SQLiteBuddy sqLiteBuddy = new SQLiteBuddy();
     private StudentDAO studentDAO = new StudentDAO(sqLiteBuddy);
 
-    @BeforeAll
-    public void initThings()
-    {
-        
-    }
 
     @Test
     public void testGetAllStudents() {
