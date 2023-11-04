@@ -32,3 +32,7 @@ Gradle ist Maven in besser. Alleine schon, weil kein XML verwendet wird.
 ## DAO
 
 kommt...
+
+## JavaFX
+
+Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist zu meiden.
