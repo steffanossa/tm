@@ -24,8 +24,13 @@ public class InputDialogModel {
         return matrikelnummer.matches(MATRNR_PATTERN);
     }
 
-    public void addStudent(String firstname, String lastname, String fhKennung, int matrikelnummer) {
+    public void addStudent(
+        String firstname,
+        String lastname,
+        String fhKennung,
+        int matrikelnummer
+    ) {
         Student student = new Student(matrikelnummer, firstname, lastname, fhKennung);
-        studentDAO.addStudent(student);
+        studentDAO.add(student);
     }
 }

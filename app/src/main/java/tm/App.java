@@ -23,11 +23,9 @@ public class App extends Application {
         MainView mainView = new MainView();
         MainModel testModel = new MainModel();
         Scene scene = new Scene(mainView);
-        // MainPresenter mainPresenter = new MainPresenter(mainView, testModel);
         new MainPresenter(mainView, testModel);
 
         primaryStage.setTitle("Na sowas, Quadratwurzeln!");
-        // primaryStage.getIcons().add(new Image("res/img/logo/Pepperminsk_Patty_256.png"));
         
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
         primaryStage.setResizable(false);

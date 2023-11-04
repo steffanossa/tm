@@ -29,8 +29,8 @@ public class MainView extends VBox {
     private ImageView imageView;
 
 
-    public MainView() {
-        
+    public MainView()
+    {    
         this.toolBar = new ToolBar();
         this.addButton = new Button("Add");
         this.removeButton = new Button("Remove");

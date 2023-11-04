@@ -10,11 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Clipboard;
@@ -44,9 +39,11 @@ public class MainModel {
     public StudentDAO getStudentDAO() {
         return studentDAO;
     }
-    
-    //this is bad
-    public String createPreviewString(String separator, TableView<Student> tableView)  {
+
+    public String createPreviewString(
+        String separator,
+        ArrayList<String> visibleColumns
+        ) {
         String previewString = "";
         String previewSeparator = separator;
         if (previewSeparator == "\t")
@@ -56,11 +53,9 @@ public class MainModel {
             "Nachname", "Mustermann",
             "Matrikel-Nr.", "1234567",
             "FH-Kennung", "AB123456" );
-        for (TableColumn<Student, ?> column : tableView.getColumns()) {
-            String columnName = column.getText();
-            if (column.isVisible())
-                previewString += previewMap.get(columnName) + previewSeparator;
-        }
+        for (String columnName : visibleColumns)
+            previewString += previewMap.get(columnName) + previewSeparator;
+
         return previewString.isEmpty() ? "Nichts anzuzeigen" : previewString.substring(0, previewString.length() - previewSeparator.length());
     }
 
@@ -72,29 +67,21 @@ public class MainModel {
         return separatorMap.keySet();
     }
 
-    //java is ugly
-    public <T> TableColumn<Student, T> createTableColumn(String header, String property, Class<T> valueClass) {
-        //how can i do this?
-        TableColumn<Student, T> tableColumn = new TableColumn<>(header);
-        tableColumn.setCellValueFactory(new PropertyValueFactory<>(property));
-        return tableColumn;
-    }
-
     public static Map<String, Function<Student, ?>> getColumnGetterMap() {
         return COLUMN_GETTER_MAP;
     }
 
     public void removeStudent(Student student) {
-        studentDAO.removeStudentByMatrikelnummer(student.getMatrikelnummer());
+        studentDAO.removeById(student.getMatrikelnummer());
     }
 
     public void copyToClipboard(
-        ObservableList<Student> students,
-        TableView<Student> tableView,
+        Student[] students,
+        ArrayList<String> visibleColumns,
         Map<String, Function<Student, ?>> columnGetterMap,
-        String separator)
-        {
-        String concatenatedString = StringBuddy.concatenate(students, tableView, columnGetterMap, separator);
+        String separator
+        ) {
+        String concatenatedString = concatenate(students, visibleColumns, columnGetterMap, separator);
 
         copyToClipboard(concatenatedString);
     }
@@ -106,33 +93,36 @@ public class MainModel {
         clipboard.setContents(stringSelection, null);
     }
 
-    public ObservableList<Student> extractStudents() {
-        return studentDAO.getAllStudents();
+    public ArrayList<Student> retrieveStudents() {
+        return studentDAO.getAll();
     }
 
-    //TODO:ObservableList to ArrayList!
-    // public ArrayList<Student> retrieveStudents() {
-    //     return studentDAO.getAllStudents();
-    // }
-
-    // public void saveToFile(
-    //     File file,
-    //     ArrayList<Student> students,
-    //     //
-    //     Map<String, Function<Student, ?>> columnGetterMap,
-    //     String separator
-    // ) {
-    //     String concatenatedString = StringBuddy.concatenate(students, )
-    // }
-
-    public void saveTextToFile(
-        File file,
-        ObservableList<Student> students,
-        TableView<Student> tableView,
+    public String concatenate(
+        Student[] students,
+        ArrayList<String> visibleColumns,
         Map<String, Function<Student, ?>> columnGetterMap,
         String separator
         ) {
-        String concatenatedString = StringBuddy.concatenate(students, tableView, columnGetterMap, separator);
+        String concatenatedString = "";
+        // System.out.println(visibleColumns);
+        for (Student student : students) {
+            for (String columnName : visibleColumns) {
+                Function<Student, ?> function = columnGetterMap.get(columnName);
+                concatenatedString += function.apply(student) + separator;
+            }
+            concatenatedString = concatenatedString.substring(0, concatenatedString.length() - separator.length()) + "\n";
+        }
+        return concatenatedString;
+    }
+
+    public void saveTextToFile(
+        File file,
+        Student[] students,
+        ArrayList<String> visibleColumns,
+        Map<String, Function<Student, ?>> columnGetterMap,
+        String separator
+        ) {
+        String concatenatedString = concatenate(students, visibleColumns, columnGetterMap, separator);
         try {
             PrintWriter writer;
             writer = new PrintWriter(file);
@@ -143,14 +133,12 @@ public class MainModel {
         }
     }
 
-    public boolean openDatabase(File dbFile) throws SQLException {
+    public boolean openDatabase(File dbFile) throws SQLException
+    {
         String url = dbFile.getAbsolutePath();
         sqLiteBuddy.setUrl(url);
         if (sqLiteBuddy.isAcceptedDatabase())
             return true;
         return false;
     }
-
-
-
 }

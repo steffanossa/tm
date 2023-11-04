@@ -15,8 +15,8 @@
 ## TODO
 - [ ] UNIT TESTS, JUNGE
 - [ ] pentesting oder so. kp, hab schreibmaschine
-- [ ] ObservableList to ArrayList in Model!
-- [ ] remove all javafx imports from models
+- [x] ObservableList to ArrayList in Model!
+- [x] remove all javafx imports from models
 - [ ] DAO Interface
 - [ ] Edit-Button
 

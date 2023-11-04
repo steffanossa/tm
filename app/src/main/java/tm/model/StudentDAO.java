@@ -5,12 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-
-public class StudentDAO {
+public class StudentDAO implements GenericDAO<Student> 
+{
     //Data Access Object
     private SQLiteBuddy sqLiteBuddy;
 
@@ -20,10 +18,15 @@ public class StudentDAO {
         this.sqLiteBuddy = sqLiteBuddy;
     }
     
-    public ObservableList<Student> getAllStudents()
+            /**
+     * Retrieves all Students from the database
+     * @return A list of Students
+     */
+    @Override
+    public ArrayList<Student> getAll()
     {
         Connection connection = sqLiteBuddy.establishConnection();
-        ObservableList<Student> students = FXCollections.observableArrayList();
+        ArrayList<Student> students = new ArrayList<>();
         try {
             Statement stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT * FROM Students");
@@ -43,7 +46,8 @@ public class StudentDAO {
         return students;
     }
 
-    public boolean addStudent(Student student)
+    @Override
+    public boolean add(Student student)
     {
         boolean wasSuccessful = false;
         Connection connection = sqLiteBuddy.establishConnection();
@@ -65,13 +69,14 @@ public class StudentDAO {
         return wasSuccessful;
     }
 
-    public boolean removeStudentByMatrikelnummer(int matrikelnummer)
+    @Override
+    public boolean removeById(int id)
     {
         boolean wasSuccessful = false;
         Connection connection = sqLiteBuddy.establishConnection();
         try {
             PreparedStatement prepStmt = connection.prepareStatement("DELETE FROM Students WHERE matrikelnr=?");
-            prepStmt.setInt(1, matrikelnummer);
+            prepStmt.setInt(1, id);
             if (prepStmt.executeUpdate() == 1) {
                 wasSuccessful = true;
             }

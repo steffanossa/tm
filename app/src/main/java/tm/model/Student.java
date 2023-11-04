@@ -53,5 +53,11 @@ public class Student {
     {
         this.fhKennung = fhKennung;
     }
+
+    @Override
+    public String toString()
+    {
+        return fhKennung;
+    }
 }
 

@@ -8,17 +8,20 @@ import tm.view.BadInputAlertView;
 import tm.view.InputDialogView;
 
 
-public class InputDialogPresenter implements InputDialogPresenterInterface{
+public class InputDialogPresenter implements InputDialogPresenterInterface
+{
     private InputDialogView inputDialogView;
     private InputDialogModel inputDialogModel;
 
-    public InputDialogPresenter(InputDialogView inputDialogView, InputDialogModel inputDialogModel) {
+    public InputDialogPresenter(InputDialogView inputDialogView, InputDialogModel inputDialogModel)
+    {
         this.inputDialogView = inputDialogView;
         this.inputDialogModel = inputDialogModel;
         prepareAll();
     }
 
-    public void prepareAll() {
+    public void prepareAll()
+    {
         Button okButton = (Button) inputDialogView.getDialogPane().lookupButton(inputDialogView.getOkButtonType());
         okButton.addEventFilter(ActionEvent.ACTION, event -> {
             if (!okButtonHandler())
@@ -36,7 +39,8 @@ public class InputDialogPresenter implements InputDialogPresenterInterface{
         inputDialogView.hide();
     }
 
-    private boolean okButtonHandler() {
+    private boolean okButtonHandler()
+    {
         //forgot, why I needed the try-block
         try {
             String firstname = inputDialogView.getFirstNameTextField().getText();
@@ -72,7 +76,8 @@ public class InputDialogPresenter implements InputDialogPresenterInterface{
         }
     }
 
-    private void showBadInputAlert(String message) {
+    private void showBadInputAlert(String message)
+    {
         BadInputAlertView alert = new BadInputAlertView(message);
         alert.show();
     }

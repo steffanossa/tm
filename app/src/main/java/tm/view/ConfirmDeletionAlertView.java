@@ -8,7 +8,8 @@ import javafx.stage.Stage;
 
 public class ConfirmDeletionAlertView extends Alert {
     
-    public ConfirmDeletionAlertView (int selectedStudents) {
+    public ConfirmDeletionAlertView (int selectedStudents)
+    {
         super(Alert.AlertType.CONFIRMATION);
 
         setTitle("Löschen bestätigen");
