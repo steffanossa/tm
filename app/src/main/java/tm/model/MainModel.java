@@ -104,7 +104,7 @@ public class MainModel {
         String separator
         ) {
         String concatenatedString = "";
-        // System.out.println(visibleColumns);
+
         for (Student student : students) {
             for (String columnName : visibleColumns) {
                 Function<Student, ?> function = columnGetterMap.get(columnName);
@@ -112,7 +112,7 @@ public class MainModel {
             }
             concatenatedString = concatenatedString.substring(0, concatenatedString.length() - separator.length()) + "\n";
         }
-        return concatenatedString;
+        return concatenatedString.trim();
     }
 
     public void saveTextToFile(

@@ -17,7 +17,7 @@
 - [ ] pentesting oder so. kp, hab schreibmaschine
 - [x] ObservableList to ArrayList in Model!
 - [x] remove all javafx imports from models
-- [ ] DAO Interface
+- [x] DAO Interface
 - [ ] Edit-Button
 
 ## Vorgehen

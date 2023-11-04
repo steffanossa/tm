@@ -1,7 +1,8 @@
 package tm.model;
 
 public class InputDialogModel {
-    public static final String NAME_PATTERN = "^[A-Za-zÄÖÜäöüß\\-]+(?: [A-Za-zÄÖÜäöüß\\-]+)?$";
+    // public static final String NAME_PATTERN = "^[A-Za-zÄÖÜäöüß\\-]+(?: [A-Za-zÄÖÜäöüß\\-]+)?$";
+    public static final String NAME_PATTERN = "^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\\\-]+)?$";
     public static final String FHKENNUNG_PATTERN = "^[A-Za-z]{2}\\d{6}$";
     public static final String MATRNR_PATTERN = "^\\d{6,7}$";
     private StudentDAO studentDAO;
