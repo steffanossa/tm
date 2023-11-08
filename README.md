@@ -15,7 +15,7 @@
 ## TODO
 - [ ] UNIT TESTS, JUNGE
 - [ ] pentesting oder so. kp, hab schreibmaschine
-- [ ] DAO Interface
+- [ ] GenericDAO Interface
 - [ ] Edit-Button
 
 ## Vorgehen
