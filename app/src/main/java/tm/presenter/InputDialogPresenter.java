@@ -2,26 +2,32 @@ package tm.presenter;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import tm.model.InputDialogModel;
+import tm.model.Student;
 import tm.view.BadInputAlertView;
 import tm.view.InputDialogView;
 
+import java.util.Optional;
 
-public class InputDialogPresenter implements InputDialogPresenterInterface{
+public class InputDialogPresenter implements InputDialogPresenterInterface
+{
     private InputDialogView inputDialogView;
     private InputDialogModel inputDialogModel;
 
-    public InputDialogPresenter(InputDialogView inputDialogView, InputDialogModel inputDialogModel) {
+    public InputDialogPresenter(InputDialogView inputDialogView, InputDialogModel inputDialogModel)
+    {
         this.inputDialogView = inputDialogView;
         this.inputDialogModel = inputDialogModel;
         prepareAll();
     }
 
-    public void prepareAll() {
+    public void prepareAll()
+    {
         Button okButton = (Button) inputDialogView.getDialogPane().lookupButton(inputDialogView.getOkButtonType());
         okButton.addEventFilter(ActionEvent.ACTION, event -> {
-            if (!okButtonHandler())
+            if (!handleOkButtonClick())
                 event.consume(); //great
         });
     }
@@ -36,7 +42,8 @@ public class InputDialogPresenter implements InputDialogPresenterInterface{
         inputDialogView.hide();
     }
 
-    private boolean okButtonHandler() {
+    private boolean handleOkButtonClick()
+    {
         //forgot, why I needed the try-block
         try {
             String firstname = inputDialogView.getFirstNameTextField().getText();
@@ -61,19 +68,44 @@ public class InputDialogPresenter implements InputDialogPresenterInterface{
                 this.inputDialogModel.addStudent(
                     firstname,
                     lastname,
-                    fhKennung,
+                    fhKennung.toLowerCase(),
                     Integer.valueOf(matrikelnummer));
                 return true;
             }
         } catch (Exception e) {
-            // TODO: maybeeee
             e.printStackTrace();
             return false;
         }
     }
 
-    private void showBadInputAlert(String message) {
+    private void showBadInputAlert(String message)
+    {
         BadInputAlertView alert = new BadInputAlertView(message);
         alert.show();
+    }
+
+    @Override
+    public void showAndWaitWithData(Student student)
+    {
+        TextField firstnameTextField = inputDialogView.getFirstNameTextField();
+        TextField lastnameTextField = inputDialogView.getLastNameTextField();
+        TextField matrikelnummerTextField = inputDialogView.getMatrikelnummerTextField();
+        TextField fhKennungTextField = inputDialogView.getFhKennungTextField();
+
+        firstnameTextField.setText(student.getFirstname());
+        lastnameTextField.setText(student.getSurname());
+        matrikelnummerTextField.setText(String.valueOf(student.getMatrikelnummer()));
+        fhKennungTextField.setText(student.getFhKennung());
+
+        Optional<ButtonType> result = inputDialogView.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.APPLY) {
+            handleOkButtonClick();
+        } else {
+            inputDialogModel.addStudent(
+                    student.getFirstname(),
+                    student.getSurname(),
+                    student.getFhKennung().toLowerCase(),
+                    Integer.valueOf(student.getMatrikelnummer()));
+        }
     }
 }

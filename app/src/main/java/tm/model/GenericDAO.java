@@ -1,10 +1,10 @@
 package tm.model;
 
-import javafx.collections.ObservableList;
+import java.util.List;
 
 public interface GenericDAO<T> {
     
-    ObservableList<T> getAll();
+    List<T> getAll();
     // T get();
     boolean removeById(int id);
     boolean add(T entity);

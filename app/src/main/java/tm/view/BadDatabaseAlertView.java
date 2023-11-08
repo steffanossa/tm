@@ -7,7 +7,8 @@ import javafx.stage.Stage;
 
 public class BadDatabaseAlertView extends Alert{
     
-    public BadDatabaseAlertView() {
+    public BadDatabaseAlertView()
+    {
         super(Alert.AlertType.INFORMATION);
 
         setTitle("Fehlerhafte Datenbank");

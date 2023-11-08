@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener.Change;
@@ -13,6 +14,7 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 
 import tm.model.InputDialogModel;
@@ -77,17 +79,25 @@ public class MainPresenter {
         configContextMenu(mainView.getTableView());
     }
 
-    private void prepareTableView(TableView<Student> tableView) {
+    //java is ugly
+    public <T> TableColumn<Student, T> createTableColumn(String header, String property, Class<T> valueClass)
+    {
+        TableColumn<Student, T> tableColumn = new TableColumn<>(header);
+        tableColumn.setCellValueFactory(new PropertyValueFactory<>(property));
+        return tableColumn;
+    }
 
+    private void prepareTableView(TableView<Student> tableView)
+    {
         ArrayList<TableColumn<Student, ?>> columns = new ArrayList<>();
-        columns.add(mainModel.createTableColumn("Vorname", "firstname", String.class));
-        columns.add(mainModel.createTableColumn("Nachname", "surname", String.class));
-        columns.add(mainModel.createTableColumn("Matrikel-Nr.", "matrikelnummer", Integer.class));
-        columns.add(mainModel.createTableColumn("FH-Kennung", "fhKennung", String.class));
+        columns.add(createTableColumn("Vorname", "firstname", String.class));
+        columns.add(createTableColumn("Nachname", "surname", String.class));
+        columns.add(createTableColumn("Matrikel-Nr.", "matrikelnummer", Integer.class));
+        columns.add(createTableColumn("FH-Kennung", "fhKennung", String.class));
 
         tableView.getColumns().addAll(columns);
 
-        this.updateTableView();
+        updateTableView();
 
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         
@@ -97,7 +107,8 @@ public class MainPresenter {
         });
     }
 
-    private void updateButtonStates() {
+    private void updateButtonStates()
+    {
         boolean isEmpty = selectedStudents.isEmpty();
 
         mainView.getClipboardButton().setDisable(isEmpty);
@@ -109,14 +120,19 @@ public class MainPresenter {
         else mainView.getEditButton().setDisable(false);
     }
 
-    private void updateTableView() {
-        students = mainModel.extractStudents();
+    private void updateTableView()
+    {
+        ArrayList<Student> studentsArrayList = mainModel.retrieveStudents();
+        students = FXCollections.observableArrayList(studentsArrayList);
         mainView.getTableView().setItems(students);
     }
 
-    private void updatePreviewString() {
+    private void updatePreviewString()
+    {
         String separator = mainModel.getSeparator(mainView.getComboBox().getValue());
-        String previewString = mainModel.createPreviewString(separator, mainView.getTableView());
+        ArrayList<String> visibleColumns = new ArrayList<>();
+        visibleColumns = getVisibleColumns();
+        String previewString = mainModel.createPreviewString(separator, visibleColumns);
         mainView.getPreviewString().setText(previewString);
         if (previewString == "Nichts anzuzeigen") {
             mainView.showImage();
@@ -124,14 +140,16 @@ public class MainPresenter {
         } else mainView.hideImage();
     }
 
-    private boolean showConfirmationDialog(int selectedStudents) {
+    private boolean showConfirmationDialog(int selectedStudents)
+    {
         ConfirmDeletionAlertView alert = new ConfirmDeletionAlertView(selectedStudents);
         Optional<ButtonType> result = alert.showAndWait();
         //lol
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
-    private void configContextMenu(TableView<Student> tableView) {
+    private void configContextMenu(TableView<Student> tableView)
+    {
         for (TableColumn<Student, ?> column : tableView.getColumns()) {
             CheckMenuItem menuItem = new CheckMenuItem(column.getText());
             menuItem.setSelected(true);
@@ -144,7 +162,8 @@ public class MainPresenter {
        tableView.setContextMenu(mainView.getContextMenu());
     }
 
-    private void addAddButtonAction() {
+    private void addAddButtonAction()
+    {
         mainView.getAddButton().setOnAction(event -> {
             InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
             inputDialogPresenterInterface.showAndWait();
@@ -152,14 +171,20 @@ public class MainPresenter {
         });
     }
 
-    private void addEditButtonActoin() {
+    private void addEditButtonActoin()
+    {
         mainView.getEditButton().setOnAction(event -> {
             InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
-            //TODO:fill textFields with selectedStudent's (can only be 1) values
+            Student tempStudent = selectedStudents.get(0);
+            mainModel.removeStudent(tempStudent);
+            inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
+            
+            updateTableView();
         });
     }
 
-    private void addRemoveButtonAction() {
+    private void addRemoveButtonAction()
+    {
         mainView.getRemoveButton().setOnAction(event -> {
             if (showConfirmationDialog(selectedStudents.size())){
             selectedStudents.forEach(student -> {
@@ -170,18 +195,23 @@ public class MainPresenter {
         });
     }
     
-    private void addClipboardButtonAction() {
+    private void addClipboardButtonAction() 
+    {
         mainView.getClipboardButton().setOnAction(event -> {
+            Student[] selected = selectedStudents.toArray(new Student[selectedStudents.size()]);
+            ArrayList<String> visibleColumns = new ArrayList<>();
+            visibleColumns = getVisibleColumns();
             mainModel.copyToClipboard(
-                selectedStudents,
-                mainView.getTableView(),
+                selected,
+                visibleColumns,
                 MainModel.getColumnGetterMap(),
                 separator);
         });
     }
 
     //TODO:relocate?
-    private void addSaveToFileButtonAction() {
+    private void addSaveToFileButtonAction() 
+    {
         mainView.getSaveToFileButton().setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
@@ -190,20 +220,35 @@ public class MainPresenter {
                 // new FileChooser.ExtensionFilter("CSV-Datei (*.csv)", "*.csv"),
                 new FileChooser.ExtensionFilter("All", "*.*")
             );
+
             File file = fileChooser.showSaveDialog(mainView.getScene().getWindow());
-            if (file != null)
+            if (file != null){
+                Student[] selected = selectedStudents.toArray(new Student[selectedStudents.size()]);
+                ArrayList<String> visibleColumns = new ArrayList<>();
+                visibleColumns = getVisibleColumns();
                 mainModel.saveTextToFile(
                     file,
-                    selectedStudents,
-                    mainView.getTableView(),
+                    selected,
+                    visibleColumns,
                     MainModel.getColumnGetterMap(),
                     separator
-                );
+                );}
         });
     }
 
+    private ArrayList<String> getVisibleColumns()
+    {
+        ArrayList<String> visibleColumns = new ArrayList<>();
+        for (TableColumn<Student, ?> column : mainView.getTableView().getColumns()) {
+            if (column.isVisible())
+                visibleColumns.add(column.getText());
+        }
+        return visibleColumns;
+    }
+
     //TODO:relocate?
-    private void showOpenDatabaseFileWindow () {
+    private void showOpenDatabaseFileWindow ()
+    {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Database");
         fileChooser.getExtensionFilters().addAll(
@@ -226,7 +271,8 @@ public class MainPresenter {
         }
     }
 
-    private void showBadDatabaseAlert() {
+    private void showBadDatabaseAlert()
+    {
         BadDatabaseAlertView alert = new BadDatabaseAlertView();
         alert.showAndWait();
         showOpenDatabaseFileWindow();

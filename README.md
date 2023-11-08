@@ -15,10 +15,22 @@
 ## TODO
 - [ ] UNIT TESTS, JUNGE
 - [ ] pentesting oder so. kp, hab schreibmaschine
-- [ ] GenericDAO Interface
-- [ ] Edit-Button
+- [x] DAO Interface
+- [x] Edit-Button
 
 ## Vorgehen
-### Was brauch ich?
-- Klasse für Datenbankverbindung
-- Klasse für
+## MVP-Architektur
+
+Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Nutzerinteraktion mit der Nutzeroberfläche wird vom Presenter verarbeitet, die nötigen Methoden des Models werden von ihm aufgerufen und die Rückgaben werden im Anschluss von ihm an den View übergeben. Durch diese strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen einzelner Komponenten möglich sind, ohne dass dadurch Änderungen an anderen Stellen nötig werden (lose Kopplung).
+
+## Gradle
+
+Gradle ist Maven in besser. Alleine schon, weil kein XML verwendet wird.
+
+## DAO
+
+kommt...
+
+## JavaFX
+
+Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist Mist.

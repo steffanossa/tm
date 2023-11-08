@@ -7,13 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class SQLiteBuddy {
+public class SQLiteBuddy
+{
     private String url;
     private Connection connection;
 
-    public SQLiteBuddy(
-        String url
-    )
+    public SQLiteBuddy(String url)
     {
         this.url = "jdbc:sqlite:" + url;
     }
@@ -61,7 +60,8 @@ public class SQLiteBuddy {
         this.url = "jdbc:sqlite:" + url;
     }
     
-    public boolean isAcceptedDatabase() throws SQLException {
+    public boolean isAcceptedDatabase() throws SQLException
+    {
         Connection connection = establishConnection();
         boolean isValid;
     

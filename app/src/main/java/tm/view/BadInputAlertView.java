@@ -8,7 +8,8 @@ import javafx.stage.Stage;
 
 public class BadInputAlertView extends Alert{
 
-    public BadInputAlertView(String message) {
+    public BadInputAlertView(String message)
+    {
         super(Alert.AlertType.ERROR);
 
         setTitle("Fehlerhafte Eingabe");

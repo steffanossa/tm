@@ -1,7 +1,7 @@
 package tm.model;
 
 public class Student {
-    //record woulb be sufficent
+
     private int matrikelnummer;
     private String firstname;
     private String surname;
@@ -52,6 +52,12 @@ public class Student {
     public void setFhKennung(String fhKennung)
     {
         this.fhKennung = fhKennung;
+    }
+
+    @Override
+    public String toString()
+    {
+        return fhKennung;
     }
 }
 
