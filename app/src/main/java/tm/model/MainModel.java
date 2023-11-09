@@ -46,8 +46,6 @@ public class MainModel {
         ) {
         String previewString = "";
         String previewSeparator = separator;
-        if (previewSeparator == "\t")
-            previewSeparator = "    ";
         Map<String, String> previewMap = Map.of(
             "Vorname", "Erika",
             "Nachname", "Mustermann",
