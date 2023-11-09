@@ -266,7 +266,6 @@ public class MainPresenter {
                 showBadDatabaseAlert();
             }
         } else {
-            //ob das so sauber ist?
             System.exit(0);
         }
     }

@@ -16,13 +16,14 @@ import java.awt.datatransfer.Clipboard;
 
 
 public class MainModel {
+
     private static final Map<String, String> separatorMap = Map.of(
         "Komma", ",",
         "Leerzeichen", " ",
         "Semikolon", ";",
         "Tab", "\t" );
+
     private static final Map<String, Function<Student, ?>> COLUMN_GETTER_MAP = new HashMap<String, Function<Student, ?>>() {{
-        //Student::getFirstname = Methodenreferenz
         put("Vorname", Student::getFirstname);
         put("Nachname", Student::getSurname);
         put("Matrikel-Nr.", Student::getMatrikelnummer);
