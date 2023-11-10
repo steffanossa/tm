@@ -15,8 +15,6 @@
 ## TODO
 - [ ] UNIT TESTS, JUNGE
 - [ ] pentesting oder so. kp, hab schreibmaschine
-- [x] ObservableList to ArrayList in Model!
-- [x] remove all javafx imports from models
 - [x] DAO Interface
 - [x] Edit-Button
 
@@ -35,4 +33,4 @@ kommt...
 
 ## JavaFX
 
-Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist zu meiden.
+Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist Mist.
