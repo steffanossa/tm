@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import tm.model.InputDialogModel;
-import tm.model.MainModel;
 import tm.model.SQLiteBuddy;
 import tm.model.StudentDAO;
 

@@ -1,8 +1,10 @@
 package tm.model;
 
+import java.sql.SQLException;
+
 public class InputDialogModel {
-    // public static final String NAME_PATTERN = "^[A-Za-zÄÖÜäöüß\\-]+(?: [A-Za-zÄÖÜäöüß\\-]+)?$";
-    public static final String NAME_PATTERN = "^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\\\-]+)?$";
+    
+    public static final String NAME_PATTERN = "^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$";
     public static final String FHKENNUNG_PATTERN = "^[A-Za-z]{2}\\d{6}$";
     public static final String MATRNR_PATTERN = "^\\d{6,7}$";
     private StudentDAO studentDAO;
@@ -29,9 +31,14 @@ public class InputDialogModel {
         String firstname,
         String lastname,
         String fhKennung,
-        int matrikelnummer
-    ) {
+        int matrikelnummer) throws SQLException
+        {
         Student student = new Student(matrikelnummer, firstname, lastname, fhKennung);
-        studentDAO.add(student);
+        try {
+            studentDAO.add(student);
+        } catch (SQLException e) {
+            // TODO:lös das auf, wie unnütz
+            throw e;
+        }
     }
 }

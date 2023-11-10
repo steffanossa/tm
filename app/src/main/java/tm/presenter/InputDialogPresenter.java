@@ -9,6 +9,7 @@ import tm.model.Student;
 import tm.view.BadInputAlertView;
 import tm.view.InputDialogView;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class InputDialogPresenter implements InputDialogPresenterInterface
@@ -42,40 +43,72 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         inputDialogView.hide();
     }
 
+    /**
+     * validate user input + add data to database if validation succeeded
+     * @return
+     */
     private boolean handleOkButtonClick()
     {
-        //forgot, why I needed the try-block
         try {
             String firstname = inputDialogView.getFirstNameTextField().getText();
             String lastname = inputDialogView.getLastNameTextField().getText();
             String fhKennung = inputDialogView.getFhKennungTextField().getText();
             String matrikelnummer = inputDialogView.getMatrikelnummerTextField().getText();
 
-            StringBuilder errorMessage = new StringBuilder("Bitte folgende Eingabe/n prüfen:");
+            String errorMessage = "Bitte folgende Eingabe/n prüfen:";
+            
             if (!inputDialogModel.validateName(firstname))
-                errorMessage.append("\nVorname");
+                errorMessage += "\n- Vorname";
             if (!inputDialogModel.validateName(lastname))
-                errorMessage.append("\nNachname");
+                errorMessage += "\n- Nachname";
             if (!inputDialogModel.validateMatrikelnummer(matrikelnummer))
-                errorMessage.append("\nMatrikelnummer");
+                errorMessage += "\n- Matrikel-Nr.";
             if (!inputDialogModel.validateFhKennung(fhKennung)) {
-                errorMessage.append("\nFH-Kennung");
+                errorMessage += "\n- FH-Kennung";
 
                 this.showBadInputAlert(errorMessage.toString());
 
                 return false;
             } else {
-                this.inputDialogModel.addStudent(
-                    firstname,
-                    lastname,
-                    fhKennung.toLowerCase(),
-                    Integer.valueOf(matrikelnummer));
-                return true;
+                try {
+                    this.inputDialogModel.addStudent(
+                        firstname,
+                        lastname,
+                        fhKennung.toLowerCase(),
+                        Integer.valueOf(matrikelnummer));
+                    return true;
+                }
+                catch (SQLException e)
+                {
+                    if (!notUniqueMessageBuilder(e))
+                        e.printStackTrace();
+                    return false;
+                }
+                
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private boolean notUniqueMessageBuilder(SQLException exception)
+    {
+        String message = exception.getMessage();
+        if (message.contains("UNIQUE constraint failed"))
+        {
+            String matrikelNrPattern = "Students.matrikelnr";
+            String fhKennungPattern = "Students.fhkennung";
+            String badInputMessage = "Wert muss einzigartig sein, existiert aber bereits in der Datenbank:";
+            if (message.contains(matrikelNrPattern))
+                badInputMessage += "\n- Matrikel-Nr.";
+            if (message.contains(fhKennungPattern))
+                badInputMessage += "\n- FH-Kennung";
+            showBadInputAlert(badInputMessage);
+            return true;
+        }
+        return false;
     }
 
     private void showBadInputAlert(String message)
@@ -101,11 +134,19 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         if (result.isPresent() && result.get() == ButtonType.APPLY) {
             handleOkButtonClick();
         } else {
-            inputDialogModel.addStudent(
+            try {
+                inputDialogModel.addStudent(
                     student.getFirstname(),
                     student.getSurname(),
                     student.getFhKennung().toLowerCase(),
                     Integer.valueOf(student.getMatrikelnummer()));
+            } 
+            catch (SQLException e)
+            {
+                if (!notUniqueMessageBuilder(e))
+                    e.printStackTrace();
+            }
+            
         }
     }
 }

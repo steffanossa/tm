@@ -40,7 +40,6 @@ public class MainPresenter {
         MainModel mainModel
     ) {
         this.mainModel = mainModel;
-        //TODO:move separator to model?
         this.separator = ",";
         this.mainView = mainView;
         this.prepareAll();
@@ -50,14 +49,13 @@ public class MainPresenter {
         showOpenDatabaseFileWindow();
         this.prepareTableView(mainView.getTableView());
 
-        //TODO:move
         selectedStudents = mainView.getTableView().getSelectionModel().getSelectedItems();
 
         selectedStudents.addListener((ListChangeListener.Change<? extends Student> change) -> {
             updateButtonStates();
         });
 
-        //handlers
+        //actions
         addAddButtonAction();
         addEditButtonActoin();
         addRemoveButtonAction();
@@ -79,7 +77,14 @@ public class MainPresenter {
         configContextMenu(mainView.getTableView());
     }
 
-    //java is ugly
+    /**
+     * Creates TableColumn to be inserted into TableViews
+     * @param <T>
+     * @param header Column header
+     * @param property corresponding property
+     * @param valueClass datatype of the values
+     * @return
+     */
     public <T> TableColumn<Student, T> createTableColumn(String header, String property, Class<T> valueClass)
     {
         TableColumn<Student, T> tableColumn = new TableColumn<>(header);
@@ -127,6 +132,9 @@ public class MainPresenter {
         mainView.getTableView().setItems(students);
     }
 
+    /**
+     * Updates the preview string according to selected separator and columns
+     */
     private void updatePreviewString()
     {
         String separator = mainModel.getSeparator(mainView.getComboBox().getValue());
@@ -140,6 +148,11 @@ public class MainPresenter {
         } else mainView.hideImage();
     }
 
+    /**
+     * asks for confirmation on whether or not to remove the selected rows
+     * @param selectedStudents amount of rows to be removed
+     * @return removal confirmed?
+     */
     private boolean showConfirmationDialog(int selectedStudents)
     {
         ConfirmDeletionAlertView alert = new ConfirmDeletionAlertView(selectedStudents);
@@ -148,6 +161,10 @@ public class MainPresenter {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
+    /**
+     * adds a context menu to the tableview that enables hiding/showing columns
+     * @param tableView
+     */
     private void configContextMenu(TableView<Student> tableView)
     {
         for (TableColumn<Student, ?> column : tableView.getColumns()) {
@@ -162,6 +179,9 @@ public class MainPresenter {
        tableView.setContextMenu(mainView.getContextMenu());
     }
 
+    /**
+     * instatiasid the inputdialog from where a row can be added to the database
+     */
     private void addAddButtonAction()
     {
         mainView.getAddButton().setOnAction(event -> {
@@ -171,6 +191,9 @@ public class MainPresenter {
         });
     }
 
+    /**
+     * starts up inputdialog with prefilled data from the selected row to be eidterd
+     */
     private void addEditButtonActoin()
     {
         mainView.getEditButton().setOnAction(event -> {
@@ -271,6 +294,9 @@ public class MainPresenter {
         }
     }
 
+    /**
+     * an ininite loop if you keep on selecting other things than an sqlite database with a structure defiiiinied... elseweher
+     */
     private void showBadDatabaseAlert()
     {
         BadDatabaseAlertView alert = new BadDatabaseAlertView();

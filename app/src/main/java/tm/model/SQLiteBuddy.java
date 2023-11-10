@@ -52,7 +52,7 @@ public class SQLiteBuddy
             }
         }
         else {
-            // no connection to close, hehe
+
         }
     }
 
@@ -73,9 +73,6 @@ public class SQLiteBuddy
         while (rs.next()) {
             String columnName = rs.getString("COLUMN_NAME");
             String dataType = rs.getString("TYPE_NAME");
-            // TODO: Check for nullability && uniqueness?
-    
-            // System.out.println("Column name: " + columnName + "\n" + "Data type: " + dataType);
     
             if ((columnName.equals("firstname") && dataType.equals("TEXT")) ||
                 (columnName.equals("surname") && dataType.equals("TEXT")) ||

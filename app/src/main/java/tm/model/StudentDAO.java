@@ -47,7 +47,7 @@ public class StudentDAO implements GenericDAO<Student>
     }
 
     @Override
-    public boolean add(Student student)
+    public boolean add(Student student) throws SQLException
     {
         boolean wasSuccessful = false;
         Connection connection = sqLiteBuddy.establishConnection();
@@ -61,8 +61,9 @@ public class StudentDAO implements GenericDAO<Student>
             prepStmt.setString(4, student.getFhKennung());
             if (prepStmt.executeUpdate() == 1)
                 wasSuccessful = true;
-        } catch (SQLException iDontCare) {
+        } catch (SQLException e) {
             // e.printStackTrace();
+            throw e;
         } finally {
             this.sqLiteBuddy.closeDatabase();
         }
@@ -80,9 +81,11 @@ public class StudentDAO implements GenericDAO<Student>
             if (prepStmt.executeUpdate() == 1) {
                 wasSuccessful = true;
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             this.sqLiteBuddy.closeDatabase();
         }
         return wasSuccessful;
