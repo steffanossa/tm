@@ -26,7 +26,7 @@ import tm.view.InputDialogView;
 import tm.view.MainView;
 
 
-public class MainPresenter {
+public class MainPresenter implements GenericPresenter{
     
     private MainView mainView;
     private MainModel mainModel;
@@ -276,5 +276,12 @@ public class MainPresenter {
         alert.showAndWait();
         showOpenDatabaseFileWindow();
     }
+
+    public void showAndWait(){
+        // unused by now
+    };
+    public void hide(){
+        //unused by now
+    };
 }
 
