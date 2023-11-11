@@ -4,13 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonBar.ButtonData;
+
+import tm.customcontrols.PatternTextField;
 import tm.model.InputDialogModel;
-import tm.model.Student;
-import tm.view.BadInputAlertView;
+import tm.model.classes.Student;
+import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.view.InputDialogView;
+import tm.view.alerts.BadInputAlertView;
 
 import java.sql.SQLException;
 import java.util.Optional;
+
+// import java.lang.StringBuilder;
 
 public class InputDialogPresenter implements InputDialogPresenterInterface
 {
@@ -22,6 +28,19 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         this.inputDialogView = inputDialogView;
         this.inputDialogModel = inputDialogModel;
         prepareAll();
+    }
+
+    public void fillTextFields(Student student)
+    {
+        TextField firstnameTextField = inputDialogView.getFirstNamePatternTextField();
+        TextField lastnameTextField = inputDialogView.getLastNamePatternTextField();
+        TextField matrikelnummerTextField = inputDialogView.getMatrikelnummerPatternTextField();
+        TextField fhKennungTextField = inputDialogView.getFhKennungPatternTextField();
+
+        firstnameTextField.setText(student.getFirstname());
+        lastnameTextField.setText(student.getSurname());
+        matrikelnummerTextField.setText(String.valueOf(student.getMatrikelnummer()));
+        fhKennungTextField.setText(student.getFhKennung());
     }
 
     public void prepareAll()
@@ -43,60 +62,71 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         inputDialogView.hide();
     }
 
+    private boolean validateAndAppendToErrorMessage(PatternTextField patternTextField, String patternTextFieldName, StringBuilder errorMessage)
+    {
+        boolean isValid = patternTextField.validate();
+        if (!isValid)
+        {
+            errorMessage.append("\n- ").append(patternTextFieldName);
+        }
+        return isValid;
+    }
+
     /**
-     * validate user input + add data to database if validation succeeded
+     * validate user input + add data to database if valid
      * @return
+     * TODO: die ist mir aus dem ruder gelaufen
      */
     private boolean handleOkButtonClick()
     {
-        try {
-            String firstname = inputDialogView.getFirstNameTextField().getText();
-            String lastname = inputDialogView.getLastNameTextField().getText();
-            String fhKennung = inputDialogView.getFhKennungTextField().getText();
-            String matrikelnummer = inputDialogView.getMatrikelnummerTextField().getText();
-
-            String errorMessage = "Bitte folgende Eingabe/n prüfen:";
-            
-            if (!inputDialogModel.validateName(firstname))
-                errorMessage += "\n- Vorname";
-            if (!inputDialogModel.validateName(lastname))
-                errorMessage += "\n- Nachname";
-            if (!inputDialogModel.validateMatrikelnummer(matrikelnummer))
-                errorMessage += "\n- Matrikel-Nr.";
-            if (!inputDialogModel.validateFhKennung(fhKennung)) {
-                errorMessage += "\n- FH-Kennung";
-
-                this.showBadInputAlert(errorMessage.toString());
-
-                return false;
-            } else {
-                try {
-                    this.inputDialogModel.addStudent(
-                        firstname,
-                        lastname,
-                        fhKennung.toLowerCase(),
-                        Integer.valueOf(matrikelnummer));
-                    return true;
-                }
-                catch (SQLException e)
+        String firstname = inputDialogView.getFirstNamePatternTextField().getText();
+        String lastname = inputDialogView.getLastNamePatternTextField().getText();
+        String fhKennung = inputDialogView.getFhKennungPatternTextField().getText();
+        String matrikelnummer = inputDialogView.getMatrikelnummerPatternTextField().getText();
+        PatternTextField[] patternTextFields = {
+            inputDialogView.getFirstNamePatternTextField(),
+            inputDialogView.getLastNamePatternTextField(),
+            inputDialogView.getMatrikelnummerPatternTextField(),
+            inputDialogView.getFhKennungPatternTextField()
+        };
+        StringBuilder errorMessage = new StringBuilder("Bitte folgende Eingabe/n prüfen:");
+        boolean inputIsValid = true;
+        for (var patternTextField : patternTextFields) {
+            //smart
+            inputIsValid &= validateAndAppendToErrorMessage(patternTextField, matrikelnummer, errorMessage);
+        }
+        if (!inputIsValid) 
+        {
+            this.showBadInputAlert(errorMessage.toString());
+            return false;
+        }
+        else 
+        {
+            try
+            {
+                this.inputDialogModel.addStudent(
+                    firstname,
+                    lastname,
+                    fhKennung.toLowerCase(),
+                    Integer.valueOf(matrikelnummer));
+                return inputIsValid;
+            }
+            catch (SQLException e)
+            {
+                if (uniquenessCheckAndAlertShow(e))
                 {
-                    if (!notUniqueMessageBuilder(e))
-                        e.printStackTrace();
+                    e.printStackTrace();
                     return false;
                 }
-                
+                return true;
             }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
-    private boolean notUniqueMessageBuilder(SQLException exception)
+    private boolean uniquenessCheckAndAlertShow(SQLException exception)
     {
         String message = exception.getMessage();
-        if (message.contains("UNIQUE constraint failed"))
+        if (message.contains("UNIQUE constraint failed")) //wenn NICHT UNIQUE
         {
             String matrikelNrPattern = "Students.matrikelnr";
             String fhKennungPattern = "Students.fhkennung";
@@ -105,7 +135,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                 badInputMessage += "\n- Matrikel-Nr.";
             if (message.contains(fhKennungPattern))
                 badInputMessage += "\n- FH-Kennung";
-            showBadInputAlert(badInputMessage);
+            showBadInputAlert(badInputMessage); //TODO:bad spot for this
             return true;
         }
         return false;
@@ -120,21 +150,13 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     @Override
     public void showAndWaitWithData(Student student)
     {
-        TextField firstnameTextField = inputDialogView.getFirstNameTextField();
-        TextField lastnameTextField = inputDialogView.getLastNameTextField();
-        TextField matrikelnummerTextField = inputDialogView.getMatrikelnummerTextField();
-        TextField fhKennungTextField = inputDialogView.getFhKennungTextField();
-
-        firstnameTextField.setText(student.getFirstname());
-        lastnameTextField.setText(student.getSurname());
-        matrikelnummerTextField.setText(String.valueOf(student.getMatrikelnummer()));
-        fhKennungTextField.setText(student.getFhKennung());
+        fillTextFields(student);
 
         Optional<ButtonType> result = inputDialogView.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.APPLY) {
-            handleOkButtonClick();
-        } else {
-            try {
+        if (result.isPresent() && !result.get().getButtonData().equals(ButtonData.APPLY))
+        {
+            try
+            {
                 inputDialogModel.addStudent(
                     student.getFirstname(),
                     student.getSurname(),
@@ -143,10 +165,8 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             } 
             catch (SQLException e)
             {
-                if (!notUniqueMessageBuilder(e))
-                    e.printStackTrace();
+                e.getStackTrace();
             }
-            
         }
     }
 }

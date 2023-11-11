@@ -1,4 +1,4 @@
-package tm.model;
+package tm.model.daos;
 
 import java.sql.SQLException;
 import java.util.List;

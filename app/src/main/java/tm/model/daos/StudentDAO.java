@@ -1,4 +1,4 @@
-package tm.model;
+package tm.model.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import tm.model.SQLiteBuddy;
+import tm.model.classes.Student;
 
 public class StudentDAO implements GenericDAO<Student> 
 {
@@ -39,7 +42,7 @@ public class StudentDAO implements GenericDAO<Student>
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            // return null;
         } finally {
             this.sqLiteBuddy.closeDatabase();
         }
@@ -63,6 +66,7 @@ public class StudentDAO implements GenericDAO<Student>
                 wasSuccessful = true;
         } catch (SQLException e) {
             // e.printStackTrace();
+            //TODO
             throw e;
         } finally {
             this.sqLiteBuddy.closeDatabase();

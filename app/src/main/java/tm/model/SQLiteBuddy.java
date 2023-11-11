@@ -51,9 +51,6 @@ public class SQLiteBuddy
                 e.printStackTrace();
             }
         }
-        else {
-
-        }
     }
 
     public void setUrl(String url) {
@@ -66,9 +63,9 @@ public class SQLiteBuddy
         boolean isValid;
     
         DatabaseMetaData metaData = connection.getMetaData();
-        ResultSet rs = metaData.getColumns(null, null, "Students", null);
-    
-        isValid = true;
+        ResultSet rs = metaData.getColumns(null, null, null, null);
+
+        isValid = false;
     
         while (rs.next()) {
             String columnName = rs.getString("COLUMN_NAME");
@@ -77,8 +74,9 @@ public class SQLiteBuddy
             if ((columnName.equals("firstname") && dataType.equals("TEXT")) ||
                 (columnName.equals("surname") && dataType.equals("TEXT")) ||
                 (columnName.equals("matrikelnr") && dataType.equals("INTEGER")) ||
-                (columnName.equals("fhkennung") && dataType.equals("TEXT"))) {
-
+                (columnName.equals("fhkennung") && dataType.equals("TEXT"))
+            ) {
+                isValid = true;
             } else {
                 isValid = false;
                 break;

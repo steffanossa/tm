@@ -1,4 +1,4 @@
-package tm.model;
+package tm.model.classes;
 
 public class Student {
 

@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import tm.model.Student;
+import tm.model.classes.Student;
 
 public class MainView extends VBox {
 

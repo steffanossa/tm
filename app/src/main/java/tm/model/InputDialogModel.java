@@ -2,11 +2,11 @@ package tm.model;
 
 import java.sql.SQLException;
 
+import tm.model.classes.Student;
+import tm.model.daos.StudentDAO;
+
 public class InputDialogModel {
     
-    public static final String NAME_PATTERN = "^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$";
-    public static final String FHKENNUNG_PATTERN = "^[A-Za-z]{2}\\d{6}$";
-    public static final String MATRNR_PATTERN = "^\\d{6,7}$";
     private StudentDAO studentDAO;
 
     public InputDialogModel(
@@ -15,30 +15,16 @@ public class InputDialogModel {
         this.studentDAO = studentDAO;
     }
 
-    public boolean validateName(String name) {
-        return name.matches(NAME_PATTERN);
-    }
-
-    public boolean validateFhKennung(String fhKennung) {
-        return fhKennung.matches(FHKENNUNG_PATTERN);
-    }
-
-    public boolean validateMatrikelnummer(String matrikelnummer) {
-        return matrikelnummer.matches(MATRNR_PATTERN);
-    }
-
-    public void addStudent(
+    public boolean addStudent(
         String firstname,
         String lastname,
         String fhKennung,
-        int matrikelnummer) throws SQLException
-        {
+        int matrikelnummer
+    )
+    throws SQLException
+    {
         Student student = new Student(matrikelnummer, firstname, lastname, fhKennung);
-        try {
-            studentDAO.add(student);
-        } catch (SQLException e) {
-            // TODO:lös das auf, wie unnütz
-            throw e;
-        }
+        
+        return studentDAO.add(student);
     }
 }

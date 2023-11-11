@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import tm.model.MainModel;
-import tm.model.Student;
+import tm.model.classes.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class MainModelTest {
     public void testCreatePreviewString() {
         separator = "\t";
         visibleColumns = new ArrayList<>(List.of("Vorname", "FH-Kennung"));
-        expectedResultString = "Erika    AB123456";
+        expectedResultString = "Erika\tAB123456";
         resultString = mainModel.createPreviewString(separator, visibleColumns);
         assertEquals(expectedResultString, resultString);
     }

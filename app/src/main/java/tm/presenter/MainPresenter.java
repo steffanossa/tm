@@ -19,14 +19,16 @@ import javafx.stage.FileChooser;
 
 import tm.model.InputDialogModel;
 import tm.model.MainModel;
-import tm.model.Student;
-import tm.view.BadDatabaseAlertView;
-import tm.view.ConfirmDeletionAlertView;
+import tm.model.classes.Student;
+import tm.presenter.interfaces.GenericPresenterInterface;
+import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.view.InputDialogView;
 import tm.view.MainView;
+import tm.view.alerts.BadDatabaseAlertView;
+import tm.view.alerts.ConfirmDeletionAlertView;
 
 
-public class MainPresenter implements GenericPresenter{
+public class MainPresenter implements GenericPresenterInterface {
     
     private MainView mainView;
     private MainModel mainModel;
@@ -51,13 +53,11 @@ public class MainPresenter implements GenericPresenter{
 
         selectedStudents = mainView.getTableView().getSelectionModel().getSelectedItems();
 
-        selectedStudents.addListener((ListChangeListener.Change<? extends Student> change) -> {
-            updateButtonStates();
-        });
+        selectedStudents.addListener((ListChangeListener.Change<? extends Student> change) -> updateButtonStates());
 
         //actions
         addAddButtonAction();
-        addEditButtonActoin();
+        addEditButtonAction();
         addRemoveButtonAction();
         addClipboardButtonAction();
         addSaveToFileButtonAction();
@@ -69,7 +69,8 @@ public class MainPresenter implements GenericPresenter{
 
         updatePreviewString();
 
-        mainView.getComboBox().setOnAction(event -> {
+        mainView.getComboBox().setOnAction(event ->
+        {
             separator = mainModel.getSeparator(mainView.getComboBox().getValue());
             updatePreviewString();
         });
@@ -106,7 +107,8 @@ public class MainPresenter implements GenericPresenter{
 
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         
-        tableView.getColumns().addListener((Change<? extends TableColumn<?, ?>> change) -> {
+        tableView.getColumns().addListener((Change<? extends TableColumn<?, ?>> change) ->
+        {
             //TableColumn<?,?> oder eine Unterklasse davon
             updatePreviewString();
         });
@@ -142,10 +144,12 @@ public class MainPresenter implements GenericPresenter{
         visibleColumns = getVisibleColumns();
         String previewString = mainModel.createPreviewString(separator, visibleColumns);
         mainView.getPreviewString().setText(previewString);
-        if (previewString == "Nichts anzuzeigen") {
+        if (previewString == "Nichts anzuzeigen")
+        {
             mainView.showImage();
             mainView.getTableView().getSelectionModel().clearSelection();
-        } else mainView.hideImage();
+        }
+        else mainView.hideImage();
     }
 
     /**
@@ -157,7 +161,6 @@ public class MainPresenter implements GenericPresenter{
     {
         ConfirmDeletionAlertView alert = new ConfirmDeletionAlertView(selectedStudents);
         Optional<ButtonType> result = alert.showAndWait();
-        //lol
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
@@ -167,10 +170,12 @@ public class MainPresenter implements GenericPresenter{
      */
     private void configContextMenu(TableView<Student> tableView)
     {
-        for (TableColumn<Student, ?> column : tableView.getColumns()) {
+        for (TableColumn<Student, ?> column : tableView.getColumns())
+        {
             CheckMenuItem menuItem = new CheckMenuItem(column.getText());
             menuItem.setSelected(true);
-            menuItem.setOnAction(event -> {
+            menuItem.setOnAction(event ->
+            {
                 column.setVisible(menuItem.isSelected());
                 updatePreviewString();
             });
@@ -184,7 +189,8 @@ public class MainPresenter implements GenericPresenter{
      */
     private void addAddButtonAction()
     {
-        mainView.getAddButton().setOnAction(event -> {
+        mainView.getAddButton().setOnAction(event ->
+        {
             InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
             inputDialogPresenterInterface.showAndWait();
             updateTableView();
@@ -194,13 +200,19 @@ public class MainPresenter implements GenericPresenter{
     /**
      * starts up inputdialog with prefilled data from the selected row to be eidterd
      */
-    private void addEditButtonActoin()
+    private void addEditButtonAction()
     {
-        mainView.getEditButton().setOnAction(event -> {
-            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
+        mainView.getEditButton().setOnAction(event ->
+        {
             Student tempStudent = selectedStudents.get(0);
             mainModel.removeStudent(tempStudent);
+            ArrayList<Student> studentsArrayList = mainModel.retrieveStudents();
+            students = FXCollections.observableArrayList(studentsArrayList);
+            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
+            
             inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
+            
+
             
             updateTableView();
         });
@@ -208,9 +220,12 @@ public class MainPresenter implements GenericPresenter{
 
     private void addRemoveButtonAction()
     {
-        mainView.getRemoveButton().setOnAction(event -> {
-            if (showConfirmationDialog(selectedStudents.size())){
-            selectedStudents.forEach(student -> {
+        mainView.getRemoveButton().setOnAction(event ->
+        {
+            if (showConfirmationDialog(selectedStudents.size()))
+            {
+            selectedStudents.forEach(student ->
+            {
                 mainModel.removeStudent(student);
             });
             updateTableView();
@@ -220,7 +235,8 @@ public class MainPresenter implements GenericPresenter{
     
     private void addClipboardButtonAction() 
     {
-        mainView.getClipboardButton().setOnAction(event -> {
+        mainView.getClipboardButton().setOnAction(event ->
+        {
             Student[] selected = selectedStudents.toArray(new Student[selectedStudents.size()]);
             ArrayList<String> visibleColumns = new ArrayList<>();
             visibleColumns = getVisibleColumns();
@@ -235,17 +251,17 @@ public class MainPresenter implements GenericPresenter{
     //TODO:relocate?
     private void addSaveToFileButtonAction() 
     {
-        mainView.getSaveToFileButton().setOnAction(event -> {
+        mainView.getSaveToFileButton().setOnAction(event ->
+        {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Text (*.txt)", "*.txt"),
-                //TODO:csv option if separator in (",", ";")
-                // new FileChooser.ExtensionFilter("CSV-Datei (*.csv)", "*.csv"),
                 new FileChooser.ExtensionFilter("All", "*.*")
             );
 
             File file = fileChooser.showSaveDialog(mainView.getScene().getWindow());
-            if (file != null){
+            if (file != null)
+            {
                 Student[] selected = selectedStudents.toArray(new Student[selectedStudents.size()]);
                 ArrayList<String> visibleColumns = new ArrayList<>();
                 visibleColumns = getVisibleColumns();
@@ -255,14 +271,16 @@ public class MainPresenter implements GenericPresenter{
                     visibleColumns,
                     MainModel.getColumnGetterMap(),
                     separator
-                );}
+                );
+            }
         });
     }
 
     private ArrayList<String> getVisibleColumns()
     {
         ArrayList<String> visibleColumns = new ArrayList<>();
-        for (TableColumn<Student, ?> column : mainView.getTableView().getColumns()) {
+        for (TableColumn<Student, ?> column : mainView.getTableView().getColumns())
+        {
             if (column.isVisible())
                 visibleColumns.add(column.getText());
         }
@@ -279,18 +297,18 @@ public class MainPresenter implements GenericPresenter{
         );
         File file = fileChooser.showOpenDialog(mainView.getScene().getWindow());
         boolean isAccepted = true;
-        if (file != null) {
-            try {
+        if (file != null)
+        {
+            try
+            {
                 isAccepted = mainModel.openDatabase(file);
                 if (!isAccepted) {
                     showBadDatabaseAlert();
                 }
-            } catch (SQLException e) {
-                showBadDatabaseAlert();
             }
-        } else {
-            System.exit(0);
+            catch (SQLException e) { showBadDatabaseAlert(); }
         }
+        else { System.exit(0); }
     }
 
     /**

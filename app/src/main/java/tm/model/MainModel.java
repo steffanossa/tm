@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+import tm.model.classes.Student;
+import tm.model.daos.StudentDAO;
+
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Clipboard;
@@ -70,8 +73,8 @@ public class MainModel {
         return COLUMN_GETTER_MAP;
     }
 
-    public void removeStudent(Student student) {
-        studentDAO.removeById(student.getMatrikelnummer());
+    public boolean removeStudent(Student student) {
+        return studentDAO.removeById(student.getMatrikelnummer());
     }
 
     public void copyToClipboard(
@@ -104,8 +107,10 @@ public class MainModel {
         ) {
         String concatenatedString = "";
 
-        for (Student student : students) {
-            for (String columnName : visibleColumns) {
+        for (Student student : students)
+        {
+            for (String columnName : visibleColumns)
+            {
                 Function<Student, ?> function = columnGetterMap.get(columnName);
                 concatenatedString += function.apply(student) + separator;
             }
@@ -127,9 +132,8 @@ public class MainModel {
             writer = new PrintWriter(file);
             writer.println(concatenatedString);
             writer.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
         }
+        catch (IOException e) { System.out.println(e.getMessage()); }
     }
 
     public boolean openDatabase(File dbFile) throws SQLException

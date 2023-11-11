@@ -1,4 +1,4 @@
-package tm.view;
+package tm.view.alerts;
 
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
