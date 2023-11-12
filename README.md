@@ -23,6 +23,7 @@
 - [x] bilder updaten
 - [ ] menubar mit preferences und hilfe
 - [ ] sprach jsons
+- [ ] howTo schreiben
 
 ## Vorgehen
 ## MVP-Architektur
@@ -33,7 +34,7 @@ Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert 
 
 ## Gradle
 
-Gradle ist Maven in besser. Alleine schon, weil kein XML
+Gradle ist <xmlstinkt>Maven</xmlstinkt> in besser.
 
 ## DAO
 
