@@ -2,14 +2,15 @@
 #gradle, #javafx, #mvp, #jdbc, #sqlite
 ## Anforderungen
 
-<img src="https://github.com/steffanossa/tm/assets/94658723/dc33e8b4-7dbe-4861-9bb8-c1e292acef70.png" width="300" height="400">
-
+<img src="https://github.com/steffanossa/tm/assets/94658723/dc33e8b4-7dbe-4861-9bb8-c1e292acef70.png" width="400">
 
 - Anbindung zu Datenbank mit JDBC
 - Graphische Benutzeroberfläche mit JavaFX
 - Darstellung von Studentendaten
-- Auswählen von Studenten zum Kopieren der Daten in die Zwischenablage mit wählbarem Separator
+- Auswählen von Studenten zum Kopieren der Daten in die Zwischenablage mit wählbarem Trennzeichen
 - Auswählen von relevanten Spalten
+- Freie Anordnung der Spalten
+- Hinzufügen & Löschen einzelner bzw. mehrerer Studenten
 - Peppermint Patty
 
 ## TODO
@@ -21,11 +22,14 @@
 - [x] Edit-Button
 - [x] bilder updaten
 - [ ] menubar mit preferences und hilfe
+- [ ] sprach jsons
 
 ## Vorgehen
 ## MVP-Architektur
 
 Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Nutzerinteraktion mit der Nutzeroberfläche wird vom Presenter verarbeitet, die nötigen Methoden des Models werden von ihm aufgerufen und die Rückgaben werden im Anschluss von ihm an den View übergeben. Durch diese strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen einzelner Komponenten möglich sind, ohne dass dadurch Änderungen an anderen Stellen nötig werden (lose Kopplung).
+
+...
 
 ## Gradle
 
