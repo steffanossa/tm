@@ -27,7 +27,7 @@
 ## Vorgehen
 ## MVP-Architektur
 
-Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Nutzerinteraktion mit der Nutzeroberfläche wird vom Presenter verarbeitet, die nötigen Methoden des Models werden von ihm aufgerufen und die Rückgaben werden im Anschluss von ihm an den View übergeben. Durch diese strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen einzelner Komponenten möglich sind, ohne dass dadurch Änderungen an anderen Stellen nötig werden (lose Kopplung).
+Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die nötigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm an den View übergeben. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).
 
 ...
 
