@@ -24,6 +24,7 @@
 - [ ] menubar mit preferences und hilfe
 - [ ] sprach jsons
 - [ ] howTo schreiben
+- [ ] uml gedöns
 
 ## Vorgehen
 ## MVP-Architektur
