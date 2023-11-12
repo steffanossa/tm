@@ -13,15 +13,14 @@
 - Peppermint Patty
 
 ## TODO
-- [ ] UNIT TESTS, JUNGE
-- [ ] pentesting oder so. kp, hab schreibmaschine
-- [ ] du hast schon wieder die eingabeprüfung zerstört, blödmann
+- [ ] unit tests
 - [x] edit window umbennenen
 - [x] bad input sprache
 - [x] uniquenessmessage sprache
 - [x] DAO Interface
 - [x] Edit-Button
-- [ ] bilder updaten
+- [x] bilder updaten
+- [ ] menubar mit preferences und hilfe
 
 ## Vorgehen
 ## MVP-Architektur
@@ -30,7 +29,7 @@ Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert 
 
 ## Gradle
 
-Gradle ist Maven in besser. Alleine schon, weil kein XML verwendet wird.
+Gradle ist Maven in besser. Alleine schon, weil kein XML
 
 ## DAO
 
