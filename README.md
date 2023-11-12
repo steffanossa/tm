@@ -34,3 +34,18 @@ kommt...
 ## JavaFX
 
 Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist Mist.
+
+## SQLite
+
+- gemeinfreie (public domain) Programmbibliothek
+- keine Client-Server-Architektur
+- keine Verwaltung von Nutzer- und Zugriffsrechten
+- weit verbreitet[^2][^3]
+- leichtgewichtig[^4]
+
+
+[^2] Reference: https://www.statista.com/statistics/809750/worldwide-popularity-ranking-database-management-systems/
+
+[^3] Reference: https://sqlite.org/mostdeployed.html
+
+[^4] Reference: https://sqlite.org/about.html
