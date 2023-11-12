@@ -5,21 +5,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class BadDatabaseAlertView extends Alert{
+public class BadDatabaseAlertView extends Alert {
     
     public BadDatabaseAlertView()
     {
         super(Alert.AlertType.INFORMATION);
 
-        setTitle("Fehlerhafte Datenbank");
+        setTitle("Bad Database");
         setHeaderText(null);
 
         setContentText(
             "Tabelle: 'Students'\n" +
-            "Spalte: 'firstname', Typ: 'TEXT'\n" +
-            "Spalte: 'surname', Typ: 'TEXT'\n" +
-            "Spalte: 'matrikelnr', Typ: 'INTEGER', 'UNIQUE'\n" +
-            "Spalte: 'fhkennung', Typ: 'TEXT', 'UNIQUE'"
+            "Spalte: 'first_name', Type: 'TEXT'\n" +
+            "Spalte: 'surname', Type: 'TEXT'\n" +
+            "Spalte: 'matriculation_number', Type: 'INTEGER', 'UNIQUE'\n" +
+            "Spalte: 'fh_identifier', Type: 'TEXT', 'UNIQUE'"
         );
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));

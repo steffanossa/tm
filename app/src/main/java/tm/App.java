@@ -3,6 +3,8 @@
  */
 package tm;
 
+import java.time.LocalDate;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,12 +27,16 @@ public class App extends Application {
         Scene scene = new Scene(mainView);
         new MainPresenter(mainView, testModel);
 
-        primaryStage.setTitle("Na sowas, Quadratwurzeln!");
+        
+        primaryStage.setTitle(String.format("Good morning, %s morning",
+            LocalDate.now().getDayOfWeek().toString().substring(0, 1) +
+            LocalDate.now().getDayOfWeek().toString().substring(1).toLowerCase()));
+        
         
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
-        primaryStage.setWidth(376);
+        primaryStage.setWidth(414);
         primaryStage.setHeight(480);
         
         primaryStage.show();

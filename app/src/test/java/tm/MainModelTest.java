@@ -37,25 +37,25 @@ public class MainModelTest {
     {
         COLUMN_GETTER_MAP = new HashMap<String, Function<Student, ?>>() {{
             //Student::getFirstname = Methodenreferenz
-            put("Vorname", Student::getFirstname);
-            put("Nachname", Student::getSurname);
-            put("Matrikel-Nr.", Student::getMatrikelnummer);
-            put("FH-Kennung", Student::getFhKennung);
+            put("First name", Student::getFirstName);
+            put("Surname", Student::getSurname);
+            put("Matriculation Nr.", Student::getMatriculationNumber);
+            put("FH Identifier", Student::getFhIdentifier);
         }};
 
         students = new Student[] {
-            new Student(1234567, "Erika", "Mustermann", "AB123456"),
-            new Student(9876543, "Benjamin", "Blümchen", "XY987654")
+            new Student("Erika", "Mustermann", 1234567, "AB123456"),
+            new Student("Benjamin", "Blümchen", 9876543, "XY987654")
         };
 
-        visibleColumns = new ArrayList<>(List.of("Vorname", "Nachname", "Matrikel-Nr.", "FH-Kennung"));
+        visibleColumns = new ArrayList<>(List.of("First name", "Surname", "Matriculation Nr.", "FH Identifier"));
 
     }
 
     @Test
     public void testCreatePreviewString() {
         separator = "\t";
-        visibleColumns = new ArrayList<>(List.of("Vorname", "FH-Kennung"));
+        visibleColumns = new ArrayList<>(List.of("First name", "FH Identifier"));
         expectedResultString = "Erika\tAB123456";
         resultString = mainModel.createPreviewString(separator, visibleColumns);
         assertEquals(expectedResultString, resultString);
@@ -66,7 +66,7 @@ public class MainModelTest {
     {
         separator = ",";
         visibleColumns = new ArrayList<>();
-        expectedResultString = "Nichts anzuzeigen";
+        expectedResultString = "Nothing to show";
         resultString = mainModel.createPreviewString(separator, visibleColumns);
         assertEquals(expectedResultString, resultString);
     }
@@ -74,7 +74,7 @@ public class MainModelTest {
     @Test
     public void testConcatenate()
     {
-        visibleColumns = new ArrayList<>(List.of("Vorname", "Nachname"));
+        visibleColumns = new ArrayList<>(List.of("First name", "Surname"));
         separator = ",";
         expectedResultString = "Erika,Mustermann\nBenjamin,Blümchen";
         resultString = mainModel.concatenate(students, visibleColumns, COLUMN_GETTER_MAP, separator);

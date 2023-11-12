@@ -6,13 +6,13 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 
-public class BadInputAlertView extends Alert{
+public class BadInputAlertView extends Alert {
 
     public BadInputAlertView(String message)
     {
         super(Alert.AlertType.ERROR);
 
-        setTitle("Fehlerhafte Eingabe");
+        setTitle("Bad input");
         setHeaderText(null);
         setContentText(message);
 

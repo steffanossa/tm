@@ -12,10 +12,10 @@ public class ConfirmDeletionAlertView extends Alert {
     {
         super(Alert.AlertType.CONFIRMATION);
 
-        setTitle("Löschen bestätigen");
+        setTitle("Confirm removal");
         setHeaderText(null);
         setContentText(
-            selectedStudents + " Beobachtung/en wirklich unwiderruflich entfernen?"
+            "Sure to delete " + selectedStudents + " entity/entities?"
         );
 
         Stage stage = (Stage) getDialogPane().getScene().getWindow();

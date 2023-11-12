@@ -9,21 +9,15 @@ public class InputDialogModel {
     
     private StudentDAO studentDAO;
 
-    public InputDialogModel(
-        StudentDAO studentDAO
-    ) {
-        this.studentDAO = studentDAO;
-    }
+    public InputDialogModel( StudentDAO studentDAO ) { this.studentDAO = studentDAO; }
 
     public boolean addStudent(
-        String firstname,
-        String lastname,
-        String fhKennung,
-        int matrikelnummer
-    )
-    throws SQLException
+        String firstName,
+        String surname,
+        String fhIdentifier,
+        int matriculationNumber) throws SQLException
     {
-        Student student = new Student(matrikelnummer, firstname, lastname, fhKennung);
+        Student student = new Student(firstName, surname, matriculationNumber, fhIdentifier);
         
         return studentDAO.add(student);
     }

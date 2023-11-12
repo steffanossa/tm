@@ -14,13 +14,13 @@ public class InputDialogView extends Dialog<ButtonType> {
     private DialogPane dialogPane;
     private GridPane gridPane;
     private Label firstNameLabel;
-    private Label lastNameLabel;
-    private Label matrikelnummerLabel;
-    private Label fhKennungLabel;
+    private Label surnameLabel;
+    private Label matriculationNumberLabel;
+    private Label fhIdentifierLabel;
     private PatternTextField firstNameTextField;
-    private PatternTextField lastNameTextField;
-    private PatternTextField matrikelnummerTextField;
-    private PatternTextField fhKennungTextField;
+    private PatternTextField surnameTextField;
+    private PatternTextField matriculationNumberTextField;
+    private PatternTextField fhIdentifierTextField;
     private ButtonType okButtonType;
     private ButtonType cancelButtonType;
 
@@ -28,44 +28,40 @@ public class InputDialogView extends Dialog<ButtonType> {
         dialogPane = new DialogPane();
         gridPane = new GridPane();
         //
-        this.firstNameLabel = new Label("Vorname:");
-        this.lastNameLabel = new Label("Nachname:");
-        this. matrikelnummerLabel = new Label("Matrikel-Nr.:");
-        this.fhKennungLabel = new Label("FH-Kennung:");
+        this.firstNameLabel = new Label("First name:");
+        this.surnameLabel = new Label("Surname:");
+        this. matriculationNumberLabel = new Label("Matriculation Nr.: ");
+        this.fhIdentifierLabel = new Label("FH Identifier:");
         ////textfields
         this.firstNameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
-        this.lastNameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
-        this.matrikelnummerTextField = new PatternTextField("^\\d{6,7}$");
-        this.fhKennungTextField = new PatternTextField("^[A-Za-z]{2}\\d{6}$");
-        // this.firstNameTextField = new TextField();
-        // this.lastNameTextField = new TextField();
-        // this.matrikelnummerTextField = new TextField();
-        // this.fhKennungTextField = new TextField();
+        this.surnameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
+        this.matriculationNumberTextField = new PatternTextField("^\\d{1,9}$");
+        this.fhIdentifierTextField = new PatternTextField("^[A-Za-z]{2}\\d{6}$");
         this.firstNameTextField.setPromptText("Erika");
-        this.lastNameTextField.setPromptText("Mustermann");
-        this.matrikelnummerTextField.setPromptText("1234567");
-        this.fhKennungTextField.setPromptText("em123456");
+        this.surnameTextField.setPromptText("Mustermann");
+        this.matriculationNumberTextField.setPromptText("1234567");
+        this.fhIdentifierTextField.setPromptText("em123456");
         //buttons
         this.okButtonType = new ButtonType("OK", ButtonBar.ButtonData.APPLY);
         this.cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         //
         gridPane.addColumn(0,
             firstNameLabel,
-            lastNameLabel,
-            matrikelnummerLabel,
-            fhKennungLabel
+            surnameLabel,
+            matriculationNumberLabel,
+            fhIdentifierLabel
         );
         gridPane.addColumn(1,
             firstNameTextField,
-            lastNameTextField,
-            matrikelnummerTextField,
-            fhKennungTextField
+            surnameTextField,
+            matriculationNumberTextField,
+            fhIdentifierTextField
         );
         dialogPane.setContent(gridPane);
         dialogPane.getButtonTypes().setAll(okButtonType, cancelButtonType);
         //
         setDialogPane(dialogPane);
-        setTitle("Entität hinzufügen");
+        setTitle("Add entity");
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
     }
@@ -82,16 +78,16 @@ public class InputDialogView extends Dialog<ButtonType> {
         return firstNameTextField;
     }
 
-    public PatternTextField getLastNamePatternTextField() {
-        return lastNameTextField;
+    public PatternTextField getSurnamePatternTextField() {
+        return surnameTextField;
     }
 
-    public PatternTextField getMatrikelnummerPatternTextField() {
-        return matrikelnummerTextField;
+    public PatternTextField getMatriculationNumberPatternTextField() {
+        return matriculationNumberTextField;
     }
 
-    public PatternTextField getFhKennungPatternTextField() {
-        return fhKennungTextField;
+    public PatternTextField getFhIdentifierPatternTextField() {
+        return fhIdentifierTextField;
     }
 }
 

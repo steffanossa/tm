@@ -34,11 +34,11 @@ public class StudentDAO implements GenericDAO<Student>
             Statement stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT * FROM Students");
             while (resultSet.next()) {
-                String first = resultSet.getString("firstname");
-                String last = resultSet.getString("surname");
-                int matNr = resultSet.getInt("matrikelnr");
-                String fhK = resultSet.getString("fhkennung");
-                students.add(new Student(matNr, first, last, fhK));
+                String firstname = resultSet.getString("first_name");
+                String surname = resultSet.getString("surname");
+                int matNr = resultSet.getInt("matriculation_number");
+                String fhK = resultSet.getString("fh_identifier");
+                students.add(new Student(firstname, surname, matNr, fhK));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,12 +56,13 @@ public class StudentDAO implements GenericDAO<Student>
         Connection connection = sqLiteBuddy.establishConnection();
         try {
             PreparedStatement prepStmt = connection.prepareStatement(
-                "INSERT INTO Students (firstname, surname, matrikelnr, fhkennung)" +
-                "VALUES (?, ?, ?, ?)");
-            prepStmt.setString(1, student.getFirstname());
+                "INSERT INTO Students (first_name, surname, matriculation_number, fh_identifier)" +
+                "VALUES (?, ?, ?, ?)"
+                );
+            prepStmt.setString(1, student.getFirstName());
             prepStmt.setString(2,student.getSurname());
-            prepStmt.setInt(3, student.getMatrikelnummer());
-            prepStmt.setString(4, student.getFhKennung());
+            prepStmt.setInt(3, student.getMatriculationNumber());
+            prepStmt.setString(4, student.getFhIdentifier());
             if (prepStmt.executeUpdate() == 1)
                 wasSuccessful = true;
         } catch (SQLException e) {
@@ -80,7 +81,7 @@ public class StudentDAO implements GenericDAO<Student>
         boolean wasSuccessful = false;
         Connection connection = sqLiteBuddy.establishConnection();
         try {
-            PreparedStatement prepStmt = connection.prepareStatement("DELETE FROM Students WHERE matrikelnr=?");
+            PreparedStatement prepStmt = connection.prepareStatement("DELETE FROM Students WHERE matriculation_number=?");
             prepStmt.setInt(1, id);
             if (prepStmt.executeUpdate() == 1) {
                 wasSuccessful = true;

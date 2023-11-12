@@ -2,31 +2,31 @@ package tm.model.classes;
 
 public class Student {
 
-    private int matrikelnummer;
-    private String firstname;
+    private String firstName;
     private String surname;
-    private String fhKennung;
+    private int matriculationNumber;
+    private String fhIdentifier;
 
     public Student(
-        int matrikelnummer,
-        String firstname,
+        String firstName,
         String surname,
-        String fhKennung)
+        int matriculationNumber,
+        String fhIdentifier)
     {
-        this.matrikelnummer = matrikelnummer;
-        this.firstname = firstname;
+        this.firstName = firstName;
         this.surname = surname;
-        this.fhKennung = fhKennung;
+        this.matriculationNumber = matriculationNumber;
+        this.fhIdentifier = fhIdentifier;
     }
 
-    public int getMatrikelnummer()
+    public int getMatriculationNumber()
     {
-        return matrikelnummer;
+        return matriculationNumber;
     }
 
-    public String getFirstname()
+    public String getFirstName()
     {
-        return firstname;
+        return firstName;
     }
 
     public String getSurname()
@@ -34,14 +34,14 @@ public class Student {
         return surname;
     }
 
-    public String getFhKennung()
+    public String getFhIdentifier()
     {
-        return fhKennung;
+        return fhIdentifier;
     }
 
-    public void setFirstname(String firstname)
+    public void setFirstName(String firstname)
     {
-        this.firstname = firstname;
+        this.firstName = firstname;
     }
 
     public void setSurname(String surname)
@@ -49,15 +49,15 @@ public class Student {
         this.surname = surname;
     }
 
-    public void setFhKennung(String fhKennung)
+    public void setFhIdentifier(String fhKennung)
     {
-        this.fhKennung = fhKennung;
+        this.fhIdentifier = fhKennung;
     }
 
     @Override
     public String toString()
     {
-        return fhKennung;
+        return fhIdentifier;
     }
 }
 

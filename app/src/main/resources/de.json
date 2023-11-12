@@ -1,0 +1,58 @@
+{
+    "buttonLabels": {
+        "addButton": "Hinzufügen",
+        "editButton": "Bearbeiten",
+        "removeButton": "Entfernen",
+        "clipboardButton": "Zwischenablage",
+        "saveButton": "Speichern unter...",
+        "okButton": "OK",
+        "cancelButton": "Abbrechen"
+    },
+    "labels": {
+        "firstName": "Vorname",
+        "surname": "Nachname",
+        "matriculationNumber": "Matrikel-Nr.",
+        "fhIdentity": "FH-Kennung"
+    },
+    "separators": {
+        "comma": "Komma",
+        "semicolon": "Semikolon",
+        "space": "Leerzeichen",
+        "tab": "Tab"
+    },
+    "windowTitles": {
+        "inputDialog": "Entität hinzufügen",
+        "editDialog": "Entität bearbeiten",
+        "confirmRemovalDialog": "Entfernen bestätigen",
+        "badInputDialog": "Fehlerhafte Eingabe",
+        "openDatabaseFileChooser": "Datenbank öffnen",
+        "badDatabaseDialog": "Fehlerhafte Datenbank",
+        "saveFileChooser": "Speichern unter",
+        "mainWindow": "Guten Morgen, %smorgen"
+    },
+    "dialogMessages": {
+        "badInputPatternMessage": "Bitte folgende Eingabe/n überprüfen:",
+        "confirmRemovalMessage": "%d Entität/en wirklich unwideruflich löschen?",
+        "badInputMessage": "Folgender Wert, der einzigartig sein muss, existiert bereits in der Datenbank:",
+        "emptyPreviewString": "Nichts anzuzeigen"
+    },
+    "fileThing": {
+        "sqlDatabase": "SQLite Datenbank",
+        "saveAsText": "Text",
+        "allFiles": "Alle"
+    },
+    "sqlStatements": {
+        "createStatement": "CREATE TABLE \"Students\" (\n\t\"first_name\"\tTEXT NOT NULL,\n\t\"surname\"\tTEXT NOT NULL,\n\t\"matriculation_number\"\tINTEGER NOT NULL UNIQUE,\n\t\"fh_identifier\"\tTEXT NOT NULL UNIQUE,\n\tPRIMARY KEY(\"matriculation_number\")\n)"
+    },
+    "previewName": {
+        "firstName": "Erika",
+        "surname": "Mustermann",
+        "matriculationNumber": 1234567,
+        "fhIdentity": "em123456"
+    },
+    "patterns": {
+        "namePattern": "^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$",
+        "matriculationNumberPattern": "^\\d{1,9}$",
+        "fhIdentity": "^[A-Za-z]{2}\\d{6}$"
+    }
+}

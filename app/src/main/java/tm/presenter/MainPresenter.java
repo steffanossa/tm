@@ -65,7 +65,7 @@ public class MainPresenter implements GenericPresenterInterface {
         updateButtonStates();
 
         mainView.getComboBox().getItems().setAll(mainModel.getSeparatorKeySet());
-        mainView.getComboBox().setValue("Komma");
+        mainView.getComboBox().setValue("Comma");
 
         updatePreviewString();
 
@@ -96,10 +96,10 @@ public class MainPresenter implements GenericPresenterInterface {
     private void prepareTableView(TableView<Student> tableView)
     {
         ArrayList<TableColumn<Student, ?>> columns = new ArrayList<>();
-        columns.add(createTableColumn("Vorname", "firstname", String.class));
-        columns.add(createTableColumn("Nachname", "surname", String.class));
-        columns.add(createTableColumn("Matrikel-Nr.", "matrikelnummer", Integer.class));
-        columns.add(createTableColumn("FH-Kennung", "fhKennung", String.class));
+        columns.add(createTableColumn("First name", "firstName", String.class));
+        columns.add(createTableColumn("Surname", "surname", String.class));
+        columns.add(createTableColumn("Matriculation Nr.", "matriculationNumber", Integer.class));
+        columns.add(createTableColumn("FH Identifier", "fhIdentifier", String.class));
 
         tableView.getColumns().addAll(columns);
 
@@ -144,7 +144,7 @@ public class MainPresenter implements GenericPresenterInterface {
         visibleColumns = getVisibleColumns();
         String previewString = mainModel.createPreviewString(separator, visibleColumns);
         mainView.getPreviewString().setText(previewString);
-        if (previewString == "Nichts anzuzeigen")
+        if (previewString.equals("Nothing to show"))
         {
             mainView.showImage();
             mainView.getTableView().getSelectionModel().clearSelection();
@@ -302,9 +302,7 @@ public class MainPresenter implements GenericPresenterInterface {
             try
             {
                 isAccepted = mainModel.openDatabase(file);
-                if (!isAccepted) {
-                    showBadDatabaseAlert();
-                }
+                if (!isAccepted) showBadDatabaseAlert();
             }
             catch (SQLException e) { showBadDatabaseAlert(); }
         }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 
 import tm.model.classes.Student;
@@ -20,17 +21,20 @@ import java.awt.datatransfer.Clipboard;
 
 public class MainModel {
 
-    private static final Map<String, String> separatorMap = Map.of(
-        "Komma", ",",
-        "Leerzeichen", " ",
-        "Semikolon", ";",
-        "Tab", "\t" );
+    private static final TreeMap<String, String> separatorMap = new TreeMap<>()
+    {{
+        put("Comma", ",");
+        put("Space", " ");
+        put("Semicolon", ";");
+        put("Tab", "\t");
+    }};
 
-    private static final Map<String, Function<Student, ?>> COLUMN_GETTER_MAP = new HashMap<String, Function<Student, ?>>() {{
-        put("Vorname", Student::getFirstname);
-        put("Nachname", Student::getSurname);
-        put("Matrikel-Nr.", Student::getMatrikelnummer);
-        put("FH-Kennung", Student::getFhKennung);
+    private static final Map<String, Function<Student, ?>> COLUMN_GETTER_MAP = new HashMap<String, Function<Student, ?>>()
+    {{
+        put("First name", Student::getFirstName);
+        put("Surname", Student::getSurname);
+        put("Matriculation Nr.", Student::getMatriculationNumber);
+        put("FH Identifier", Student::getFhIdentifier);
     }};
     private StudentDAO studentDAO;
     private SQLiteBuddy sqLiteBuddy;
@@ -51,14 +55,14 @@ public class MainModel {
         String previewString = "";
         String previewSeparator = separator;
         Map<String, String> previewMap = Map.of(
-            "Vorname", "Erika",
-            "Nachname", "Mustermann",
-            "Matrikel-Nr.", "1234567",
-            "FH-Kennung", "AB123456" );
+            "First name", "Erika",
+            "Surname", "Mustermann",
+            "Matriculation Nr.", "1234567",
+            "FH Identifier", "AB123456" );
         for (String columnName : visibleColumns)
             previewString += previewMap.get(columnName) + previewSeparator;
 
-        return previewString.isEmpty() ? "Nichts anzuzeigen" : previewString.substring(0, previewString.length() - previewSeparator.length());
+        return previewString.isEmpty() ? "Nothing to show" : previewString.substring(0, previewString.length() - previewSeparator.length());
     }
 
     public String getSeparator(String separatorKey) {
@@ -74,7 +78,7 @@ public class MainModel {
     }
 
     public boolean removeStudent(Student student) {
-        return studentDAO.removeById(student.getMatrikelnummer());
+        return studentDAO.removeById(student.getMatriculationNumber());
     }
 
     public void copyToClipboard(

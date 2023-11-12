@@ -17,7 +17,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import java.util.ArrayList;
 
 import tm.model.SQLiteBuddy;
 import tm.model.classes.Student;
@@ -29,9 +28,9 @@ public class StudentDAOTest {
 
     private final String url = ".." + File.separator + "mock.db";
     private final Student student = new Student(
-        111111,
         "Barbara",
         "Salesch",
+        111111,
         "bs111111");
 
     private SQLiteBuddy sqLiteBuddy = new SQLiteBuddy(url);
@@ -46,17 +45,17 @@ public class StudentDAOTest {
             Connection connection = DriverManager.getConnection(url);
             Statement statement = connection.createStatement();
             String createStatement = "CREATE TABLE \"Students\" (" +
-            "\"firstname\" TEXT NOT NULL, " +
+            "\"first_name\" TEXT NOT NULL, " +
             "\"surname\" TEXT NOT NULL, " +
-            "\"matrikelnr\" INTEGER NOT NULL UNIQUE, " +
-            "\"fhkennung\" TEXT NOT NULL UNIQUE, " +
-            "PRIMARY KEY(\"matrikelnr\"))";
+            "\"matriculation_number\" INTEGER NOT NULL UNIQUE, " +
+            "\"fh_identifier\" TEXT NOT NULL UNIQUE, " +
+            "PRIMARY KEY(\"matriculation_number\"))";
         
 
         statement.execute(createStatement);
 
             statement.execute(
-                "INSERT INTO Students (firstname, surname, matrikelnummer, fhkennung)" +
+                "INSERT INTO Students (first_name, surname, matriculation_number, fh_identifier)" +
                 "VALUES ('Alfred', 'Tetzlaf', 222222, 'at222222')");
 
             connection.close();

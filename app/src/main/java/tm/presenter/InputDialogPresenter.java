@@ -3,7 +3,6 @@ package tm.presenter;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 
 import tm.customcontrols.PatternTextField;
@@ -14,9 +13,11 @@ import tm.view.InputDialogView;
 import tm.view.alerts.BadInputAlertView;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
-// import java.lang.StringBuilder;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InputDialogPresenter implements InputDialogPresenterInterface
 {
@@ -32,15 +33,15 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
 
     public void fillTextFields(Student student)
     {
-        TextField firstnameTextField = inputDialogView.getFirstNamePatternTextField();
-        TextField lastnameTextField = inputDialogView.getLastNamePatternTextField();
-        TextField matrikelnummerTextField = inputDialogView.getMatrikelnummerPatternTextField();
-        TextField fhKennungTextField = inputDialogView.getFhKennungPatternTextField();
+        PatternTextField firstnameTextField = inputDialogView.getFirstNamePatternTextField();
+        PatternTextField lastnameTextField = inputDialogView.getSurnamePatternTextField();
+        PatternTextField matrikelnummerTextField = inputDialogView.getMatriculationNumberPatternTextField();
+        PatternTextField fhKennungTextField = inputDialogView.getFhIdentifierPatternTextField();
 
-        firstnameTextField.setText(student.getFirstname());
+        firstnameTextField.setText(student.getFirstName());
         lastnameTextField.setText(student.getSurname());
-        matrikelnummerTextField.setText(String.valueOf(student.getMatrikelnummer()));
-        fhKennungTextField.setText(student.getFhKennung());
+        matrikelnummerTextField.setText(String.valueOf(student.getMatriculationNumber()));
+        fhKennungTextField.setText(student.getFhIdentifier());
     }
 
     public void prepareAll()
@@ -75,50 +76,46 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     /**
      * validate user input + add data to database if valid
      * @return
-     * TODO: die ist mir aus dem ruder gelaufen
      */
     private boolean handleOkButtonClick()
     {
-        String firstname = inputDialogView.getFirstNamePatternTextField().getText();
-        String lastname = inputDialogView.getLastNamePatternTextField().getText();
-        String fhKennung = inputDialogView.getFhKennungPatternTextField().getText();
-        String matrikelnummer = inputDialogView.getMatrikelnummerPatternTextField().getText();
-        PatternTextField[] patternTextFields = {
-            inputDialogView.getFirstNamePatternTextField(),
-            inputDialogView.getLastNamePatternTextField(),
-            inputDialogView.getMatrikelnummerPatternTextField(),
-            inputDialogView.getFhKennungPatternTextField()
-        };
-        StringBuilder errorMessage = new StringBuilder("Bitte folgende Eingabe/n prüfen:");
-        boolean inputIsValid = true;
-        for (var patternTextField : patternTextFields) {
-            //smart
-            inputIsValid &= validateAndAppendToErrorMessage(patternTextField, matrikelnummer, errorMessage);
-        }
-        if (!inputIsValid) 
+        TreeMap<String, PatternTextField> patternTextFieldMap = new TreeMap<>(Comparator.reverseOrder())
+        {{
+            put("First name", inputDialogView.getFirstNamePatternTextField());
+            put("Surname", inputDialogView.getSurnamePatternTextField());
+            put("Matriculation Nr.", inputDialogView.getMatriculationNumberPatternTextField());
+            put("FH Identifier", inputDialogView.getFhIdentifierPatternTextField());
+        }};
+        StringBuilder errorMessage = new StringBuilder("Please revisit following inputs");
+        AtomicBoolean inputIsValid = new AtomicBoolean(true);
+        patternTextFieldMap.keySet().forEach(patternTextFieldName ->
+        {
+            inputIsValid.set(inputIsValid.get() & validateAndAppendToErrorMessage(patternTextFieldMap.get(patternTextFieldName), patternTextFieldName, errorMessage));
+        });
+        if (!inputIsValid.get()) 
         {
             this.showBadInputAlert(errorMessage.toString());
-            return false;
+            return inputIsValid.get();
         }
         else 
         {
             try
             {
                 this.inputDialogModel.addStudent(
-                    firstname,
-                    lastname,
-                    fhKennung.toLowerCase(),
-                    Integer.valueOf(matrikelnummer));
-                return inputIsValid;
+                    inputDialogView.getFirstNamePatternTextField().getText(),
+                    inputDialogView.getSurnamePatternTextField().getText(),
+                    inputDialogView.getFhIdentifierPatternTextField().getText(),
+                    Integer.valueOf(inputDialogView.getMatriculationNumberPatternTextField().getText()));
+                return inputIsValid.get();
             }
             catch (SQLException e)
             {
                 if (uniquenessCheckAndAlertShow(e))
                 {
                     e.printStackTrace();
-                    return false;
+                    return inputIsValid.get();
                 }
-                return true;
+                return inputIsValid.get();
             }
         }
     }
@@ -128,13 +125,14 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         String message = exception.getMessage();
         if (message.contains("UNIQUE constraint failed")) //wenn NICHT UNIQUE
         {
-            String matrikelNrPattern = "Students.matrikelnr";
-            String fhKennungPattern = "Students.fhkennung";
-            String badInputMessage = "Wert muss einzigartig sein, existiert aber bereits in der Datenbank:";
+            String matrikelNrPattern = "Students.matriculation_number";
+            String fhKennungPattern = "Students.fh_identifier";
+            // String badInputMessage = "Wert muss einzigartig sein, existiert aber bereits in der Datenbank:";
+            String badInputMessage = "Value intended to be unique is existing in database";
             if (message.contains(matrikelNrPattern))
-                badInputMessage += "\n- Matrikel-Nr.";
+                badInputMessage += "\n- Matriculation Nr.";
             if (message.contains(fhKennungPattern))
-                badInputMessage += "\n- FH-Kennung";
+                badInputMessage += "\n- FH Identifier";
             showBadInputAlert(badInputMessage); //TODO:bad spot for this
             return true;
         }
@@ -158,10 +156,10 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             try
             {
                 inputDialogModel.addStudent(
-                    student.getFirstname(),
+                    student.getFirstName(),
                     student.getSurname(),
-                    student.getFhKennung().toLowerCase(),
-                    Integer.valueOf(student.getMatrikelnummer()));
+                    student.getFhIdentifier().toLowerCase(),
+                    Integer.valueOf(student.getMatriculationNumber()));
             } 
             catch (SQLException e)
             {
