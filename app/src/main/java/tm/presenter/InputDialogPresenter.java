@@ -31,7 +31,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         prepareAll();
     }
 
-    public void fillTextFields(Student student)
+    private void fillTextFields(Student student)
     {
         PatternTextField firstnameTextField = inputDialogView.getFirstNamePatternTextField();
         PatternTextField lastnameTextField = inputDialogView.getSurnamePatternTextField();
@@ -44,7 +44,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         fhKennungTextField.setText(student.getFhIdentifier());
     }
 
-    public void prepareAll()
+    private void prepareAll()
     {
         Button okButton = (Button) inputDialogView.getDialogPane().lookupButton(inputDialogView.getOkButtonType());
         okButton.addEventFilter(ActionEvent.ACTION, event -> {
@@ -86,7 +86,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             put("Matriculation Nr.", inputDialogView.getMatriculationNumberPatternTextField());
             put("FH Identifier", inputDialogView.getFhIdentifierPatternTextField());
         }};
-        StringBuilder errorMessage = new StringBuilder("Please revisit following inputs");
+        StringBuilder errorMessage = new StringBuilder("Please revisit the following inputs:");
         AtomicBoolean inputIsValid = new AtomicBoolean(true);
         patternTextFieldMap.keySet().forEach(patternTextFieldName ->
         {
@@ -112,10 +112,10 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             {
                 if (uniquenessCheckAndAlertShow(e))
                 {
-                    e.printStackTrace();
-                    return inputIsValid.get();
+                    return !inputIsValid.get();
                 }
-                return inputIsValid.get();
+                System.out.println("unique... = false");
+                return !inputIsValid.get();
             }
         }
     }
@@ -125,13 +125,13 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         String message = exception.getMessage();
         if (message.contains("UNIQUE constraint failed")) //wenn NICHT UNIQUE
         {
-            String matrikelNrPattern = "Students.matriculation_number";
-            String fhKennungPattern = "Students.fh_identifier";
+            String matriculationNumberPattern = "Students.matriculation_number";
+            String fhIdentityPattern = "Students.fh_identifier";
             // String badInputMessage = "Wert muss einzigartig sein, existiert aber bereits in der Datenbank:";
-            String badInputMessage = "Value intended to be unique is existing in database";
-            if (message.contains(matrikelNrPattern))
+            String badInputMessage = "Value intended to be unique already exists in the database:";
+            if (message.contains(matriculationNumberPattern))
                 badInputMessage += "\n- Matriculation Nr.";
-            if (message.contains(fhKennungPattern))
+            if (message.contains(fhIdentityPattern))
                 badInputMessage += "\n- FH Identifier";
             showBadInputAlert(badInputMessage); //TODO:bad spot for this
             return true;
@@ -160,7 +160,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                     student.getSurname(),
                     student.getFhIdentifier().toLowerCase(),
                     Integer.valueOf(student.getMatriculationNumber()));
-            } 
+            }
             catch (SQLException e)
             {
                 e.getStackTrace();

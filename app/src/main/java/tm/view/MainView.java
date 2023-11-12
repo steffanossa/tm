@@ -47,6 +47,11 @@ public class MainView extends VBox {
         this.clipboardButton = new Button("Clipboard");
         this.saveToFileButton = new Button("Save as...");
         
+        this.tablePane.getChildren().addAll(
+            tableView,
+            imageView
+        );
+
         //
         this.toolBar.getItems().addAll(
             addButton,
@@ -60,7 +65,6 @@ public class MainView extends VBox {
         );
         
         getChildren().addAll(
-            // menuBar,
             toolBar,
             tablePane,
             labelPreviewString,

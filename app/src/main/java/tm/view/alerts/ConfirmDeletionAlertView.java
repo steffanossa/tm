@@ -15,7 +15,7 @@ public class ConfirmDeletionAlertView extends Alert {
         setTitle("Confirm removal");
         setHeaderText(null);
         setContentText(
-            "Sure to delete " + selectedStudents + " entity/entities?"
+            "Are you sure you want to delete " + selectedStudents + " entity/entities?"
         );
 
         Stage stage = (Stage) getDialogPane().getScene().getWindow();

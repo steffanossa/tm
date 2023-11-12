@@ -15,11 +15,12 @@ public class BadDatabaseAlertView extends Alert {
         setHeaderText(null);
 
         setContentText(
-            "Tabelle: 'Students'\n" +
-            "Spalte: 'first_name', Type: 'TEXT'\n" +
-            "Spalte: 'surname', Type: 'TEXT'\n" +
-            "Spalte: 'matriculation_number', Type: 'INTEGER', 'UNIQUE'\n" +
-            "Spalte: 'fh_identifier', Type: 'TEXT', 'UNIQUE'"
+            "TABLE 'Students' (\n" +
+            "'first_name', 'TEXT, NOT NULL'\n" +
+            "'surname', Type: 'TEXT, NOT NULL'\n" +
+            "'matriculation_number', 'INTEGER, NOT NUL,L UNIQUE'\n" +
+            "'fh_identifier', Type: 'TEXT, NOT NULL, UNIQUE'\n" +
+            "PRIMARY KEY('matriculation_number'))"
         );
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));

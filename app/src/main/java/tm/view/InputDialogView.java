@@ -24,7 +24,7 @@ public class InputDialogView extends Dialog<ButtonType> {
     private ButtonType okButtonType;
     private ButtonType cancelButtonType;
 
-    public InputDialogView() {
+    public InputDialogView(String title) {
         dialogPane = new DialogPane();
         gridPane = new GridPane();
         //
@@ -61,7 +61,7 @@ public class InputDialogView extends Dialog<ButtonType> {
         dialogPane.getButtonTypes().setAll(okButtonType, cancelButtonType);
         //
         setDialogPane(dialogPane);
-        setTitle("Add entity");
+        setTitle(title);
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
     }

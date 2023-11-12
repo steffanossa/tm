@@ -191,7 +191,7 @@ public class MainPresenter implements GenericPresenterInterface {
     {
         mainView.getAddButton().setOnAction(event ->
         {
-            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
+            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView("Add entity"), new InputDialogModel(mainModel.getStudentDAO()));
             inputDialogPresenterInterface.showAndWait();
             updateTableView();
         });
@@ -208,7 +208,7 @@ public class MainPresenter implements GenericPresenterInterface {
             mainModel.removeStudent(tempStudent);
             ArrayList<Student> studentsArrayList = mainModel.retrieveStudents();
             students = FXCollections.observableArrayList(studentsArrayList);
-            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView(), new InputDialogModel(mainModel.getStudentDAO()));
+            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView("Edit entity"), new InputDialogModel(mainModel.getStudentDAO()));
             
             inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
             
