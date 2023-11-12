@@ -44,8 +44,8 @@ Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist Mist.
 - leichtgewichtig[^4]
 
 
-[^2] Reference: https://www.statista.com/statistics/809750/worldwide-popularity-ranking-database-management-systems/
+[^2]: Reference: https://www.statista.com/statistics/809750/worldwide-popularity-ranking-database-management-systems/
 
-[^3] Reference: https://sqlite.org/mostdeployed.html
+[^3]: Reference: https://sqlite.org/mostdeployed.html
 
-[^4] Reference: https://sqlite.org/about.html
+[^4]: Reference: https://sqlite.org/about.html
