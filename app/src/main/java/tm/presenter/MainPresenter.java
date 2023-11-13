@@ -22,6 +22,7 @@ import tm.model.MainModel;
 import tm.model.classes.Student;
 import tm.presenter.interfaces.GenericPresenterInterface;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
+import tm.view.AboutView;
 import tm.view.InputDialogView;
 import tm.view.MainView;
 import tm.view.alerts.BadDatabaseAlertView;
@@ -61,6 +62,8 @@ public class MainPresenter implements GenericPresenterInterface {
         addRemoveButtonAction();
         addClipboardButtonAction();
         addSaveToFileButtonAction();
+        //
+        addAboutButtonAction();
 
         updateButtonStates();
 
@@ -325,5 +328,13 @@ public class MainPresenter implements GenericPresenterInterface {
     public void hide(){
         //unused by now
     };
+
+    private void addAboutButtonAction()
+    {
+        mainView.getAboutButton().setOnAction(event -> {
+            AboutView aboutView = new AboutView();
+            aboutView.showAndWait();
+        });
+    }
 }
 

@@ -27,6 +27,8 @@ public class MainView extends VBox {
     private Button saveToFileButton;
     private StackPane tablePane;
     private ImageView imageView;
+    //
+    private Button aboutButton;
 
 
     public MainView()
@@ -42,6 +44,8 @@ public class MainView extends VBox {
         this.buttonBar = new ToolBar();
         this.tablePane = new StackPane();
         this.imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
+        //
+        this.aboutButton = new Button("about");
 
         this.comboBox = new ComboBox<>();
         this.clipboardButton = new Button("Clipboard");
@@ -61,7 +65,8 @@ public class MainView extends VBox {
         this.buttonBar.getItems().addAll(
             comboBox,
             clipboardButton,
-            saveToFileButton
+            saveToFileButton,
+            aboutButton
         );
         
         getChildren().addAll(
@@ -70,6 +75,10 @@ public class MainView extends VBox {
             labelPreviewString,
             buttonBar
         );
+    }
+
+    public Button getAboutButton() {
+        return aboutButton;
     }
 
     public Button getAddButton() {
