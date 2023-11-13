@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import tm.model.MainModel;
 import tm.presenter.MainPresenter;
 import tm.view.MainView;
@@ -26,12 +27,10 @@ public class App extends Application {
         MainModel testModel = new MainModel();
         Scene scene = new Scene(mainView);
         new MainPresenter(mainView, testModel);
-
         
         primaryStage.setTitle(String.format("Good morning, %s morning",
             LocalDate.now().getDayOfWeek().toString().substring(0, 1) +
             LocalDate.now().getDayOfWeek().toString().substring(1).toLowerCase()));
-        
         
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
         primaryStage.setResizable(false);

@@ -9,14 +9,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener.Change;
+import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
-
+import javafx.stage.Stage;
 import tm.model.InputDialogModel;
 import tm.model.MainModel;
 import tm.model.classes.Student;
@@ -332,8 +334,13 @@ public class MainPresenter implements GenericPresenterInterface {
     private void addAboutButtonAction()
     {
         mainView.getAboutButton().setOnAction(event -> {
+            Stage aboutStage = new Stage();
+            aboutStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
             AboutView aboutView = new AboutView();
-            aboutView.showAndWait();
+            Scene aboutScene = new Scene(aboutView);
+            aboutStage.setScene(aboutScene);
+            aboutStage.setTitle("About");
+            aboutStage.showAndWait();
         });
     }
 }

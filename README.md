@@ -24,7 +24,10 @@
 - [x] DAO Interface
 - [x] Edit-Button
 - [x] bilder updaten
-- [ ] menubar mit preferences und hilfe
+- [ ] menubar mit preferences, help und about
+- [ ] prefences view...
+- [ ] about view...
+- [ ] help view...
 - [ ] sprach jsons
 - [ ] howTo schreiben
 - [ ] uml gedöns
