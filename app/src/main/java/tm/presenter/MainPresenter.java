@@ -65,8 +65,7 @@ public class MainPresenter implements GenericPresenterInterface {
         addRemoveButtonAction();
         addClipboardButtonAction();
         addSaveToFileButtonAction();
-        //
-        addOpenMenuItemAction();
+        //meun
         addHelpMenuItemAction();
         addAboutMenuItemAction();
 
@@ -336,10 +335,6 @@ public class MainPresenter implements GenericPresenterInterface {
 
     private void addAboutMenuItemAction() {
         mainView.getAboutMenuItem().setOnAction(event -> new AboutView().showAndWait());
-    }
-
-    private void addOpenMenuItemAction() {
-        mainView.getOpenMenuItem().setOnAction(event -> showOpenDatabaseFileWindow());
     }
 
     private void addHelpMenuItemAction() {

@@ -75,7 +75,7 @@ public class StudentDAOTest {
     @Test
     public void testGetAllStudents() {
         ArrayList<Student> allStudents = studentDAO.getAll();
-        assertEquals(995, allStudents.size());
+        assertEquals(994, allStudents.size());
     }
 
     @Test

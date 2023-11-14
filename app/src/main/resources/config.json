@@ -1,0 +1,25 @@
+{
+    "class_name": "Student",
+    "properties": {
+        "first_name": [
+            "First Name",
+            "^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$",
+            "Erika"
+        ],
+        "surname": [
+            "Surname",
+            "^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$",
+            "Mustermann"
+        ],
+        "matriculation_number": [
+            "Matriculation Nr.",
+            "^\\d{1,9}$",
+            "123456"
+        ],
+        "fh_identifier": [
+            "FH Identifier",
+            "^[A-Za-z]{2}\\d{6}$",
+            "em123456"
+        ]
+    }
+}

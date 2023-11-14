@@ -25,11 +25,8 @@
 - [x] Edit-Button
 - [x] bilder updaten
 - [x] menubar mit open database, preferences, help und about
-- [ ] preferences view...
-- [ ] open database einbindung fixen: methode geht noch vom öffnen vor mainview aus
 - [x] about view
 - [x] help view
-- [ ] sprach jsons
 - [ ] howTo schreiben
 - [ ] uml gedöns
 

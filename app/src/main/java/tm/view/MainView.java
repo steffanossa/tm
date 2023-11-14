@@ -17,54 +17,43 @@ import tm.model.classes.Student;
 
 public class MainView extends VBox {
 
-    private ToolBar toolBar;
     private Button addButton;
     private Button editButton;
     private Button removeButton;
     private TableView<Student> tableView;
     private ContextMenu contextMenu;
     private Label labelPreviewString;
-    private ToolBar buttonBar;
     private ComboBox<String> comboBox;
     private Button clipboardButton;
     private Button saveToFileButton;
-    private StackPane tablePane;
     private ImageView imageView;
     //
-    private MenuBar menuBar;
-    private Menu fileMenu;
-    private MenuItem openMenuItem;
-    private MenuItem preferencesMenuItem;
-    private Menu aboutMenu;
     private MenuItem helpMenuItem;
     private MenuItem aboutMenuItem;
 
 
     public MainView()
     {
-        this.openMenuItem = new MenuItem("Open Database...");
-        this.preferencesMenuItem = new MenuItem("Preferences");
-        this.fileMenu = new Menu("File", null, openMenuItem, preferencesMenuItem);
         this.helpMenuItem = new MenuItem("Help");
         this.aboutMenuItem = new MenuItem("About");
-        this.aboutMenu = new Menu("About", null, helpMenuItem, aboutMenuItem);
-        this.menuBar = new MenuBar(fileMenu, aboutMenu);
+        Menu aboutMenu = new Menu("Help", null, helpMenuItem, aboutMenuItem);
+        MenuBar menuBar = new MenuBar(aboutMenu);
         this.addButton = new Button("Add");
         this.removeButton = new Button("Remove");
         this.editButton = new Button("Edit");
-        this.toolBar = new ToolBar(addButton, editButton, removeButton);
+        ToolBar toolBar = new ToolBar(addButton, editButton, removeButton);
         this.tableView = new TableView<>();
         this.contextMenu = new ContextMenu();
         this.labelPreviewString = new Label();
         this.labelPreviewString.setStyle("-fx-font-size: 16px;  -fx-translate-x: 6px;");
         this.imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
-        this.tablePane = new StackPane(tableView, imageView);
+        StackPane tablePane = new StackPane(tableView, imageView);
         //
         
         this.comboBox = new ComboBox<>();
         this.clipboardButton = new Button("Clipboard");
         this.saveToFileButton = new Button("Save as...");
-        this.buttonBar = new ToolBar(comboBox, clipboardButton, saveToFileButton);
+        ToolBar buttonBar = new ToolBar(comboBox, clipboardButton, saveToFileButton);
         
         getChildren().addAll(
             menuBar,
@@ -73,14 +62,6 @@ public class MainView extends VBox {
             labelPreviewString,
             buttonBar
         );
-    }
-
-    public MenuItem getOpenMenuItem() {
-        return openMenuItem;
-    }
-
-    public MenuItem getPreferencesMenuItem() {
-        return preferencesMenuItem;
     }
 
     public MenuItem getHelpMenuItem() {
