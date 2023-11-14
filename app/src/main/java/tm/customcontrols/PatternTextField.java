@@ -1,5 +1,7 @@
 package tm.customcontrols;
 
+import java.util.regex.Pattern;
+
 import javafx.scene.control.TextField;
 /**
  * TextField extended by the option of specifying a regex pattern (as String),
@@ -9,6 +11,7 @@ import javafx.scene.control.TextField;
  * @see TextField
  */
 public class PatternTextField extends TextField {
+    // private Pattern pattern;
     private String pattern;
 
     public PatternTextField(String pattern)

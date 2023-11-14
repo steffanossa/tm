@@ -1,70 +1,66 @@
 package tm.view;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Hyperlink;
+import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
-public class AboutView extends VBox {
-    private GridPane gridPane;
-    private ImageView logoImageView;
-    private Label textArea;
-    private Hyperlink hyperlink;
-    private Button okButton;
-    private VBox vbox;
-
+public class AboutView extends Alert {
+    
     public AboutView() {
-        this.gridPane = new GridPane();
-        this.logoImageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Logo256.png")));
-        this.logoImageView.setFitHeight(128);
-        this.logoImageView.setPreserveRatio(true);
-        logoImageView.setOnMouseClicked(event -> {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://github.com/steffanossa/tm"));
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                // e.printStackTrace();
-            }
+        super(AlertType.INFORMATION);
+        setTitle("About");
+        GridPane gridPane = new GridPane();
+        Label headerLabel = new Label(
+            "Transfermodul Programmieraufgabe\n" +
+            "von Stefan"
+        );
+        headerLabel.setStyle("-fx-font-size: 14px;");
+        Label infoLabel = new Label(
+            "JavaFX\t\t21.0.1\n" +
+            "SQLite-JDBC\t3.34.0"
+        );
+        ImageView logoImageView = new ImageView(this.getClass().getResource("/images/Logo.png").toString());
+        
+        // weil transparente pixel ignoriert werden
+        Pane coverPane = new Pane();
+        coverPane.setMouseTransparent(true);
+        coverPane.setPrefSize(logoImageView.getFitWidth(), logoImageView.getFitHeight());
+        StackPane stackPane = new StackPane(coverPane, logoImageView);
+        stackPane.setOnMouseEntered(event -> coverPane.getScene().setCursor(javafx.scene.Cursor.HAND));
+        stackPane.setOnMouseExited(event -> coverPane.getScene().setCursor(javafx.scene.Cursor.DEFAULT));
+        stackPane.setOnMouseClicked(event ->
+        {
+            try { Desktop.getDesktop().browse(new URI("https://www.github.com/steffanossa/tm")); }
+            catch (IOException e) {}
+            catch (URISyntaxException e) {}
         });
-        logoImageView.setOnMouseEntered(event -> {
-            logoImageView.setCursor(javafx.scene.Cursor.HAND);
-        });
-        logoImageView.setOnMouseExited(event -> {
-            logoImageView.setCursor(javafx.scene.Cursor.DEFAULT);
-        });
+        
+        Tooltip tooltip = new Tooltip("Visit project on GitHub");
+        Tooltip.install(stackPane, tooltip);
 
-        
 
-        Tooltip tooltip = new Tooltip("Visit github");
-        Tooltip.install(logoImageView, tooltip);
-        this.textArea = new Label("Wir sind alle Kinder Gottes\nJeder wirft sein Stöckchen so weit,\nwie er kann und hofft,\nsein Hund schafft es.");
-        
-        this.okButton = new Button("Cool");
+        Stage stage = (Stage) getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
 
-        this.gridPane.addColumn(0, logoImageView);
-        this.gridPane.addColumn(1, textArea);
+        gridPane.addColumn(0, headerLabel);
+        gridPane.addColumn(1, stackPane);
+        gridPane.setPadding(new Insets(10));
+        gridPane.setHgap(10);
+        getDialogPane().headerProperty().set(gridPane);
         
-        getChildren().setAll(gridPane);
+        getDialogPane().contentProperty().set(infoLabel);
         
-        
-    }
-
-    public ImageView getImageView() {
-        return this.logoImageView;
     }
 }

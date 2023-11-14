@@ -14,9 +14,8 @@ import tm.view.alerts.BadInputAlertView;
 
 import java.sql.SQLException;
 
-import java.util.Comparator;
 import java.util.Optional;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InputDialogPresenter implements InputDialogPresenterInterface
@@ -79,7 +78,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      */
     private boolean handleOkButtonClick()
     {
-        TreeMap<String, PatternTextField> patternTextFieldMap = new TreeMap<>(Comparator.reverseOrder())
+        LinkedHashMap<String, PatternTextField> patternTextFieldMap = new LinkedHashMap<>()
         {{
             put("First name", inputDialogView.getFirstNamePatternTextField());
             put("Surname", inputDialogView.getSurnamePatternTextField());

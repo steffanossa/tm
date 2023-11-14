@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.util.regex.Pattern;
+
 import tm.customcontrols.PatternTextField;
 
 public class InputDialogView extends Dialog<ButtonType> {
@@ -30,11 +33,13 @@ public class InputDialogView extends Dialog<ButtonType> {
         //
         this.firstNameLabel = new Label("First name:");
         this.surnameLabel = new Label("Surname:");
-        this. matriculationNumberLabel = new Label("Matriculation Nr.: ");
+        this.matriculationNumberLabel = new Label("Matriculation Nr.: ");
         this.fhIdentifierLabel = new Label("FH Identifier:");
         ////textfields
-        this.firstNameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
-        this.surnameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
+        // this.firstNameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
+        this.firstNameTextField = new PatternTextField("^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$");
+        // this.surnameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
+        this.surnameTextField = new PatternTextField("^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$");
         this.matriculationNumberTextField = new PatternTextField("^\\d{1,9}$");
         this.fhIdentifierTextField = new PatternTextField("^[A-Za-z]{2}\\d{6}$");
         this.firstNameTextField.setPromptText("Erika");

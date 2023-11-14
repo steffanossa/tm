@@ -4,6 +4,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
@@ -28,48 +31,43 @@ public class MainView extends VBox {
     private StackPane tablePane;
     private ImageView imageView;
     //
-    private Button aboutButton;
+    private MenuBar menuBar;
+    private Menu fileMenu;
+    private MenuItem openMenuItem;
+    private MenuItem preferencesMenuItem;
+    private Menu aboutMenu;
+    private MenuItem helpMenuItem;
+    private MenuItem aboutMenuItem;
 
 
     public MainView()
-    {    
-        this.toolBar = new ToolBar();
+    {
+        this.openMenuItem = new MenuItem("Open Database...");
+        this.preferencesMenuItem = new MenuItem("Preferences");
+        this.fileMenu = new Menu("File", null, openMenuItem, preferencesMenuItem);
+        this.helpMenuItem = new MenuItem("Help");
+        this.aboutMenuItem = new MenuItem("About");
+        this.aboutMenu = new Menu("About", null, helpMenuItem, aboutMenuItem);
+        this.menuBar = new MenuBar(fileMenu, aboutMenu);
         this.addButton = new Button("Add");
         this.removeButton = new Button("Remove");
         this.editButton = new Button("Edit");
+        this.toolBar = new ToolBar(addButton, editButton, removeButton);
         this.tableView = new TableView<>();
         this.contextMenu = new ContextMenu();
         this.labelPreviewString = new Label();
         this.labelPreviewString.setStyle("-fx-font-size: 16px;  -fx-translate-x: 6px;");
-        this.buttonBar = new ToolBar();
-        this.tablePane = new StackPane();
         this.imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
+        this.tablePane = new StackPane(tableView, imageView);
         //
-        this.aboutButton = new Button("about");
-
+        
         this.comboBox = new ComboBox<>();
         this.clipboardButton = new Button("Clipboard");
         this.saveToFileButton = new Button("Save as...");
-        
-        this.tablePane.getChildren().addAll(
-            tableView,
-            imageView
-        );
-
-        //
-        this.toolBar.getItems().addAll(
-            addButton,
-            editButton,
-            removeButton
-        );
-        this.buttonBar.getItems().addAll(
-            comboBox,
-            clipboardButton,
-            saveToFileButton,
-            aboutButton
-        );
+        this.buttonBar = new ToolBar(comboBox, clipboardButton, saveToFileButton);
         
         getChildren().addAll(
+            menuBar,
             toolBar,
             tablePane,
             labelPreviewString,
@@ -77,8 +75,20 @@ public class MainView extends VBox {
         );
     }
 
-    public Button getAboutButton() {
-        return aboutButton;
+    public MenuItem getOpenMenuItem() {
+        return openMenuItem;
+    }
+
+    public MenuItem getPreferencesMenuItem() {
+        return preferencesMenuItem;
+    }
+
+    public MenuItem getHelpMenuItem() {
+        return helpMenuItem;
+    }
+
+    public MenuItem getAboutMenuItem() {
+        return aboutMenuItem;
     }
 
     public Button getAddButton() {

@@ -1,7 +1,9 @@
 package tm.presenter;
 
 import java.io.File;
+
 import java.sql.SQLException;
+
 import java.util.Optional;
 import java.util.ArrayList;
 
@@ -9,22 +11,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener.Change;
-import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+
 import tm.model.InputDialogModel;
 import tm.model.MainModel;
 import tm.model.classes.Student;
 import tm.presenter.interfaces.GenericPresenterInterface;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.view.AboutView;
+import tm.view.HelpView;
 import tm.view.InputDialogView;
 import tm.view.MainView;
 import tm.view.alerts.BadDatabaseAlertView;
@@ -65,7 +66,9 @@ public class MainPresenter implements GenericPresenterInterface {
         addClipboardButtonAction();
         addSaveToFileButtonAction();
         //
-        addAboutButtonAction();
+        addOpenMenuItemAction();
+        addHelpMenuItemAction();
+        addAboutMenuItemAction();
 
         updateButtonStates();
 
@@ -331,17 +334,16 @@ public class MainPresenter implements GenericPresenterInterface {
         //unused by now
     };
 
-    private void addAboutButtonAction()
-    {
-        mainView.getAboutButton().setOnAction(event -> {
-            Stage aboutStage = new Stage();
-            aboutStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
-            AboutView aboutView = new AboutView();
-            Scene aboutScene = new Scene(aboutView);
-            aboutStage.setScene(aboutScene);
-            aboutStage.setTitle("About");
-            aboutStage.showAndWait();
-        });
+    private void addAboutMenuItemAction() {
+        mainView.getAboutMenuItem().setOnAction(event -> new AboutView().showAndWait());
+    }
+
+    private void addOpenMenuItemAction() {
+        mainView.getOpenMenuItem().setOnAction(event -> showOpenDatabaseFileWindow());
+    }
+
+    private void addHelpMenuItemAction() {
+        mainView.getHelpMenuItem().setOnAction(event -> new HelpView().showAndWait());
     }
 }
 
