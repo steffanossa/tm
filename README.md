@@ -6,12 +6,12 @@
 - have java
 - get <a href="https://gradle.org/releases/">gradle</a>
 - add gradle bin to PATH
-- > git clone https://github.com/steffanossa/tm.git
+- `git clone https://github.com/steffanossa/tm.git`
 - run ``gradle run`` in cloned dir
 ### Linux
 - have java
-- > sudo snap install gradle
-- > git clone https://github.com/steffanossa/tm.git
+- get gradle (`sudo snap install gradle`)
+- `git clone https://github.com/steffanossa/tm.git`
 - run `gradle run` in cloned dir
 - (i think)
 
