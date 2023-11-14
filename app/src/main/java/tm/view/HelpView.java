@@ -59,7 +59,7 @@ public class HelpView extends Alert {
             using the extended latin alphabet including
             '-', '\'' and whitespaces.
 
-            'Matriculation Nr.' takes a series of 1 to 9 digits.
+            'Matriculation Nr.' takes a series of one to nine digits.
             Uniqueness is mandatory.
 
             'FH Identifier' takes a combination of two standard latin

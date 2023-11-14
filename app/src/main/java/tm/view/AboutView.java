@@ -24,7 +24,7 @@ public class AboutView extends Alert {
         GridPane gridPane = new GridPane();
         Label headerLabel = new Label(
             "Transfermodul Programmieraufgabe\n" +
-            "von Stefan"
+            "by steffanossa"
         );
         headerLabel.setStyle("-fx-font-size: 14px;");
         Label infoLabel = new Label(
