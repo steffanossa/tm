@@ -1,5 +1,15 @@
 # Transfermodul Programmieraufgabe
 #gradle, #javafx, #mvp, #jdbc, #sqlite
+
+## HowTo
+> sudo snap install gradle
+
+> git clone https://github.com/steffanossa/tm.git
+
+> cd tm
+
+
+
 ## Anforderungen
 <details>
   <summary>(<i>click to show/hide sceenshot</i>)</summary>
