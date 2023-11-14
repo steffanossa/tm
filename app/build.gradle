@@ -35,10 +35,10 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.34.0'
 
     //CaseUtil
-    implementation 'org.apache.commons:commons-text:1.11.0'
+    // implementation 'org.apache.commons:commons-text:1.11.0'
 
     //json parsi
-    implementation 'com.google.code.gson:gson:2.10.1'
+    // implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
