@@ -1,24 +1,17 @@
 package tm.view;
 
-import javafx.geometry.Insets;
+
 import javafx.geometry.Orientation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class HelpView extends Alert {
     
@@ -64,7 +57,8 @@ public class HelpView extends Alert {
 
             'FH Identifier' takes a combination of two standard latin
             letters and six digits.
-            Uniqueness is mandatory."""
+            Uniqueness is mandatory.
+            """
         );
         Separator separator1 = new Separator(Orientation.HORIZONTAL);
         Separator separator2 = new Separator(Orientation.HORIZONTAL);
@@ -77,7 +71,8 @@ public class HelpView extends Alert {
             Reorder the columns by dragging their headers.
             
             Columns can be de-/activated by right-clicking anywhere
-            within the table and setting the checks accordinlgy."""
+            within the table and setting the checks accordinlgy.
+            """
 
         );
         VBox container = new VBox(databaseLabel, separator1, databaseInfo, createStatement, inputLabel, separator2, inputInfo, tableLabel, separator3, tableInfo);

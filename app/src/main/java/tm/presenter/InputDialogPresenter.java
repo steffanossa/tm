@@ -27,15 +27,15 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     {
         this.inputDialogView = inputDialogView;
         this.inputDialogModel = inputDialogModel;
-        prepareAll();
+        addOkButtonAction();
     }
 
     private void fillTextFields(Student student)
     {
-        PatternTextField firstnameTextField = inputDialogView.getFirstNamePatternTextField();
-        PatternTextField lastnameTextField = inputDialogView.getSurnamePatternTextField();
-        PatternTextField matrikelnummerTextField = inputDialogView.getMatriculationNumberPatternTextField();
-        PatternTextField fhKennungTextField = inputDialogView.getFhIdentifierPatternTextField();
+        PatternTextField firstnameTextField = inputDialogView.getPatternTextFieldByName("firstName");
+        PatternTextField lastnameTextField = inputDialogView.getPatternTextFieldByName("surname");
+        PatternTextField matrikelnummerTextField = inputDialogView.getPatternTextFieldByName("matriculationNumber");
+        PatternTextField fhKennungTextField = inputDialogView.getPatternTextFieldByName("fhIdentifier");
 
         firstnameTextField.setText(student.getFirstName());
         lastnameTextField.setText(student.getSurname());
@@ -43,7 +43,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         fhKennungTextField.setText(student.getFhIdentifier());
     }
 
-    private void prepareAll()
+    private void addOkButtonAction()
     {
         Button okButton = (Button) inputDialogView.getDialogPane().lookupButton(inputDialogView.getOkButtonType());
         okButton.addEventFilter(ActionEvent.ACTION, event -> {
@@ -62,28 +62,33 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         inputDialogView.hide();
     }
 
-    private boolean validateAndAppendToErrorMessage(PatternTextField patternTextField, String patternTextFieldName, StringBuilder errorMessage)
+    /**
+     * checks a PatternTextField object for validity, appends a string to a stringbuilder object if validation fails
+     * @param patternTextField
+     * @param string
+     * @param stringBuilder
+     * @return true if valid
+     */
+    private boolean validateAndAppendToErrorMessage(PatternTextField patternTextField, String string, StringBuilder stringBuilder)
     {
+        //walross?
         boolean isValid = patternTextField.validate();
-        if (!isValid)
-        {
-            errorMessage.append("\n- ").append(patternTextFieldName);
-        }
+        if (!isValid) { stringBuilder.append("\n- ").append(string); }
         return isValid;
     }
 
     /**
      * validate user input + add data to database if valid
-     * @return
+     * @return boolean whether successful or not
      */
     private boolean handleOkButtonClick()
     {
         LinkedHashMap<String, PatternTextField> patternTextFieldMap = new LinkedHashMap<>()
         {{
-            put("First name", inputDialogView.getFirstNamePatternTextField());
-            put("Surname", inputDialogView.getSurnamePatternTextField());
-            put("Matriculation Nr.", inputDialogView.getMatriculationNumberPatternTextField());
-            put("FH Identifier", inputDialogView.getFhIdentifierPatternTextField());
+            put("First Name", inputDialogView.getPatternTextFieldByName("firstName"));
+            put("Surname", inputDialogView.getPatternTextFieldByName("surname"));
+            put("Matriculation Nr.", inputDialogView.getPatternTextFieldByName("matriculationNumber"));
+            put("FH Identifier", inputDialogView.getPatternTextFieldByName("fhIdentifier"));
         }};
         StringBuilder errorMessage = new StringBuilder("Please revisit the following inputs:");
         AtomicBoolean inputIsValid = new AtomicBoolean(true);
@@ -101,10 +106,10 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             try
             {
                 this.inputDialogModel.addStudent(
-                    inputDialogView.getFirstNamePatternTextField().getText(),
-                    inputDialogView.getSurnamePatternTextField().getText(),
-                    inputDialogView.getFhIdentifierPatternTextField().getText(),
-                    Integer.valueOf(inputDialogView.getMatriculationNumberPatternTextField().getText()));
+                    patternTextFieldMap.get("First Name").getText(),
+                    patternTextFieldMap.get("Surname").getText(),
+                    patternTextFieldMap.get("FH Identifier").getText(),
+                    Integer.valueOf(patternTextFieldMap.get("Matriculation Nr.").getText()));
                 return inputIsValid.get();
             }
             catch (SQLException e)
@@ -113,7 +118,6 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                 {
                     return !inputIsValid.get();
                 }
-                System.out.println("unique... = false");
                 return !inputIsValid.get();
             }
         }
@@ -122,18 +126,16 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     private boolean uniquenessCheckAndAlertShow(SQLException exception)
     {
         String message = exception.getMessage();
-        if (message.contains("UNIQUE constraint failed")) //wenn NICHT UNIQUE
+        if (message.contains("UNIQUE constraint failed"))
         {
-            String matriculationNumberPattern = "Students.matriculation_number";
-            String fhIdentityPattern = "Students.fh_identifier";
-            // String badInputMessage = "Wert muss einzigartig sein, existiert aber bereits in der Datenbank:";
+            String matriculationNumberPattern = "matriculation_number";
+            String fhIdentityPattern = "fh_identifier";
             String badInputMessage = "Value intended to be unique already exists in the database:";
             if (message.contains(matriculationNumberPattern))
                 badInputMessage += "\n- Matriculation Nr.";
             if (message.contains(fhIdentityPattern))
                 badInputMessage += "\n- FH Identifier";
-            showBadInputAlert(badInputMessage); //TODO:bad spot for this
-            return true;
+            showBadInputAlert(badInputMessage); //TODO:relcoate
         }
         return false;
     }
@@ -160,10 +162,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                     student.getFhIdentifier().toLowerCase(),
                     Integer.valueOf(student.getMatriculationNumber()));
             }
-            catch (SQLException e)
-            {
-                e.getStackTrace();
-            }
+            catch (SQLException e) { e.getStackTrace(); }
         }
     }
 }

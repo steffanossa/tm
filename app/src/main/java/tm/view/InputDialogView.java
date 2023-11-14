@@ -1,5 +1,10 @@
 package tm.view;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import javafx.geometry.Insets;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -11,49 +16,46 @@ import javafx.stage.Stage;
 
 import tm.customcontrols.PatternTextField;
 
+
 public class InputDialogView extends Dialog<ButtonType> {
-    private PatternTextField firstNameTextField;
-    private PatternTextField surnameTextField;
-    private PatternTextField matriculationNumberTextField;
-    private PatternTextField fhIdentifierTextField;
+    private LinkedHashMap<String, String[]> linkedHashMap = new LinkedHashMap<>();
+    private HashMap<String, PatternTextField> patternTextFieldMap = new HashMap<>();
+
     private ButtonType okButtonType;
     private ButtonType cancelButtonType;
 
     public InputDialogView(String title) {
+        linkedHashMap.put("firstName", new String[]{
+            "First Name",
+            "^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$",
+            "Erika"
+        });
+        linkedHashMap.put("surname", new String[]{
+            "Surname",
+            "^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$",
+            "Mustermann"
+        });
+        linkedHashMap.put("matriculationNumber", new String[]{
+            "Matriculation Nr.",
+            "^\\d{1,9}$",
+            "123456"
+        });
+        linkedHashMap.put("fhIdentifier", new String[]{
+            "FH Identifier",
+            "^[A-Za-z]{2}\\d{6}$",
+            "em123456"
+        });
         DialogPane dialogPane = new DialogPane();
-        GridPane gridPane = new GridPane();
-        //
-        Label firstNameLabel = new Label("First name:");
-        Label surnameLabel = new Label("Surname:");
-        Label matriculationNumberLabel = new Label("Matriculation Nr.: ");
-        Label fhIdentifierLabel = new Label("FH Identifier:");
-        ////textfields
-        // this.firstNameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
-        this.firstNameTextField = new PatternTextField("^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$");
-        // this.surnameTextField = new PatternTextField("^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$");
-        this.surnameTextField = new PatternTextField("^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$");
-        this.matriculationNumberTextField = new PatternTextField("^\\d{1,9}$");
-        this.fhIdentifierTextField = new PatternTextField("^[A-Za-z]{2}\\d{6}$");
-        this.firstNameTextField.setPromptText("Erika");
-        this.surnameTextField.setPromptText("Mustermann");
-        this.matriculationNumberTextField.setPromptText("1234567");
-        this.fhIdentifierTextField.setPromptText("em123456");
+        GridPane gridPane = new GridPane(10,1);
+
+        createWidgets(gridPane);
+
         //buttons
         this.okButtonType = new ButtonType("OK", ButtonBar.ButtonData.APPLY);
         this.cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         //
-        gridPane.addColumn(0,
-            firstNameLabel,
-            surnameLabel,
-            matriculationNumberLabel,
-            fhIdentifierLabel
-        );
-        gridPane.addColumn(1,
-            firstNameTextField,
-            surnameTextField,
-            matriculationNumberTextField,
-            fhIdentifierTextField
-        );
+        gridPane.setPadding(new Insets(10));
+        gridPane.setHgap(10);
         dialogPane.setContent(gridPane);
         dialogPane.getButtonTypes().setAll(okButtonType, cancelButtonType);
         //
@@ -61,6 +63,28 @@ public class InputDialogView extends Dialog<ButtonType> {
         setTitle(title);
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
+    }
+
+    private void createWidgets(GridPane gridPane) {
+        int row = 0;
+        for (Map.Entry<String, String[]> entry : linkedHashMap.entrySet()) {
+            String widgetName = entry.getKey();
+            String[] properties = entry.getValue();
+
+            String labelString = properties[0];
+            String pattern = properties[1];
+            String example = properties[2];
+
+            Label label = new Label(labelString);
+            gridPane.add(label, 0, row);
+
+            PatternTextField patternTextField = new PatternTextField(pattern);
+            patternTextField.setPromptText(example);
+            gridPane.add(patternTextField, 1, row);
+            patternTextFieldMap.put(widgetName, patternTextField);
+
+            row++;
+        }
     }
 
     public ButtonType getOkButtonType() {
@@ -71,20 +95,9 @@ public class InputDialogView extends Dialog<ButtonType> {
         return cancelButtonType;
     }
 
-    public PatternTextField getFirstNamePatternTextField() {
-        return firstNameTextField;
+    public PatternTextField getPatternTextFieldByName(String name) {
+        return patternTextFieldMap.get(name);
     }
 
-    public PatternTextField getSurnamePatternTextField() {
-        return surnameTextField;
-    }
-
-    public PatternTextField getMatriculationNumberPatternTextField() {
-        return matriculationNumberTextField;
-    }
-
-    public PatternTextField getFhIdentifierPatternTextField() {
-        return fhIdentifierTextField;
-    }
 }
 

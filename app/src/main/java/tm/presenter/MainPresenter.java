@@ -255,7 +255,7 @@ public class MainPresenter implements GenericPresenterInterface {
         });
     }
 
-    //TODO:relocate?
+    //TODO:das ziemlcih schei0e?
     private void addSaveToFileButtonAction() 
     {
         mainView.getSaveToFileButton().setOnAction(event ->
@@ -294,7 +294,7 @@ public class MainPresenter implements GenericPresenterInterface {
         return visibleColumns;
     }
 
-    //TODO:relocate?
+    //TODO:das ziemlich scheiße
     private void showOpenDatabaseFileWindow ()
     {
         FileChooser fileChooser = new FileChooser();
