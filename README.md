@@ -2,12 +2,18 @@
 #gradle, #javafx, #mvp, #jdbc, #sqlite
 
 ## HowTo
-> sudo snap install gradle
-
-> git clone https://github.com/steffanossa/tm.git
-
-> cd tm
-
+### Windows
+- have java
+- get <a href="https://gradle.org/releases/">gradle</a>
+- add gradle bin to PATH
+- > git clone https://github.com/steffanossa/tm.git
+- run ``gradle run`` in cloned dir
+### Linux
+- have java
+- > sudo snap install gradle
+- > git clone https://github.com/steffanossa/tm.git
+- run `gradle run` in cloned dir
+- (i think)
 
 
 ## Anforderungen
