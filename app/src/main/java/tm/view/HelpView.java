@@ -56,8 +56,8 @@ public class HelpView extends Alert {
         Label inputInfo = new Label(
             """
             'Firstname' and 'Surname' take any names expressed
-            using the extended latin alphabet including
-            '-', '\'' and whitespaces.
+            using the extended latin alphabet including 
+            dashes, apostophes and whitespaces.
 
             'Matriculation Nr.' takes a series of one to nine digits.
             Uniqueness is mandatory.
