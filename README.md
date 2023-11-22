@@ -45,6 +45,7 @@
 - [x] help view
 - [ ] howTo schreiben
 - [ ] uml gedöns
+- [ ] mock db
 
 ## MVP
 
