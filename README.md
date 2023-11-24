@@ -39,9 +39,7 @@
   - [ ] sqlitebuddy
   - [ ] mainmodel
   - [ ] inputdialogmodel
-  - [ ]
-  - [ ]
-  - [ ]
+- [ ] custom exceptions
 - [x] edit window umbennenen
 - [x] bad input sprache
 - [x] uniquenessmessage sprache
