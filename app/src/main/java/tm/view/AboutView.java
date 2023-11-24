@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * About window for this application
+ */
 public class AboutView extends Alert {
     
     public AboutView() {

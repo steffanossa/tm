@@ -5,7 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-
+/**
+ * Alert asking for confirmation on whether deletion be done
+ */
 public class ConfirmDeletionAlertView extends Alert {
     
     public ConfirmDeletionAlertView (int selectedStudents)

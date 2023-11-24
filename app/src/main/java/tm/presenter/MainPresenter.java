@@ -31,7 +31,9 @@ import tm.view.MainView;
 import tm.view.alerts.BadDatabaseAlertView;
 import tm.view.alerts.ConfirmDeletionAlertView;
 
-
+/**
+ * Presenter for the main window
+ */
 public class MainPresenter implements GenericPresenterInterface {
     
     private MainView mainView;
@@ -51,6 +53,9 @@ public class MainPresenter implements GenericPresenterInterface {
         this.prepareAll();
     }
 
+    /**
+     * Prepares the widgets of the MainView
+     */
     private void prepareAll() {
         showOpenDatabaseFileWindow();
         this.prepareTableView(mainView.getTableView());
@@ -91,7 +96,7 @@ public class MainPresenter implements GenericPresenterInterface {
      * @param header Column header
      * @param property corresponding property
      * @param valueClass datatype of the values
-     * @return
+     * @return TableColumn
      */
     public <T> TableColumn<Student, T> createTableColumn(String header, String property, Class<T> valueClass)
     {
@@ -100,6 +105,12 @@ public class MainPresenter implements GenericPresenterInterface {
         return tableColumn;
     }
 
+    /**
+     * Adds TableColumns to the TableView, sets the selection mode to allow multi row selection,
+     * adds a listener to the ObservableList of columns of the TableView to update the PreviewString
+     * on any changes
+     * @param tableView
+     */
     private void prepareTableView(TableView<Student> tableView)
     {
         ArrayList<TableColumn<Student, ?>> columns = new ArrayList<>();
@@ -121,6 +132,10 @@ public class MainPresenter implements GenericPresenterInterface {
         });
     }
 
+    /**
+     * En-/Disables the Clipboard-, Remove-, Edit- and SaveToFileButton
+     * according to the number of students selected
+     */
     private void updateButtonStates()
     {
         boolean isEmpty = selectedStudents.isEmpty();
@@ -134,6 +149,9 @@ public class MainPresenter implements GenericPresenterInterface {
         else mainView.getEditButton().setDisable(false);
     }
 
+    /**
+     * Updates the TableView by reretrieving all students from the database etc.
+     */
     private void updateTableView()
     {
         ArrayList<Student> studentsArrayList = mainModel.retrieveStudents();
@@ -160,11 +178,12 @@ public class MainPresenter implements GenericPresenterInterface {
     }
 
     /**
-     * asks for confirmation on whether or not to remove the selected rows
+     * Shows the ShowConfirmDeletionAlert
      * @param selectedStudents amount of rows to be removed
-     * @return removal confirmed?
+     * @return {@code true} if removal confirmed
+     * @see ConfirmDeletionAlertView
      */
-    private boolean showConfirmationDialog(int selectedStudents)
+    private boolean showConfirmDeletionAlert(int selectedStudents)
     {
         ConfirmDeletionAlertView alert = new ConfirmDeletionAlertView(selectedStudents);
         Optional<ButtonType> result = alert.showAndWait();
@@ -172,7 +191,7 @@ public class MainPresenter implements GenericPresenterInterface {
     }
 
     /**
-     * adds a context menu to the tableview that enables hiding/showing columns
+     * Adds a context menu to the tableview that enables hiding/showing columns
      * @param tableView
      */
     private void configContextMenu(TableView<Student> tableView)
@@ -192,6 +211,7 @@ public class MainPresenter implements GenericPresenterInterface {
     }
 
     /**
+     * TODO
      * instatiasid the inputdialog from where a row can be added to the database
      */
     private void addAddButtonAction()
@@ -205,6 +225,7 @@ public class MainPresenter implements GenericPresenterInterface {
     }
 
     /**
+     * TODO
      * starts up inputdialog with prefilled data from the selected row to be eidterd
      */
     private void addEditButtonAction()
@@ -219,17 +240,18 @@ public class MainPresenter implements GenericPresenterInterface {
             
             inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
             
-
-            
             updateTableView();
         });
     }
 
+    /**
+     * TODO
+     */
     private void addRemoveButtonAction()
     {
         mainView.getRemoveButton().setOnAction(event ->
         {
-            if (showConfirmationDialog(selectedStudents.size()))
+            if (showConfirmDeletionAlert(selectedStudents.size()))
             {
             selectedStudents.forEach(student ->
             {
@@ -239,7 +261,10 @@ public class MainPresenter implements GenericPresenterInterface {
             }
         });
     }
-    
+
+    /**
+     * TODO
+     */
     private void addClipboardButtonAction() 
     {
         mainView.getClipboardButton().setOnAction(event ->
@@ -283,6 +308,10 @@ public class MainPresenter implements GenericPresenterInterface {
         });
     }
 
+    /**
+     * Checks all columns of the main TableView for visibility
+     * @return the columns that are visible
+     */
     private ArrayList<String> getVisibleColumns()
     {
         ArrayList<String> visibleColumns = new ArrayList<>();
@@ -333,10 +362,16 @@ public class MainPresenter implements GenericPresenterInterface {
         //unused by now
     };
 
+    /**
+     * 
+     */
     private void addAboutMenuItemAction() {
         mainView.getAboutMenuItem().setOnAction(event -> new AboutView().showAndWait());
     }
 
+    /**
+     * 
+     */
     private void addHelpMenuItemAction() {
         mainView.getHelpMenuItem().setOnAction(event -> new HelpView().showAndWait());
     }

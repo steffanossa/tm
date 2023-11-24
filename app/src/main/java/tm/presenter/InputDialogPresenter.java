@@ -18,6 +18,10 @@ import java.util.Optional;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
+/**
+ * Presenter for the input dialog window
+ */
 public class InputDialogPresenter implements InputDialogPresenterInterface
 {
     private InputDialogView inputDialogView;
@@ -30,6 +34,10 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         addOkButtonAction();
     }
 
+    /**
+     * Fills PatternTextFields of the view with the data of the student object provided
+     * @param student
+     */
     private void fillTextFields(Student student)
     {
         PatternTextField firstnameTextField = inputDialogView.getPatternTextFieldByName("firstName");
@@ -43,6 +51,9 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         fhKennungTextField.setText(student.getFhIdentifier());
     }
 
+    /**
+     * TODO: was isn das für ne kacke
+     */
     private void addOkButtonAction()
     {
         Button okButton = (Button) inputDialogView.getDialogPane().lookupButton(inputDialogView.getOkButtonType());
@@ -67,7 +78,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      * @param patternTextField
      * @param string
      * @param stringBuilder
-     * @return true if valid
+     * @return {@code true} if valid
      */
     private boolean validateAndAppendToErrorMessage(PatternTextField patternTextField, String string, StringBuilder stringBuilder)
     {
@@ -79,7 +90,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
 
     /**
      * validate user input + add data to database if valid
-     * @return boolean whether successful or not
+     * @return {@code true} if successful
      */
     private boolean handleOkButtonClick()
     {
@@ -123,6 +134,11 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         }
     }
 
+    /**
+     * TODO daas ist ja kompletter quatsch
+     * @param exception
+     * @return {@code true} if successful
+     */
     private boolean uniquenessCheckAndAlertShow(SQLException exception)
     {
         String message = exception.getMessage();
@@ -140,12 +156,19 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         return false;
     }
 
+    /**
+     * Shows the BadInputDialogView
+     * @param message
+     */
     private void showBadInputAlert(String message)
     {
         BadInputAlertView alert = new BadInputAlertView(message);
         alert.show();
     }
 
+    /**
+     * Shows the InputDialogView and fills it with the data of the provided student
+     */
     @Override
     public void showAndWaitWithData(Student student)
     {

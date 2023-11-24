@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+/**
+ * Alert informing you that the file chosen is unacceptable
+ */
 public class BadDatabaseAlertView extends Alert {
     
     public BadDatabaseAlertView()

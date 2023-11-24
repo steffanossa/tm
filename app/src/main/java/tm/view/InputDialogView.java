@@ -16,7 +16,9 @@ import javafx.stage.Stage;
 
 import tm.customcontrols.PatternTextField;
 
-
+/**
+ * View for the input window
+ */
 public class InputDialogView extends Dialog<ButtonType> {
     private LinkedHashMap<String, String[]> linkedHashMap = new LinkedHashMap<>();
     private HashMap<String, PatternTextField> patternTextFieldMap = new HashMap<>();
@@ -65,6 +67,10 @@ public class InputDialogView extends Dialog<ButtonType> {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
     }
 
+    /**
+     * Creates the widgets necessary and ararnges them in the Gridpane provided
+     * @param gridPane
+     */
     private void createWidgets(GridPane gridPane) {
         int row = 0;
         for (Map.Entry<String, String[]> entry : linkedHashMap.entrySet()) {

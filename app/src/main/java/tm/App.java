@@ -14,6 +14,10 @@ import tm.model.MainModel;
 import tm.presenter.MainPresenter;
 import tm.view.MainView;
 
+
+/**
+ * TODO empty this
+ */
 public class App extends Application {
 
     public static void main(String[] args) throws Exception {

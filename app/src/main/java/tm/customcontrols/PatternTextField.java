@@ -1,8 +1,8 @@
 package tm.customcontrols;
 
-import java.util.regex.Pattern;
-
 import javafx.scene.control.TextField;
+
+
 /**
  * TextField extended by the option of specifying a regex pattern (as String),
  * so that the 'validate()' method (also new) can be used to check whether

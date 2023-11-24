@@ -19,8 +19,14 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Clipboard;
 
 
+/**
+ * 
+ */
 public class MainModel {
 
+    /**
+     * TreeMap with most common separator names and corresponding characters
+     */
     private static final TreeMap<String, String> separatorMap = new TreeMap<>()
     {{
         put("Comma", ",");
@@ -29,6 +35,9 @@ public class MainModel {
         put("Tab", "\t");
     }};
 
+    /**
+     * HashMap with column headers and corresponding getters
+     */
     private static final Map<String, Function<Student, ?>> COLUMN_GETTER_MAP = new HashMap<String, Function<Student, ?>>()
     {{
         put("First name", Student::getFirstName);
@@ -48,6 +57,12 @@ public class MainModel {
         return studentDAO;
     }
 
+    /**
+     * 
+     * @param separator
+     * @param visibleColumns
+     * @return String representing the order of visible columns using the separator given
+     */
     public String createPreviewString(
         String separator,
         ArrayList<String> visibleColumns
@@ -81,6 +96,14 @@ public class MainModel {
         return studentDAO.removeById(student.getMatriculationNumber());
     }
 
+    /**
+     * Calls the concatenate method and copies its return value to the clipboard
+     * @param students
+     * @param visibleColumns
+     * @param columnGetterMap
+     * @param separator
+     * @see concatenate method
+     */
     public void copyToClipboard(
         Student[] students,
         ArrayList<String> visibleColumns,
@@ -92,6 +115,10 @@ public class MainModel {
         copyToClipboard(concatenatedString);
     }
 
+    /**
+     * Copies the string provided to the clipboard
+     * @param string
+     */
     public void copyToClipboard(String string)
     {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -103,6 +130,14 @@ public class MainModel {
         return studentDAO.getAll();
     }
 
+    /**
+     * 
+     * @param students
+     * @param visibleColumns
+     * @param columnGetterMap
+     * @param separator
+     * @return A string of students' attributes in the order provided by visibleColumns separated by the separator given
+     */
     public String concatenate(
         Student[] students,
         ArrayList<String> visibleColumns,
@@ -123,6 +158,14 @@ public class MainModel {
         return concatenatedString.trim();
     }
 
+    /**
+     * Calls concatenate to create a string from given arguments and save the result as file
+     * @param file
+     * @param students
+     * @param visibleColumns
+     * @param columnGetterMap
+     * @param separator
+     */
     public void saveTextToFile(
         File file,
         Student[] students,
@@ -140,6 +183,12 @@ public class MainModel {
         catch (IOException e) { System.out.println(e.getMessage()); }
     }
 
+    /**
+     * 
+     * @param dbFile
+     * @return {@code true} if file could be opened correctly
+     * @throws SQLException
+     */
     public boolean openDatabase(File dbFile) throws SQLException
     {
         String url = dbFile.getAbsolutePath();

@@ -33,7 +33,15 @@
 - Peppermint Patty
 
 ## TODO
+- [ ] mock db in test dir
 - [ ] unit tests
+  - [x] studentDAO
+  - [ ] sqlitebuddy
+  - [ ] mainmodel
+  - [ ] inputdialogmodel
+  - [ ]
+  - [ ]
+  - [ ]
 - [x] edit window umbennenen
 - [x] bad input sprache
 - [x] uniquenessmessage sprache
@@ -45,7 +53,6 @@
 - [x] help view
 - [ ] howTo schreiben
 - [ ] uml gedöns
-- [ ] mock db
 
 ## MVP
 

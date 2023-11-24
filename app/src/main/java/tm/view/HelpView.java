@@ -13,6 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
+/**
+ * Help window for this application
+ */
 public class HelpView extends Alert {
     
     public HelpView() {
@@ -28,6 +31,7 @@ public class HelpView extends Alert {
             include a table created with the following statement:
             """
         );
+        //TODO
         TextArea createStatement = new TextArea(
             """
             CREATE TABLE "Students" (

@@ -11,6 +11,15 @@ public class InputDialogModel {
 
     public InputDialogModel( StudentDAO studentDAO ) { this.studentDAO = studentDAO; }
 
+    /**
+     * Adds a Student to the database
+     * @param firstName
+     * @param surname
+     * @param fhIdentifier
+     * @param matriculationNumber
+     * @return {@code true} if successful
+     * @throws SQLException
+     */
     public boolean addStudent(
         String firstName,
         String surname,

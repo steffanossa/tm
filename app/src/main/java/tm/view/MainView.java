@@ -15,6 +15,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import tm.model.classes.Student;
 
+/**
+ * View for the main window
+ * TODO
+ */
 public class MainView extends VBox {
 
     private Button addButton;

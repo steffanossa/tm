@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import tm.model.SQLiteBuddy;
 import tm.model.classes.Student;
 
+
+/**
+ * Data access object
+ */
 public class StudentDAO implements GenericDAO<Student> 
 {
     //Data Access Object
@@ -21,7 +25,7 @@ public class StudentDAO implements GenericDAO<Student>
         this.sqLiteBuddy = sqLiteBuddy;
     }
     
-            /**
+    /**
      * Retrieves all Students from the database
      * @return A list of Students
      */
@@ -49,6 +53,11 @@ public class StudentDAO implements GenericDAO<Student>
         return students;
     }
 
+    /**
+     * Adds a Student object to the database
+     * @return {@code true} if successful
+     * @throws SQLException
+     */
     @Override
     public boolean add(Student student) throws SQLException
     {
@@ -75,6 +84,10 @@ public class StudentDAO implements GenericDAO<Student>
         return wasSuccessful;
     }
 
+    /**
+     * Removes an element from the database based on the id provided
+     * @return {@code true} if successful
+     */
     @Override
     public boolean removeById(int id)
     {

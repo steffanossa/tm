@@ -6,7 +6,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * SQLite helper class used to establish and close a database, verify its structure
+ */
 public class SQLiteBuddy
 {
     private String url;
@@ -16,6 +18,10 @@ public class SQLiteBuddy
 
     public SQLiteBuddy() {}
 
+    /**
+     * Establishes a connection to the database specified _earlier_
+     * @return A connection object
+     */
     public Connection establishConnection()
     {
         try { connection = DriverManager.getConnection(url); }
@@ -23,6 +29,11 @@ public class SQLiteBuddy
         return connection;
     }
 
+    /**
+     * Establishes a connection to the database at the url provided 
+     * @param url Path to the database to be connected to
+     * @return A connection object
+     */
     public Connection establishConnection(String url)
     {
         try { connection = DriverManager.getConnection("jdbc:sqlite:" + url); }
@@ -30,6 +41,9 @@ public class SQLiteBuddy
         return connection;
     }
 
+    /**
+     * Closes the connection to the database
+     */
     public void closeDatabase()
     {
         if (connection != null)
@@ -42,16 +56,19 @@ public class SQLiteBuddy
     public void setUrl(String url) {
         this.url = "jdbc:sqlite:" + url;
     }
-    
+
+    /**
+     * Verifies whether connection is of correct structure to be handled. TODO
+     * @return {@code true} if successful
+     * @throws SQLException
+     */
     public boolean isAcceptedDatabase() throws SQLException
     {
         Connection connection = establishConnection();
-        boolean isValid;
+        boolean isValid = false;
     
         DatabaseMetaData metaData = connection.getMetaData();
         ResultSet rs = metaData.getColumns(null, null, null, null);
-
-        isValid = false;
     
         while (rs.next())
         {
