@@ -33,12 +33,12 @@
 - Peppermint Patty
 
 ## TODO
-- [ ] mock db in test dir
-- [ ] unit tests
+- [x] mock db in test dir
+- [x] unit tests
   - [x] studentDAO
-  - [ ] sqlitebuddy
-  - [ ] mainmodel
-  - [ ] inputdialogmodel
+  - [x] sqlitebuddy
+  - [x] mainmodel
+  - [x] inputdialogmodel
 - [ ] custom exceptions
 - [x] edit window umbennenen
 - [x] bad input sprache

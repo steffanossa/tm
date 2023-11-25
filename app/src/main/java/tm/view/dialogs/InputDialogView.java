@@ -1,4 +1,4 @@
-package tm.view;
+package tm.view.dialogs;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -59,7 +59,7 @@ public class InputDialogView extends Dialog<ButtonType> {
         gridPane.setPadding(new Insets(10));
         gridPane.setHgap(10);
         dialogPane.setContent(gridPane);
-        dialogPane.getButtonTypes().setAll(okButtonType, cancelButtonType);
+        dialogPane.getButtonTypes().setAll(cancelButtonType, okButtonType);
         //
         setDialogPane(dialogPane);
         setTitle(title);

@@ -9,8 +9,8 @@ import tm.customcontrols.PatternTextField;
 import tm.model.InputDialogModel;
 import tm.model.classes.Student;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
-import tm.view.InputDialogView;
 import tm.view.alerts.BadInputAlertView;
+import tm.view.dialogs.InputDialogView;
 
 import java.sql.SQLException;
 

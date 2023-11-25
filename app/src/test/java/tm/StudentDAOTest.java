@@ -25,13 +25,10 @@ import tm.model.daos.StudentDAO;
 
 public class StudentDAOTest {
 
-    // private static final Logger logger = LoggerFactory.getLogger(StudentDAOTest.class);
-    // private static final String DATABASE_PATH = ".." + File.separator + ".." + File.separator +  "students.db";
-    private static final String DATABASE_PATH = "../students.db";
+    // mock db w 10 entries
+    private static final String DATABASE_PATH = "src/test/resources/test_students.db";
     private static Statement statement;
     private static PreparedStatement preparedStatement;
-    // private static final String DATABASE_PATH = "students.db";
-    // private static final String URL = "jdbc:sqlite:" + DATABASE_PATH;
 
     private final Student student = new Student(
         "Barbara",
@@ -75,7 +72,7 @@ public class StudentDAOTest {
     @Test
     public void testGetAllStudents() {
         ArrayList<Student> allStudents = studentDAO.getAll();
-        assertEquals(994, allStudents.size());
+        assertEquals(10, allStudents.size());
     }
 
     @Test

@@ -62,34 +62,38 @@ public class SQLiteBuddy
      * @return {@code true} if successful
      * @throws SQLException
      */
-    public boolean isAcceptedDatabase() throws SQLException
+    public boolean isAcceptedDatabase()
     {
         Connection connection = establishConnection();
         boolean isValid = false;
-    
-        DatabaseMetaData metaData = connection.getMetaData();
-        ResultSet rs = metaData.getColumns(null, null, null, null);
-    
-        while (rs.next())
-        {
-            String columnName = rs.getString("COLUMN_NAME");
-            String dataType = rs.getString("TYPE_NAME");
-    
-            if ((columnName.equals("first_name") && dataType.equals("TEXT")) ||
-                (columnName.equals("surname") && dataType.equals("TEXT")) ||
-                (columnName.equals("matriculation_number") && dataType.equals("INTEGER")) ||
-                (columnName.equals("fh_identifier") && dataType.equals("TEXT"))
-            ) {
-                isValid = true;
-            }
-            else
+
+        try {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet rs = metaData.getColumns(null, null, null, null);
+        
+            while (rs.next())
             {
-                isValid = false;
-                break;
+                String columnName = rs.getString("COLUMN_NAME");
+                String dataType = rs.getString("TYPE_NAME");
+        
+                if ((columnName.equals("first_name") && dataType.equals("TEXT")) ||
+                    (columnName.equals("surname") && dataType.equals("TEXT")) ||
+                    (columnName.equals("matriculation_number") && dataType.equals("INTEGER")) ||
+                    (columnName.equals("fh_identifier") && dataType.equals("TEXT"))
+                ) {
+                    isValid = true;
+                }
+                else
+                {
+                    isValid = false;
+                    break;
+                }
             }
+        
+            closeDatabase();
         }
-    
-        closeDatabase();
+        catch (SQLException e) {}
+
         return isValid;
     }
 }

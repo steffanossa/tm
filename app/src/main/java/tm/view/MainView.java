@@ -1,5 +1,8 @@
 package tm.view;
 
+import java.time.LocalDate;
+
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -13,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import tm.model.classes.Student;
 
 /**
@@ -35,28 +39,31 @@ public class MainView extends VBox {
     private MenuItem helpMenuItem;
     private MenuItem aboutMenuItem;
 
+    private Scene scene;
+
 
     public MainView()
     {
-        this.helpMenuItem = new MenuItem("Help");
-        this.aboutMenuItem = new MenuItem("About");
+        helpMenuItem = new MenuItem("Help");
+        aboutMenuItem = new MenuItem("About");
         Menu aboutMenu = new Menu("Help", null, helpMenuItem, aboutMenuItem);
         MenuBar menuBar = new MenuBar(aboutMenu);
-        this.addButton = new Button("Add");
-        this.removeButton = new Button("Remove");
-        this.editButton = new Button("Edit");
+        addButton = new Button("Add");
+        removeButton = new Button("Remove");
+        editButton = new Button("Edit");
         ToolBar toolBar = new ToolBar(addButton, editButton, removeButton);
-        this.tableView = new TableView<>();
-        this.contextMenu = new ContextMenu();
-        this.labelPreviewString = new Label();
-        this.labelPreviewString.setStyle("-fx-font-size: 16px;  -fx-translate-x: 6px;");
-        this.imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
+        tableView = new TableView<>();
+        contextMenu = new ContextMenu();
+        labelPreviewString = new Label();
+        labelPreviewString.setStyle("-fx-font-size: 16px;  -fx-translate-x: 6px;");
+        imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
         StackPane tablePane = new StackPane(tableView, imageView);
         //
+        scene = new Scene(this);
         
-        this.comboBox = new ComboBox<>();
-        this.clipboardButton = new Button("Clipboard");
-        this.saveToFileButton = new Button("Save as...");
+        comboBox = new ComboBox<>();
+        clipboardButton = new Button("Clipboard");
+        saveToFileButton = new Button("Save as...");
         ToolBar buttonBar = new ToolBar(comboBox, clipboardButton, saveToFileButton);
         
         getChildren().addAll(
@@ -66,6 +73,22 @@ public class MainView extends VBox {
             labelPreviewString,
             buttonBar
         );
+    }
+
+    public void initialise(Stage primaryStage) {
+        primaryStage.setScene(scene);
+        
+        primaryStage.setTitle(String.format("Good morning, %s morning",
+            LocalDate.now().getDayOfWeek().toString().substring(0, 1) +
+            LocalDate.now().getDayOfWeek().toString().substring(1).toLowerCase()));
+        
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
+        primaryStage.setResizable(false);
+        primaryStage.setScene(scene);
+        primaryStage.setWidth(414);
+        primaryStage.setHeight(480);
+        
+        primaryStage.show();
     }
 
     public MenuItem getHelpMenuItem() {

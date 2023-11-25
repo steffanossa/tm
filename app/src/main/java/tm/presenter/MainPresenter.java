@@ -18,7 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
-
+import javafx.stage.Stage;
 import tm.model.InputDialogModel;
 import tm.model.MainModel;
 import tm.model.classes.Student;
@@ -26,10 +26,10 @@ import tm.presenter.interfaces.GenericPresenterInterface;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.view.AboutView;
 import tm.view.HelpView;
-import tm.view.InputDialogView;
 import tm.view.MainView;
 import tm.view.alerts.BadDatabaseAlertView;
 import tm.view.alerts.ConfirmDeletionAlertView;
+import tm.view.dialogs.InputDialogView;
 
 /**
  * Presenter for the main window
@@ -51,6 +51,10 @@ public class MainPresenter implements GenericPresenterInterface {
         this.separator = ",";
         this.mainView = mainView;
         this.prepareAll();
+    }
+
+    public void initialise(Stage stage) {
+        mainView.initialise(stage);
     }
 
     /**

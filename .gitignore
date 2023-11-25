@@ -6,3 +6,4 @@ build
 
 # ignore vscode thsinfg
 .vscode
+/.metadata/
