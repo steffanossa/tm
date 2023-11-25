@@ -21,7 +21,6 @@ import tm.model.classes.Student;
 
 /**
  * View for the main window
- * TODO
  */
 public class MainView extends VBox {
 

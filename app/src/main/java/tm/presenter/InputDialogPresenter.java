@@ -52,7 +52,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     }
 
     /**
-     * TODO: was isn das für ne kacke
+     * TODO: hmm
      */
     private void addOkButtonAction()
     {
@@ -151,7 +151,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                 badInputMessage += "\n- Matriculation Nr.";
             if (message.contains(fhIdentityPattern))
                 badInputMessage += "\n- FH Identifier";
-            showBadInputAlert(badInputMessage); //TODO:relcoate
+            showBadInputAlert(badInputMessage);
         }
         return false;
     }
