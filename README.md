@@ -30,7 +30,6 @@
 - Auswählen von relevanten Spalten
 - Freie Anordnung der Spalten
 - Hinzufügen & Löschen einzelner bzw. mehrerer Studenten
-- Peppermint Patty
 
 ## TODO
 - [x] mock db in test dir
