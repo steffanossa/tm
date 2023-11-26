@@ -7,3 +7,6 @@ build
 # ignore vscode thsinfg
 .vscode
 /.metadata/
+
+# ignore img dir
+images
