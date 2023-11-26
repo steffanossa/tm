@@ -74,20 +74,20 @@ public class MainView extends VBox {
         );
     }
 
-    public void initialise(Stage primaryStage) {
-        primaryStage.setScene(scene);
+    public void initialise(Stage stage) {
+        stage.setScene(scene);
         
-        primaryStage.setTitle(String.format("Good morning, %s morning",
+        stage.setTitle(String.format("Good morning, %s morning",
             LocalDate.now().getDayOfWeek().toString().substring(0, 1) +
             LocalDate.now().getDayOfWeek().toString().substring(1).toLowerCase()));
         
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
-        primaryStage.setResizable(false);
-        primaryStage.setScene(scene);
-        primaryStage.setWidth(414);
-        primaryStage.setHeight(480);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.setWidth(414);
+        stage.setHeight(480);
         
-        primaryStage.show();
+        stage.show();
     }
 
     public MenuItem getHelpMenuItem() {
@@ -118,7 +118,7 @@ public class MainView extends VBox {
         return this.saveToFileButton;
     }
 
-    public Label getPreviewString() {
+    public Label getLabelPreviewString() {
         return this.labelPreviewString;
     }
 

@@ -43,13 +43,11 @@ public class MainPresenter implements GenericPresenterInterface {
     private ObservableList<Student> students;
     private ObservableList<Student> selectedStudents;
 
-    public MainPresenter(
-        MainView mainView,
-        MainModel mainModel
-    ) {
-        this.mainModel = mainModel;
+    public MainPresenter()
+    {
+        this.mainModel = new MainModel();
         this.separator = ",";
-        this.mainView = mainView;
+        this.mainView = new MainView();
         this.prepareAll();
     }
 
@@ -102,7 +100,7 @@ public class MainPresenter implements GenericPresenterInterface {
      * @param valueClass datatype of the values
      * @return TableColumn
      */
-    public <T> TableColumn<Student, T> createTableColumn(String header, String property, Class<T> valueClass)
+    private <T> TableColumn<Student, T> createTableColumn(String header, String property, Class<T> valueClass)
     {
         TableColumn<Student, T> tableColumn = new TableColumn<>(header);
         tableColumn.setCellValueFactory(new PropertyValueFactory<>(property));
@@ -172,7 +170,7 @@ public class MainPresenter implements GenericPresenterInterface {
         ArrayList<String> visibleColumns = new ArrayList<>();
         visibleColumns = getVisibleColumns();
         String previewString = mainModel.createPreviewString(separator, visibleColumns);
-        mainView.getPreviewString().setText(previewString);
+        mainView.getLabelPreviewString().setText(previewString);
         if (previewString.equals("Nothing to show"))
         {
             mainView.showImage();
@@ -183,13 +181,13 @@ public class MainPresenter implements GenericPresenterInterface {
 
     /**
      * Shows the ShowConfirmDeletionAlert
-     * @param selectedStudents amount of rows to be removed
+     * @param amountSelectedStudents amount of rows to be removed
      * @return {@code true} if removal confirmed
      * @see ConfirmDeletionAlertView
      */
-    private boolean showConfirmDeletionAlert(int selectedStudents)
+    private boolean showConfirmDeletionAlert(int amountSelectedStudents)
     {
-        ConfirmDeletionAlertView alert = new ConfirmDeletionAlertView(selectedStudents);
+        ConfirmDeletionAlertView alert = new ConfirmDeletionAlertView(amountSelectedStudents);
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }

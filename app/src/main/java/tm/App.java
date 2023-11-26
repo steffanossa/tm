@@ -6,9 +6,7 @@ package tm;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import tm.model.MainModel;
 import tm.presenter.MainPresenter;
-import tm.view.MainView;
 
 
 /**
@@ -23,11 +21,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        MainView mainView = new MainView();
-        MainModel mainModel = new MainModel();
-        MainPresenter mainPresenter = new MainPresenter(
-            mainView,
-            mainModel);
+        MainPresenter mainPresenter = new MainPresenter();
         mainPresenter.initialise(primaryStage);
     }
 

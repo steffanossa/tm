@@ -44,7 +44,7 @@ public class SQLiteBuddy
     /**
      * Closes the connection to the database
      */
-    public void closeDatabase()
+    public void closeConnection()
     {
         if (connection != null)
         {
@@ -90,7 +90,7 @@ public class SQLiteBuddy
                 }
             }
         
-            closeDatabase();
+            closeConnection();
         }
         catch (SQLException e) {}
 

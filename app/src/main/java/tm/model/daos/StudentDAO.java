@@ -48,7 +48,7 @@ public class StudentDAO implements GenericDAO<Student>
             e.printStackTrace();
             // return null;
         } finally {
-            this.sqLiteBuddy.closeDatabase();
+            this.sqLiteBuddy.closeConnection();
         }
         return students;
     }
@@ -79,7 +79,7 @@ public class StudentDAO implements GenericDAO<Student>
             //TODO
             throw e;
         } finally {
-            this.sqLiteBuddy.closeDatabase();
+            this.sqLiteBuddy.closeConnection();
         }
         return wasSuccessful;
     }
@@ -104,7 +104,7 @@ public class StudentDAO implements GenericDAO<Student>
             e.printStackTrace();
         }
         finally {
-            this.sqLiteBuddy.closeDatabase();
+            this.sqLiteBuddy.closeConnection();
         }
         return wasSuccessful;
     }
