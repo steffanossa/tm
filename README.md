@@ -15,7 +15,6 @@
 - run `gradle run` in cloned dir
 - (i think)
 
-
 ## Anforderungen
 <details>
   <summary>(<i>click to show/hide sceenshot</i>)</summary>
@@ -54,8 +53,12 @@
 ## MVP
 
 Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die nötigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm an den View übergeben. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).
-
-...
+<details>
+  <summary>(<i>click to show/hide example process</i>)</summary>
+  <!-- has to be followed by an empty line! -->
+  
+![add_process drawio](https://github.com/steffanossa/tm/assets/94658723/604792b8-1277-470d-88ff-db6db5cae0fc)
+</details>
 
 ## Gradle
 
