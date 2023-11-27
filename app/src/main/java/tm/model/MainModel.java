@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 
 import tm.model.classes.Student;
+import tm.model.daos.GenericDAO;
 import tm.model.daos.StudentDAO;
 
 import java.awt.Toolkit;
@@ -45,7 +46,7 @@ public class MainModel {
         put("Matriculation Nr.", Student::getMatriculationNumber);
         put("FH Identifier", Student::getFhIdentifier);
     }};
-    private StudentDAO studentDAO;
+    private GenericDAO<Student> studentDAO;
     private SQLiteBuddy sqLiteBuddy;
 
     public MainModel() {
@@ -53,7 +54,7 @@ public class MainModel {
         this.studentDAO = new StudentDAO(this.sqLiteBuddy);
     }
 
-    public StudentDAO getStudentDAO() {
+    public GenericDAO<Student> getStudentDAO() {
         return studentDAO;
     }
 

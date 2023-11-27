@@ -79,8 +79,7 @@ public class StudentDAOTest {
     public void testAddStudent() {
         int numberOfStudentsBefore = studentDAO.getAll().size();
         System.out.println(numberOfStudentsBefore);
-        try { studentDAO.add(student); }
-        catch (SQLException e) {System.out.println("\n\n\n\n");}
+        studentDAO.add(student);
         int numberOfStudentsAfter = studentDAO.getAll().size();
         assertEquals(numberOfStudentsAfter, numberOfStudentsBefore + 1);
         removeBarbara();
@@ -88,8 +87,7 @@ public class StudentDAOTest {
     
     @Test
     public void testAddDuplicateStudent() {
-        try { studentDAO.add(student); }
-        catch (SQLException e) {}
+        studentDAO.add(student);
         assertThrows(SQLiteException.class, () -> { studentDAO.add(student); });
         removeBarbara();
     }

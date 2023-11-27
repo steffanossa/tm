@@ -1,12 +1,12 @@
 package tm.model.daos;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
-public interface GenericDAO<T> {
-    
-    List<T> getAll() throws SQLException;
+
+public interface GenericDAO<T>
+{    
+    ArrayList<T> getAll();
     // T get();
-    boolean removeById(int id) throws SQLException;
-    boolean add(T entity) throws SQLException;
+    boolean removeById(int id);
+    boolean add(T entity);
 }

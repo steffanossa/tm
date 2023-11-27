@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import tm.customcontrols.PatternTextField;
 import tm.model.InputDialogModel;
 import tm.model.classes.Student;
-import tm.model.daos.StudentDAO;
+import tm.model.daos.GenericDAO;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.view.alerts.BadInputAlertView;
 import tm.view.dialogs.InputDialogView;
@@ -28,7 +28,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     private InputDialogView inputDialogView;
     private InputDialogModel inputDialogModel;
     
-    public InputDialogPresenter(StudentDAO studentDAO, String dialogTitle) {
+    public InputDialogPresenter(GenericDAO<Student> studentDAO, String dialogTitle) {
         inputDialogModel = new InputDialogModel(studentDAO);
         inputDialogView = new InputDialogView(dialogTitle);
         addOkButtonAction();

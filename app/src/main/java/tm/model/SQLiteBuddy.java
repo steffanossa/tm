@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * SQLite helper class used to establish and close a database, verify its structure
  */
-public class SQLiteBuddy
+public class SQLiteBuddy implements GenericDatabaseBuddy
 {
     private String url;
     private Connection connection;
@@ -22,6 +22,7 @@ public class SQLiteBuddy
      * Establishes a connection to the database specified _earlier_
      * @return A connection object
      */
+    @Override
     public Connection establishConnection()
     {
         try { connection = DriverManager.getConnection(url); }
@@ -44,6 +45,7 @@ public class SQLiteBuddy
     /**
      * Closes the connection to the database
      */
+    @Override
     public void closeConnection()
     {
         if (connection != null)
@@ -53,6 +55,7 @@ public class SQLiteBuddy
         }
     }
 
+    @Override
     public void setUrl(String url) {
         this.url = "jdbc:sqlite:" + url;
     }
@@ -62,6 +65,7 @@ public class SQLiteBuddy
      * @return {@code true} if successful
      * @throws SQLException
      */
+    @Override
     public boolean isAcceptedDatabase()
     {
         Connection connection = establishConnection();

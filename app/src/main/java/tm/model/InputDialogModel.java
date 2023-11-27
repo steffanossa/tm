@@ -3,13 +3,13 @@ package tm.model;
 import java.sql.SQLException;
 
 import tm.model.classes.Student;
-import tm.model.daos.StudentDAO;
+import tm.model.daos.GenericDAO;
 
 public class InputDialogModel {
     
-    private StudentDAO studentDAO;
+    private GenericDAO<Student> studentDAO;
 
-    public InputDialogModel( StudentDAO studentDAO ) { this.studentDAO = studentDAO; }
+    public InputDialogModel( GenericDAO<Student> studentDAO ) { this.studentDAO = studentDAO; }
 
     /**
      * Adds a Student to the database
