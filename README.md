@@ -52,17 +52,21 @@
 - [x] about view
 - [x] help view
 - [ ] howTo schreiben
-- [ ] uml gedöns
+- [x] uml gedöns
 
 ## MVP
 
-Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die nötigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm an den View übergeben. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).
+Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).
 <details>
   <summary>(<i>click to show/hide example process</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 <img src="https://github.com/steffanossa/tm/assets/94658723/c0ab5879-223c-4206-82e3-65208735a228" width="400">
 </details>
+
+## DAO
+
+Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Data Access Object (DAO). So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwedungsschicht davon unberührt, lediglich die DAO-Ebene müsste angepasst werden.
 
 ## Gradle
 
@@ -165,7 +169,7 @@ Hilfe
 ![image](https://github.com/steffanossa/tm/assets/94658723/67cf0e4d-5ee6-4dd6-8ce0-a7c8fb9db951)
 </details>
 
-Der Scenebuilder wurde nicht verwendet, da er mit XML arbeitet. XML ist Mist.
+Der Scenebuilder wurde nicht verwendet, da er mit (F)XML arbeitet. XML ist Mist.
 
 ## SQLite
 
