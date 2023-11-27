@@ -66,7 +66,7 @@ Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert 
 
 ## DAO
 
-Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Data Access Object (DAO). So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwedungsschicht davon unberührt, lediglich die DAO-Ebene müsste angepasst werden.
+Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Konzept des Data Access Object (DAO) gearbeitet. So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwedungsschicht davon unberührt, lediglich die DAO-Ebene müsste angepasst werden.
 
 ## Gradle
 
