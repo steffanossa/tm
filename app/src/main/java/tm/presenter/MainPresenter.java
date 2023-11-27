@@ -19,7 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import tm.model.InputDialogModel;
+
 import tm.model.MainModel;
 import tm.model.classes.Student;
 import tm.presenter.interfaces.GenericPresenterInterface;
@@ -29,7 +29,6 @@ import tm.view.HelpView;
 import tm.view.MainView;
 import tm.view.alerts.BadDatabaseAlertView;
 import tm.view.alerts.ConfirmDeletionAlertView;
-import tm.view.dialogs.InputDialogView;
 
 /**
  * Presenter for the main window
@@ -45,10 +44,10 @@ public class MainPresenter implements GenericPresenterInterface {
 
     public MainPresenter()
     {
-        this.mainModel = new MainModel();
-        this.separator = ",";
-        this.mainView = new MainView();
-        this.prepareAll();
+        mainModel = new MainModel();
+        separator = ",";
+        mainView = new MainView();
+        prepareAll();
     }
 
     public void initialise(Stage stage) {
@@ -60,7 +59,7 @@ public class MainPresenter implements GenericPresenterInterface {
      */
     private void prepareAll() {
         showOpenDatabaseFileWindow();
-        this.prepareTableView(mainView.getTableView());
+        prepareTableView(mainView.getTableView());
 
         selectedStudents = mainView.getTableView().getSelectionModel().getSelectedItems();
 
@@ -95,7 +94,7 @@ public class MainPresenter implements GenericPresenterInterface {
     /**
      * Creates TableColumn to be inserted into TableViews
      * @param <T>
-     * @param header Column header
+     * @param header column header
      * @param property corresponding property
      * @param valueClass datatype of the values
      * @return TableColumn
@@ -126,10 +125,9 @@ public class MainPresenter implements GenericPresenterInterface {
         updateTableView();
 
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        
+        //TableColumn<?,?> oder eine Unterklasse davon
         tableView.getColumns().addListener((Change<? extends TableColumn<?, ?>> change) ->
         {
-            //TableColumn<?,?> oder eine Unterklasse davon
             updatePreviewString();
         });
     }
@@ -193,7 +191,7 @@ public class MainPresenter implements GenericPresenterInterface {
     }
 
     /**
-     * Adds a context menu to the tableview that enables hiding/showing columns
+     * Adds a context menu to the tableview that enables hiding/displaying columns
      * @param tableView
      */
     private void configContextMenu(TableView<Student> tableView)
@@ -220,15 +218,14 @@ public class MainPresenter implements GenericPresenterInterface {
     {
         mainView.getAddButton().setOnAction(event ->
         {
-            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView("Add entity"), new InputDialogModel(mainModel.getStudentDAO()));
+            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(mainModel.getStudentDAO(), "Add entity");
             inputDialogPresenterInterface.showAndWait();
             updateTableView();
         });
     }
 
     /**
-     * TODO
-     * starts up inputdialog with prefilled data from the selected row to be eidterd
+     * Starts up inputdialog with prefilled data from the selected row to be eidterd
      */
     private void addEditButtonAction()
     {
@@ -238,7 +235,7 @@ public class MainPresenter implements GenericPresenterInterface {
             mainModel.removeStudent(tempStudent);
             ArrayList<Student> studentsArrayList = mainModel.retrieveStudents();
             students = FXCollections.observableArrayList(studentsArrayList);
-            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(new InputDialogView("Edit entity"), new InputDialogModel(mainModel.getStudentDAO()));
+            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(mainModel.getStudentDAO(), "Edit entity");
             
             inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
             
@@ -247,7 +244,7 @@ public class MainPresenter implements GenericPresenterInterface {
     }
 
     /**
-     * TODO
+     * Adds button function
      */
     private void addRemoveButtonAction()
     {
@@ -265,20 +262,18 @@ public class MainPresenter implements GenericPresenterInterface {
     }
 
     /**
-     * TODO
+     * Adds button function
      */
     private void addClipboardButtonAction() 
     {
         mainView.getClipboardButton().setOnAction(event ->
         {
-            Student[] selected = selectedStudents.toArray(new Student[selectedStudents.size()]);
-            ArrayList<String> visibleColumns = new ArrayList<>();
-            visibleColumns = getVisibleColumns();
-            mainModel.copyToClipboard(
-                selected,
-                visibleColumns,
-                MainModel.getColumnGetterMap(),
-                separator);
+            String concatenatedString = mainModel.concatenate(
+                selectedStudents.toArray(new Student[selectedStudents.size()]),
+                getVisibleColumns(),
+                separator
+            );
+            mainModel.copyToClipboard(concatenatedString);
         });
     }
 
@@ -296,16 +291,12 @@ public class MainPresenter implements GenericPresenterInterface {
             File file = fileChooser.showSaveDialog(mainView.getScene().getWindow());
             if (file != null)
             {
-                Student[] selected = selectedStudents.toArray(new Student[selectedStudents.size()]);
-                ArrayList<String> visibleColumns = new ArrayList<>();
-                visibleColumns = getVisibleColumns();
-                mainModel.saveTextToFile(
-                    file,
-                    selected,
-                    visibleColumns,
-                    MainModel.getColumnGetterMap(),
+                String concatenatedString = mainModel.concatenate(
+                    selectedStudents.toArray(new Student[selectedStudents.size()]),
+                    getVisibleColumns(),
                     separator
                 );
+                mainModel.writeStringToFile(concatenatedString, file);
             }
         });
     }
@@ -358,24 +349,24 @@ public class MainPresenter implements GenericPresenterInterface {
     }
 
     public void showAndWait(){
-        // unused by now
+        System.out.println("unused by now");
     };
     public void hide(){
-        //unused by now
+        System.out.println("unused by now");
     };
 
     /**
-     * 
+     * Adds button function
      */
     private void addAboutMenuItemAction() {
-        mainView.getAboutMenuItem().setOnAction(event -> new AboutView().showAndWait());
+        mainView.getAboutMenuItem().setOnAction( event -> new AboutView().showAndWait() );
     }
 
     /**
-     * 
+     * Adds button function
      */
     private void addHelpMenuItemAction() {
-        mainView.getHelpMenuItem().setOnAction(event -> new HelpView().showAndWait());
+        mainView.getHelpMenuItem().setOnAction( event -> new HelpView().showAndWait() );
     }
 }
 

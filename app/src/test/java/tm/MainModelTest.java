@@ -11,13 +11,10 @@ import tm.model.classes.Student;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.HashMap;
 
 public class MainModelTest {
 
     private static MainModel mainModel;
-    private static HashMap<String, Function<Student, ?>> COLUMN_GETTER_MAP;
     private String separator;
     private Student[] students;
     private ArrayList<String> visibleColumns;
@@ -35,13 +32,6 @@ public class MainModelTest {
     @BeforeEach
     public void initThings()
     {
-        COLUMN_GETTER_MAP = new HashMap<String, Function<Student, ?>>() {{
-            //Student::getFirstname = Methodenreferenz
-            put("First name", Student::getFirstName);
-            put("Surname", Student::getSurname);
-            put("Matriculation Nr.", Student::getMatriculationNumber);
-            put("FH Identifier", Student::getFhIdentifier);
-        }};
 
         students = new Student[] {
             new Student("Erika", "Mustermann", 1234567, "AB123456"),
@@ -77,7 +67,7 @@ public class MainModelTest {
         visibleColumns = new ArrayList<>(List.of("First name", "Surname"));
         separator = ",";
         expectedResultString = "Erika,Mustermann\nBenjamin,Blümchen";
-        resultString = mainModel.concatenate(students, visibleColumns, COLUMN_GETTER_MAP, separator);
+        resultString = mainModel.concatenate(students, visibleColumns, separator);
         assertEquals(expectedResultString, resultString);
     }
 

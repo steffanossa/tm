@@ -58,7 +58,7 @@ public class SQLiteBuddy
     }
 
     /**
-     * Verifies whether connection is of correct structure to be handled. TODO
+     * Verifies whether connection is of correct structure to be handled. TODO: macht alles wird
      * @return {@code true} if successful
      * @throws SQLException
      */

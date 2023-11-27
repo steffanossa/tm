@@ -5,18 +5,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ButtonBar.ButtonData;
 
-import tm.customcontrols.PatternTextField;
-import tm.model.InputDialogModel;
-import tm.model.classes.Student;
-import tm.presenter.interfaces.InputDialogPresenterInterface;
-import tm.view.alerts.BadInputAlertView;
-import tm.view.dialogs.InputDialogView;
-
 import java.sql.SQLException;
 
 import java.util.Optional;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import tm.customcontrols.PatternTextField;
+import tm.model.InputDialogModel;
+import tm.model.classes.Student;
+import tm.model.daos.StudentDAO;
+import tm.presenter.interfaces.InputDialogPresenterInterface;
+import tm.view.alerts.BadInputAlertView;
+import tm.view.dialogs.InputDialogView;
 
 
 /**
@@ -26,11 +27,10 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
 {
     private InputDialogView inputDialogView;
     private InputDialogModel inputDialogModel;
-
-    public InputDialogPresenter(InputDialogView inputDialogView, InputDialogModel inputDialogModel)
-    {
-        this.inputDialogView = inputDialogView;
-        this.inputDialogModel = inputDialogModel;
+    
+    public InputDialogPresenter(StudentDAO studentDAO, String dialogTitle) {
+        inputDialogModel = new InputDialogModel(studentDAO);
+        inputDialogView = new InputDialogView(dialogTitle);
         addOkButtonAction();
     }
 
@@ -84,7 +84,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     {
         //walross?
         boolean isValid = patternTextField.validate();
-        if (!isValid) { stringBuilder.append("\n- ").append(string); }
+        if (!isValid) stringBuilder.append("\n- ").append(string); 
         return isValid;
     }
 

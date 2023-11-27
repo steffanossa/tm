@@ -97,25 +97,6 @@ public class MainModel {
     }
 
     /**
-     * Calls the concatenate method and copies its return value to the clipboard
-     * @param students
-     * @param visibleColumns
-     * @param columnGetterMap
-     * @param separator
-     * @see concatenate method
-     */
-    public void copyToClipboard(
-        Student[] students,
-        ArrayList<String> visibleColumns,
-        Map<String, Function<Student, ?>> columnGetterMap,
-        String separator
-        ) {
-        String concatenatedString = concatenate(students, visibleColumns, columnGetterMap, separator);
-
-        copyToClipboard(concatenatedString);
-    }
-
-    /**
      * Copies the string provided to the clipboard
      * @param string
      */
@@ -134,14 +115,12 @@ public class MainModel {
      * 
      * @param students
      * @param visibleColumns
-     * @param columnGetterMap
      * @param separator
      * @return A string of students' attributes in the order provided by visibleColumns separated by the separator given
      */
     public String concatenate(
         Student[] students,
         ArrayList<String> visibleColumns,
-        Map<String, Function<Student, ?>> columnGetterMap,
         String separator
         ) {
         String concatenatedString = "";
@@ -150,7 +129,7 @@ public class MainModel {
         {
             for (String columnName : visibleColumns)
             {
-                Function<Student, ?> function = columnGetterMap.get(columnName);
+                Function<Student, ?> function = COLUMN_GETTER_MAP.get(columnName);
                 concatenatedString += function.apply(student) + separator;
             }
             concatenatedString = concatenatedString.substring(0, concatenatedString.length() - separator.length()) + "\n";
@@ -159,25 +138,15 @@ public class MainModel {
     }
 
     /**
-     * Calls concatenate to create a string from given arguments and save the result as file
+     * Writes String to file
      * @param file
-     * @param students
-     * @param visibleColumns
-     * @param columnGetterMap
-     * @param separator
+     * @param string
      */
-    public void saveTextToFile(
-        File file,
-        Student[] students,
-        ArrayList<String> visibleColumns,
-        Map<String, Function<Student, ?>> columnGetterMap,
-        String separator
-        ) {
-        String concatenatedString = concatenate(students, visibleColumns, columnGetterMap, separator);
+    public void writeStringToFile( String string, File file ) {
         try {
             PrintWriter writer;
             writer = new PrintWriter(file);
-            writer.println(concatenatedString);
+            writer.println(string);
             writer.close();
         }
         catch (IOException e) { System.out.println(e.getMessage()); }
