@@ -58,8 +58,13 @@
 - [x] menubar mit open database, preferences, help und about
 - [x] about view
 - [x] help view
-- [ ] howTo schreiben
-- [x] uml gedöns
+- [x] howTo schreiben
+- [ ] testen unter linux / mac
+- [ ] uml gedöns
+  - [x] mvp
+  - [ ] dao
+  - [ ] add process
+  - [ ] class diagram
 
 ## MVP
 
