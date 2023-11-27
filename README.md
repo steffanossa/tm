@@ -3,25 +3,32 @@
 
 ## HowTo
 ### Windows
-- have java
-- get <a href="https://gradle.org/releases/">gradle</a>
-- add gradle bin to PATH
-- `git clone https://github.com/steffanossa/tm.git`
+- have Java JDK version 8 or higher 
+- get and unzip <a href="https://gradle.org/releases/">gradle</a>
+- add gradle/bin to PATH
+- clone this repo: `git clone https://github.com/steffanossa/tm.git`
 - run ``gradlew run`` in cloned dir
-### Linux
-- have java
-- get gradle (`sudo snap install gradle`)
-- `git clone https://github.com/steffanossa/tm.git`
-- run `gradle run` in cloned dir
-- (i think)
+### Linux & Mac
+- have Java JDK version 8 or higher 
+- get and unzip <a href="https://gradle.org/releases/">gradle</a>
+- Unzip the distribution zip file in the directory of your choosing, e.g.:
+
+```
+  mkdir /opt/gradle
+  unzip -d /opt/gradle gradle-8.4-bin.zip
+  ls /opt/gradle/gradle-8.4
+  LICENSE  NOTICE  bin  getting-started.html  init.d  lib  media
+```
+- add to path:  `export PATH=$PATH:/opt/gradle/gradle-8.4/bin`
+- clone this repo: `git clone https://github.com/steffanossa/tm.git`
+- execute <order66> `gradle run` in cloned dir
 
 ## Anforderungen
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
 <img src="https://github.com/steffanossa/tm/assets/94658723/0551d5fe-8406-42fb-92d0-6b25ba029b2b" width="400">
 </details>
-
 
 
 
@@ -58,10 +65,10 @@
 
 Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).
 <details>
-  <summary>(<i>click to show/hide example process</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-<img src="https://github.com/steffanossa/tm/assets/94658723/c0ab5879-223c-4206-82e3-65208735a228" width="400">
+![NOsxJiGm44LxVyNWQXVa5RGq92K5We97RUmB6ScFO8z9WVXteYGGYNREkMUwAhP8Yq6ToO08YbPGs2fX2Q2-k845hXNGeN8S0xyn_56vO6kbXuAA92ZqfIxebPD_OVyEUSoz4yxfSBocpyn-XctqLl1qkns-rPQuonvXcTUFS3-YsD_XpIuzCwRPCJGj-PNjp_NbwNHEch8nXlILNgF_X](https://github.com/steffanossa/tm/assets/94658723/ad076175-a976-4346-b2af-3b87889a949d)
 </details>
 
 ## DAO
@@ -70,13 +77,13 @@ Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit 
 
 ## Gradle
 
-Gradle ist <xmlstinkt>Maven</xmlstinkt> in besser.
+<a href="https://gradle.org/releases/">Gradle</a> ist ein open source Build-Management-Tool. Es vereinfacht die Entwicklung, das Testen und die Bereitstelung von Anwendungen verschiedener Programmiersprachen. Alternativ hätte Maven genutzt werden können.
 
 ## Grafische Nutzeroberfläche (JavaFX)
 
 Dem Start des Programms folgt die Anzeige eines Dialogfensters, über das die zu öffnende Datenbank selektiert werden kann.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/fceee68c-0d84-4b1e-b577-f64e217f150c)
@@ -84,7 +91,7 @@ Dem Start des Programms folgt die Anzeige eines Dialogfensters, über das die zu
 
 Die Auswahl einer inkompatiblen Datei löst ein weiteres Dialogfenster aus, das über die fehlerhafte Auwahl informiert. Anschließend wird das vorige Fenster erneut angezeigt.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/1b3e4941-a51d-49cf-b506-fcb5c0a5ec71)
@@ -92,7 +99,7 @@ Die Auswahl einer inkompatiblen Datei löst ein weiteres Dialogfenster aus, das 
 
 Ist eine gültige Auswahl getroffen worden, wird das Hauptfenster geöffnet.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/59ff4840-2e36-49b0-876b-aec49706482c)
@@ -102,7 +109,7 @@ Die Daten der Studententabelle werden in einem TableView-Objekt angezeigt. Die S
 Für das Hinzufügen, Editieren und Entfernen von Einträgen gibt es jeweils einen Button oberhalb der Tabelle.
 Ein Klick auf den Add-Button öffnet ein Dialogfenster, in dem die Daten des hinzuzufügenden Studenten eingegeben werden können.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/59ca2799-12db-4c5e-be45-c5285aa010fd)
@@ -111,7 +118,7 @@ Ein Klick auf den Add-Button öffnet ein Dialogfenster, in dem die Daten des hin
 Das Kreuz und der Cancel-Button beenden den Vorgang.
 Das Klicken des OK-Buttons fügt die Daten nach Überprüfung auf formelle Richtigkeit der Tabelle und der Datenbank hinzu, es sei denn in der Datenbank befindet sich bereits eine Beobachtung mit der eingegebenen Matrikulationsnummer und/oder FH-Kennung. Der Nutzer wird über jegliche fehlerhafte Eingabe nach Betätigung des OK-Buttons mittels Dialog-Fenster informiert und kann die Eingaben daraufhin erneut prüfen.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/34e3430a-67df-46a5-b773-324787b842bf)
@@ -120,7 +127,7 @@ Das Klicken des OK-Buttons fügt die Daten nach Überprüfung auf formelle Richt
 
 Der Edit-Button ist nur klickbar, wenn genau eine Zeile ausgewählt ist. Er löst ebenfalls ein Dialogfenster aus, nur dass die Textfelder jetzt die Daten des Studenten enthalten, der zuvor ausgewählt wurde. Der weitere Ablauf ist analog zum Hinzufügen.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/3bca4572-5d1c-4f42-a08f-a33ba251b40e)
@@ -128,7 +135,7 @@ Der Edit-Button ist nur klickbar, wenn genau eine Zeile ausgewählt ist. Er lös
 
 Der Remove-Button nur, wenn mindestens eine Zeile ausgewählt ist. Über ihn lassen sich die ausgewählten Zeilen aus Tabelle und Datenbank entfernen, bevor dies geschieht wird jedoch mit einem Dialogfenster eine Bestätigung abgefragt.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/0782f9d3-b00f-4114-b919-b0292f326e96)
@@ -136,7 +143,7 @@ Der Remove-Button nur, wenn mindestens eine Zeile ausgewählt ist. Über ihn las
 
 Unterhalb der Tabelle befindet sich der Previewstring. Durch ihn wird beispielhaft dargestellt, wie die Daten später ausgegeben würden. Die Reihenfolge der Spalten sowie die Information, welche Spalten aktiviert sind, finden sich hier wieder. Dazu wird das Trennzeichen, das über ein Auswahlfeld selektiert werden kann mit dargestellt. Über dieses Auswahlfeld lässt sich eines von vier festgelegten Trennzeichen auswählen.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/7cbaa57f-548f-494b-947a-80788ed56bc7)
@@ -145,7 +152,7 @@ Unterhalb der Tabelle befindet sich der Previewstring. Durch ihn wird beispielha
 Die Daten der ausgewählten Spalten können mit dem Clipboard-Button in die Zwischenablage kopiert werden. Die Formatierung folgt der Spaltenreihenfolge und dem gewählten Trennzeichen. Der Button ist nur aktiv, sollte mindestens eine Zeile ausgewählt sein.
 Die Daten der ausgewählten Spalten können ebenso als Reintext in einer Datei gespeichert werden. Hierzu dient der Save-Button. Ein Klick öffnet ein Dialogfenster, über das Ort und Name der zu speichernden Datei festgelegt werden kann.
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
 ![image](https://github.com/steffanossa/tm/assets/94658723/e2206fa7-c5ec-4a8f-bb7c-e6092d1d1fbe)
@@ -154,7 +161,7 @@ Die Daten der ausgewählten Spalten können ebenso als Reintext in einer Datei g
 Hilfe
 
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
 
 ![image](https://github.com/steffanossa/tm/assets/94658723/4fec96c9-1f3c-4995-ac16-5a58caf6b1bb)
@@ -163,13 +170,15 @@ Hilfe
 Über
 
 <details>
-  <summary>(<i>click to show/hide screenshot</i>)</summary>
+  <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
 
 ![image](https://github.com/steffanossa/tm/assets/94658723/67cf0e4d-5ee6-4dd6-8ce0-a7c8fb9db951)
 </details>
 
 Der Scenebuilder wurde nicht verwendet, da er mit (F)XML arbeitet. XML ist Mist.
+
+## 
 
 ## SQLite
 
