@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import tm.model.MainModel;
-import tm.model.classes.Student;
+import tm.model.dtos.StudentDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class MainModelTest {
 
     private static MainModel mainModel;
     private String separator;
-    private Student[] students;
+    private StudentDTO[] students;
     private ArrayList<String> visibleColumns;
     private String expectedResultString;
     private String resultString;
@@ -33,9 +33,9 @@ public class MainModelTest {
     public void initThings()
     {
 
-        students = new Student[] {
-            new Student("Erika", "Mustermann", 1234567, "AB123456"),
-            new Student("Benjamin", "Blümchen", 9876543, "XY987654")
+        students = new StudentDTO[] {
+            new StudentDTO("Erika", "Mustermann", 1234567, "AB123456"),
+            new StudentDTO("Benjamin", "Blümchen", 9876543, "XY987654")
         };
 
         visibleColumns = new ArrayList<>(List.of("First name", "Surname", "Matriculation Nr.", "FH Identifier"));

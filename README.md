@@ -65,6 +65,10 @@
   - [ ] dao
   - [ ] add process
   - [ ] class diagram
+- [ ] datenbank interaktionen minimieren!
+  - [ ] remove
+  - [ ] edit
+  - [ ] add
 
 im moment ist der uniqueness check: add to sql methode schlägt fehl oder nicht. sollte anhand der schon gezogenen daten stattfindne, so ist unnützer verbindungsaufbau..
 

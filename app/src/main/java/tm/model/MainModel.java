@@ -11,9 +11,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Function;
 
-import tm.model.classes.Student;
 import tm.model.daos.GenericDAO;
 import tm.model.daos.StudentDAO;
+import tm.model.dtos.StudentDTO;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
@@ -39,14 +39,14 @@ public class MainModel {
     /**
      * HashMap with column headers and corresponding getters
      */
-    private static final Map<String, Function<Student, ?>> COLUMN_GETTER_MAP = new HashMap<String, Function<Student, ?>>()
+    private static final Map<String, Function<StudentDTO, ?>> COLUMN_GETTER_MAP = new HashMap<String, Function<StudentDTO, ?>>()
     {{
-        put("First name", Student::getFirstName);
-        put("Surname", Student::getSurname);
-        put("Matriculation Nr.", Student::getMatriculationNumber);
-        put("FH Identifier", Student::getFhIdentifier);
+        put("First name", StudentDTO::getFirstName);
+        put("Surname", StudentDTO::getSurname);
+        put("Matriculation Nr.", StudentDTO::getMatriculationNumber);
+        put("FH Identifier", StudentDTO::getFhIdentifier);
     }};
-    private GenericDAO<Student> studentDAO;
+    private GenericDAO<StudentDTO> studentDAO;
     private SQLiteBuddy sqLiteBuddy;
 
     public MainModel() {
@@ -54,7 +54,7 @@ public class MainModel {
         this.studentDAO = new StudentDAO(this.sqLiteBuddy);
     }
 
-    public GenericDAO<Student> getStudentDAO() {
+    public GenericDAO<StudentDTO> getStudentDAO() {
         return studentDAO;
     }
 
@@ -89,11 +89,11 @@ public class MainModel {
         return separatorMap.keySet();
     }
 
-    public static Map<String, Function<Student, ?>> getColumnGetterMap() {
+    public static Map<String, Function<StudentDTO, ?>> getColumnGetterMap() {
         return COLUMN_GETTER_MAP;
     }
 
-    public boolean removeStudent(Student student) {
+    public boolean removeStudent(StudentDTO student) {
         return studentDAO.removeById(student.getMatriculationNumber());
     }
 
@@ -108,7 +108,7 @@ public class MainModel {
         clipboard.setContents(stringSelection, null);
     }
 
-    public ArrayList<Student> retrieveStudents() {
+    public ArrayList<StudentDTO> retrieveStudents() {
         return studentDAO.getAll();
     }
 
@@ -120,17 +120,17 @@ public class MainModel {
      * @return A string of students' attributes in the order provided by visibleColumns separated by the separator given
      */
     public String concatenate(
-        Student[] students,
+        StudentDTO[] students,
         ArrayList<String> visibleColumns,
         String separator
         ) {
         String concatenatedString = "";
 
-        for (Student student : students)
+        for (StudentDTO student : students)
         {
             for (String columnName : visibleColumns)
             {
-                Function<Student, ?> function = COLUMN_GETTER_MAP.get(columnName);
+                Function<StudentDTO, ?> function = COLUMN_GETTER_MAP.get(columnName);
                 concatenatedString += function.apply(student) + separator;
             }
             concatenatedString = concatenatedString.substring(0, concatenatedString.length() - separator.length()) + "\n";

@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import tm.customcontrols.PatternTextField;
 import tm.model.InputDialogModel;
-import tm.model.classes.Student;
 import tm.model.daos.GenericDAO;
+import tm.model.dtos.StudentDTO;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.view.alerts.BadInputAlertView;
 import tm.view.dialogs.InputDialogView;
@@ -27,10 +27,15 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
 {
     private InputDialogView inputDialogView;
     private InputDialogModel inputDialogModel;
+    private MainPresenterInterface mainPresenter;
     
-    public InputDialogPresenter(GenericDAO<Student> studentDAO, String dialogTitle) {
+    public InputDialogPresenter(
+            GenericDAO<StudentDTO> studentDAO,
+            MainPresenterInterface mainPresenter,
+            String dialogTitle) {
         inputDialogModel = new InputDialogModel(studentDAO);
         inputDialogView = new InputDialogView(dialogTitle);
+        this.mainPresenter = mainPresenter;
         addOkButtonAction();
     }
 
@@ -38,7 +43,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      * Fills PatternTextFields of the view with the data of the student object provided
      * @param student
      */
-    private void fillTextFields(Student student)
+    private void fillTextFields(StudentDTO student)
     {
         PatternTextField firstnameTextField = inputDialogView.getPatternTextFieldByName("firstName");
         PatternTextField lastnameTextField = inputDialogView.getPatternTextFieldByName("surname");
@@ -89,31 +94,50 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     }
 
     /**
-     * validate user input + add data to database if valid
-     * @return {@code true} if successful
+     * 
+     * @return Title string as key, PatternTexfield as value
      */
-    private boolean handleOkButtonClick()
-    {
-        LinkedHashMap<String, PatternTextField> patternTextFieldMap = new LinkedHashMap<>()
+    private LinkedHashMap<String, PatternTextField> createPatternTextFieldMap() {
+        return new LinkedHashMap<>()
         {{
             put("First Name", inputDialogView.getPatternTextFieldByName("firstName"));
             put("Surname", inputDialogView.getPatternTextFieldByName("surname"));
             put("Matriculation Nr.", inputDialogView.getPatternTextFieldByName("matriculationNumber"));
             put("FH Identifier", inputDialogView.getPatternTextFieldByName("fhIdentifier"));
         }};
+    }
+
+    /**
+     * validate user input + add data to database if valid
+     * @return {@code true} if successful
+     */
+    private boolean handleOkButtonClick() {
+        LinkedHashMap<String, PatternTextField> patternTextFieldMap = createPatternTextFieldMap();
         StringBuilder errorMessage = new StringBuilder("Please revisit the following inputs:");
         AtomicBoolean inputIsValid = new AtomicBoolean(true);
         patternTextFieldMap.keySet().forEach(patternTextFieldName ->
         {
             inputIsValid.set(inputIsValid.get() & validateAndAppendToErrorMessage(patternTextFieldMap.get(patternTextFieldName), patternTextFieldName, errorMessage));
         });
-        if (!inputIsValid.get()) 
+        if (!inputIsValid.get())
         {
             this.showBadInputAlert(errorMessage.toString());
             return inputIsValid.get();
         }
         else 
         {
+            boolean isMatriculationNumberUnique = checkMatriculationNumberUniqueness(Integer.valueOf(patternTextFieldMap.get("Matriculation Nr.").getText()));
+            boolean isFhIdentifierUnique = checkFhIdentifierUniqueness(patternTextFieldMap.get("FH Identifier").getText());
+            String badInputMessage = "Value intended to unique already exists in the database:";
+
+            if (!isMatriculationNumberUnique) badInputMessage += "\n- Matriculation Nr.";
+
+            if (!isFhIdentifierUnique) badInputMessage += "\n- FH Identifier";
+            
+            if (!isMatriculationNumberUnique || !isFhIdentifierUnique) {
+                showBadInputAlert(badInputMessage);
+                return !inputIsValid.get();
+            }
             try
             {
                 this.inputDialogModel.addStudent(
@@ -125,35 +149,9 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             }
             catch (SQLException e)
             {
-                if (uniquenessCheckAndAlertShow(e))
-                {
-                    return !inputIsValid.get();
-                }
                 return !inputIsValid.get();
             }
         }
-    }
-
-    /**
-     * TODO daas ist ja kompletter quatsch
-     * @param exception
-     * @return {@code true} if successful
-     */
-    private boolean uniquenessCheckAndAlertShow(SQLException exception)
-    {
-        String message = exception.getMessage();
-        if (message.contains("UNIQUE constraint failed"))
-        {
-            String matriculationNumberPattern = "matriculation_number";
-            String fhIdentityPattern = "fh_identifier";
-            String badInputMessage = "Value intended to be unique already exists in the database:";
-            if (message.contains(matriculationNumberPattern))
-                badInputMessage += "\n- Matriculation Nr.";
-            if (message.contains(fhIdentityPattern))
-                badInputMessage += "\n- FH Identifier";
-            showBadInputAlert(badInputMessage);
-        }
-        return false;
     }
 
     /**
@@ -170,7 +168,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      * Shows the InputDialogView and fills it with the data of the provided student
      */
     @Override
-    public void showAndWaitWithData(Student student)
+    public void showAndWaitWithData(StudentDTO student)
     {
         fillTextFields(student);
 
@@ -187,5 +185,15 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             }
             catch (SQLException e) { e.getStackTrace(); }
         }
+    }
+
+    private boolean checkMatriculationNumberUniqueness(int matriculationNumber) {
+        boolean isUnique = !mainPresenter.getStudentDTOs().stream().anyMatch(student -> student.getMatriculationNumber() == matriculationNumber);
+        return isUnique;
+    }
+
+    private boolean checkFhIdentifierUniqueness(String fhIdentifier) {
+        boolean isUnique = !mainPresenter.getStudentDTOs().stream().anyMatch(student -> student.getFhIdentifier().equals(fhIdentifier));
+        return isUnique;
     }
 }

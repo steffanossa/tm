@@ -2,14 +2,14 @@ package tm.model;
 
 import java.sql.SQLException;
 
-import tm.model.classes.Student;
 import tm.model.daos.GenericDAO;
+import tm.model.dtos.StudentDTO;
 
 public class InputDialogModel {
     
-    private GenericDAO<Student> studentDAO;
+    private GenericDAO<StudentDTO> studentDAO;
 
-    public InputDialogModel( GenericDAO<Student> studentDAO ) { this.studentDAO = studentDAO; }
+    public InputDialogModel( GenericDAO<StudentDTO> studentDAO ) { this.studentDAO = studentDAO; }
 
     /**
      * Adds a Student to the database
@@ -26,7 +26,7 @@ public class InputDialogModel {
         String fhIdentifier,
         int matriculationNumber) throws SQLException
     {
-        Student student = new Student(firstName, surname, matriculationNumber, fhIdentifier);
+        StudentDTO student = new StudentDTO(firstName, surname, matriculationNumber, fhIdentifier);
         
         return studentDAO.add(student);
     }

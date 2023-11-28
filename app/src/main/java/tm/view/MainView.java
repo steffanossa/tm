@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import tm.model.classes.Student;
+import tm.model.dtos.StudentDTO;
 
 /**
  * View for the main window
@@ -27,7 +27,7 @@ public class MainView extends VBox {
     private Button addButton;
     private Button editButton;
     private Button removeButton;
-    private TableView<Student> tableView;
+    private TableView<StudentDTO> tableView;
     private ContextMenu contextMenu;
     private Label labelPreviewString;
     private ComboBox<String> comboBox;
@@ -126,7 +126,7 @@ public class MainView extends VBox {
         return this.comboBox;
     }
 
-    public TableView<Student> getTableView() {
+    public TableView<StudentDTO> getTableView() {
         return this.tableView;
     }
 

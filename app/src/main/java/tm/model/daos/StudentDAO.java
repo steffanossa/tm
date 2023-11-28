@@ -8,13 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import tm.model.SQLiteBuddy;
-import tm.model.classes.Student;
+import tm.model.dtos.StudentDTO;
 
 
 /**
  * Data access object
  */
-public class StudentDAO implements GenericDAO<Student> 
+public class StudentDAO implements GenericDAO<StudentDTO> 
 {
     //Data Access Object
     private SQLiteBuddy sqLiteBuddy;
@@ -30,10 +30,10 @@ public class StudentDAO implements GenericDAO<Student>
      * @return A list of Students
      */
     @Override
-    public ArrayList<Student> getAll()
+    public ArrayList<StudentDTO> getAll()
     {
         Connection connection = sqLiteBuddy.establishConnection();
-        ArrayList<Student> students = new ArrayList<>();
+        ArrayList<StudentDTO> students = new ArrayList<>();
         try {
             Statement stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT * FROM Students");
@@ -42,7 +42,7 @@ public class StudentDAO implements GenericDAO<Student>
                 String surname = resultSet.getString("surname");
                 int matNr = resultSet.getInt("matriculation_number");
                 String fhK = resultSet.getString("fh_identifier");
-                students.add(new Student(firstname, surname, matNr, fhK));
+                students.add(new StudentDTO(firstname, surname, matNr, fhK));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,7 +59,7 @@ public class StudentDAO implements GenericDAO<Student>
      * @throws SQLException
      */
     @Override
-    public boolean add(Student student)
+    public boolean add(StudentDTO student)
     {
         boolean wasSuccessful = false;
         Connection connection = sqLiteBuddy.establishConnection();

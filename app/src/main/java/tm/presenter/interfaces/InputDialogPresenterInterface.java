@@ -1,9 +1,9 @@
 package tm.presenter.interfaces;
 
-import tm.model.classes.Student;
+import tm.model.dtos.StudentDTO;
 
 public interface InputDialogPresenterInterface extends GenericPresenterInterface {
     void showAndWait();
     void hide();
-    void showAndWaitWithData(Student student);
+    void showAndWaitWithData(StudentDTO student);
 }

@@ -1,13 +1,13 @@
-package tm.model.classes;
+package tm.model.dtos;
 
-public class Student {
+public class StudentDTO {
 
     private String firstName;
     private String surname;
     private int matriculationNumber;
     private String fhIdentifier;
 
-    public Student(
+    public StudentDTO(
         String firstName,
         String surname,
         int matriculationNumber,
@@ -19,45 +19,31 @@ public class Student {
         this.fhIdentifier = fhIdentifier;
     }
 
-    public int getMatriculationNumber()
-    {
+    public int getMatriculationNumber() {
         return matriculationNumber;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return firstName;
     }
 
-    public String getSurname()
-    {
+    public String getSurname() {
         return surname;
     }
 
-    public String getFhIdentifier()
-    {
+    public String getFhIdentifier() {
         return fhIdentifier;
     }
 
-    public void setFirstName(String firstname)
-    {
+    public void setFirstName(String firstname) {
         this.firstName = firstname;
     }
 
-    public void setSurname(String surname)
-    {
+    public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    public void setFhIdentifier(String fhKennung)
-    {
+    public void setFhIdentifier(String fhKennung) {
         this.fhIdentifier = fhKennung;
     }
-
-    @Override
-    public String toString()
-    {
-        return fhIdentifier;
-    }
 }
-

@@ -21,8 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import tm.model.MainModel;
-import tm.model.classes.Student;
-import tm.presenter.interfaces.GenericPresenterInterface;
+import tm.model.dtos.StudentDTO;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.view.AboutView;
 import tm.view.HelpView;
@@ -33,14 +32,14 @@ import tm.view.alerts.ConfirmDeletionAlertView;
 /**
  * Presenter for the main window
  */
-public class MainPresenter implements GenericPresenterInterface {
+public class MainPresenter implements MainPresenterInterface {
     
     private MainView mainView;
     private MainModel mainModel;
 
     private String separator;
-    private ObservableList<Student> students;
-    private ObservableList<Student> selectedStudents;
+    private ObservableList<StudentDTO> students;
+    private ObservableList<StudentDTO> selectedStudents;
 
     public MainPresenter()
     {
@@ -63,7 +62,7 @@ public class MainPresenter implements GenericPresenterInterface {
 
         selectedStudents = mainView.getTableView().getSelectionModel().getSelectedItems();
 
-        selectedStudents.addListener((ListChangeListener.Change<? extends Student> change) -> updateButtonStates());
+        selectedStudents.addListener((ListChangeListener.Change<? extends StudentDTO> change) -> updateButtonStates());
 
         //actions
         addAddButtonAction();
@@ -99,9 +98,9 @@ public class MainPresenter implements GenericPresenterInterface {
      * @param valueClass datatype of the values
      * @return TableColumn
      */
-    private <T> TableColumn<Student, T> createTableColumn(String header, String property, Class<T> valueClass)
+    private <T> TableColumn<StudentDTO, T> createTableColumn(String header, String property, Class<T> valueClass)
     {
-        TableColumn<Student, T> tableColumn = new TableColumn<>(header);
+        TableColumn<StudentDTO, T> tableColumn = new TableColumn<>(header);
         tableColumn.setCellValueFactory(new PropertyValueFactory<>(property));
         return tableColumn;
     }
@@ -112,9 +111,9 @@ public class MainPresenter implements GenericPresenterInterface {
      * on any changes
      * @param tableView
      */
-    private void prepareTableView(TableView<Student> tableView)
+    private void prepareTableView(TableView<StudentDTO> tableView)
     {
-        ArrayList<TableColumn<Student, ?>> columns = new ArrayList<>();
+        ArrayList<TableColumn<StudentDTO, ?>> columns = new ArrayList<>();
         columns.add(createTableColumn("First name", "firstName", String.class));
         columns.add(createTableColumn("Surname", "surname", String.class));
         columns.add(createTableColumn("Matriculation Nr.", "matriculationNumber", Integer.class));
@@ -154,7 +153,7 @@ public class MainPresenter implements GenericPresenterInterface {
      */
     private void updateTableView()
     {
-        ArrayList<Student> studentsArrayList = mainModel.retrieveStudents();
+        ArrayList<StudentDTO> studentsArrayList = mainModel.retrieveStudents();
         students = FXCollections.observableArrayList(studentsArrayList);
         mainView.getTableView().setItems(students);
     }
@@ -194,9 +193,9 @@ public class MainPresenter implements GenericPresenterInterface {
      * Adds a context menu to the tableview that enables hiding/displaying columns
      * @param tableView
      */
-    private void configContextMenu(TableView<Student> tableView)
+    private void configContextMenu(TableView<StudentDTO> tableView)
     {
-        for (TableColumn<Student, ?> column : tableView.getColumns())
+        for (TableColumn<StudentDTO, ?> column : tableView.getColumns())
         {
             CheckMenuItem menuItem = new CheckMenuItem(column.getText());
             menuItem.setSelected(true);
@@ -214,31 +213,32 @@ public class MainPresenter implements GenericPresenterInterface {
      * TODO
      * instatiasid the inputdialog from where a row can be added to the database
      */
-    private void addAddButtonAction()
-    {
-        mainView.getAddButton().setOnAction(event ->
-        {
-            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(mainModel.getStudentDAO(), "Add entity");
+    private void addAddButtonAction() {
+        mainView.getAddButton().setOnAction(event -> {
+            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(
+                    mainModel.getStudentDAO(),
+                    this,
+                    "Add entity");
             inputDialogPresenterInterface.showAndWait();
-            updateTableView();
+            // updateTableView();
         });
     }
 
     /**
+     * TODO: hier wird noch direkt aus der datenbank gelöscht
      * Starts up inputdialog with prefilled data from the selected row to be eidterd
      */
-    private void addEditButtonAction()
-    {
-        mainView.getEditButton().setOnAction(event ->
-        {
-            Student tempStudent = selectedStudents.get(0);
+    private void addEditButtonAction() {
+        mainView.getEditButton().setOnAction(event -> {
+            StudentDTO tempStudent = selectedStudents.get(0);
             mainModel.removeStudent(tempStudent);
-            ArrayList<Student> studentsArrayList = mainModel.retrieveStudents();
+            ArrayList<StudentDTO> studentsArrayList = mainModel.retrieveStudents();
             students = FXCollections.observableArrayList(studentsArrayList);
-            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(mainModel.getStudentDAO(), "Edit entity");
-            
+            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(
+                    mainModel.getStudentDAO(),
+                    this,
+                    "Edit entity");
             inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
-            
             updateTableView();
         });
     }
@@ -252,11 +252,10 @@ public class MainPresenter implements GenericPresenterInterface {
         {
             if (showConfirmDeletionAlert(selectedStudents.size()))
             {
-            selectedStudents.forEach(student ->
-            {
-                mainModel.removeStudent(student);
-            });
-            updateTableView();
+                selectedStudents.forEach(student -> {
+                    mainModel.removeStudent(student);
+                    students.remove(student);
+                } );
             }
         });
     }
@@ -269,7 +268,7 @@ public class MainPresenter implements GenericPresenterInterface {
         mainView.getClipboardButton().setOnAction(event ->
         {
             String concatenatedString = mainModel.concatenate(
-                selectedStudents.toArray(new Student[selectedStudents.size()]),
+                selectedStudents.toArray(new StudentDTO[selectedStudents.size()]),
                 getVisibleColumns(),
                 separator
             );
@@ -292,7 +291,7 @@ public class MainPresenter implements GenericPresenterInterface {
             if (file != null)
             {
                 String concatenatedString = mainModel.concatenate(
-                    selectedStudents.toArray(new Student[selectedStudents.size()]),
+                    selectedStudents.toArray(new StudentDTO[selectedStudents.size()]),
                     getVisibleColumns(),
                     separator
                 );
@@ -308,7 +307,7 @@ public class MainPresenter implements GenericPresenterInterface {
     private ArrayList<String> getVisibleColumns()
     {
         ArrayList<String> visibleColumns = new ArrayList<>();
-        for (TableColumn<Student, ?> column : mainView.getTableView().getColumns())
+        for (TableColumn<StudentDTO, ?> column : mainView.getTableView().getColumns())
         {
             if (column.isVisible())
                 visibleColumns.add(column.getText());
@@ -367,6 +366,11 @@ public class MainPresenter implements GenericPresenterInterface {
      */
     private void addHelpMenuItemAction() {
         mainView.getHelpMenuItem().setOnAction( event -> new HelpView().showAndWait() );
+    }
+
+    @Override
+    public ObservableList<StudentDTO> getStudentDTOs() {
+        return students;
     }
 }
 

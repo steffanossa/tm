@@ -20,8 +20,8 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 import tm.model.SQLiteBuddy;
-import tm.model.classes.Student;
 import tm.model.daos.StudentDAO;
+import tm.model.dtos.StudentDTO;
 
 public class StudentDAOTest {
 
@@ -30,7 +30,7 @@ public class StudentDAOTest {
     private static Statement statement;
     private static PreparedStatement preparedStatement;
 
-    private final Student student = new Student(
+    private final StudentDTO student = new StudentDTO(
         "Barbara",
         "Salesch",
         111119,
@@ -71,7 +71,7 @@ public class StudentDAOTest {
 
     @Test
     public void testGetAllStudents() {
-        ArrayList<Student> allStudents = studentDAO.getAll();
+        ArrayList<StudentDTO> allStudents = studentDAO.getAll();
         assertEquals(10, allStudents.size());
     }
 
