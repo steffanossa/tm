@@ -66,6 +66,8 @@
   - [ ] add process
   - [ ] class diagram
 
+im moment ist der uniqueness check: add to sql methode schlägt fehl oder nicht. sollte anhand der schon gezogenen daten stattfindne, so ist unnützer verbindungsaufbau..
+
 ## MVP
 
 Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).
