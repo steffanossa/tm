@@ -220,7 +220,7 @@ public class MainPresenter implements MainPresenterInterface {
                     this,
                     "Add entity");
             inputDialogPresenterInterface.showAndWait();
-            // updateTableView();
+            updateTableView();
         });
     }
 
