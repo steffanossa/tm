@@ -59,16 +59,17 @@
 - [x] about view
 - [x] help view
 - [x] howTo schreiben
-- [ ] testen unter linux / mac
+- [ ] __testen unter linux / mac__
 - [ ] uml gedöns
   - [x] mvp
   - [ ] dao
   - [ ] add process
   - [ ] class diagram
-- [ ] datenbank interaktionen minimieren!
+- [ ] __datenbank interaktionen minimieren!__
   - [ ] remove
   - [ ] edit
   - [ ] add
+- [ ] __generic alert for any errors!__
 
 im moment ist der uniqueness check: add to sql methode schlägt fehl oder nicht. sollte anhand der schon gezogenen daten stattfindne, so ist unnützer verbindungsaufbau..
 
@@ -82,7 +83,7 @@ Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert 
 ![NOsxJiGm44LxVyNWQXVa5RGq92K5We97RUmB6ScFO8z9WVXteYGGYNREkMUwAhP8Yq6ToO08YbPGs2fX2Q2-k845hXNGeN8S0xyn_56vO6kbXuAA92ZqfIxebPD_OVyEUSoz4yxfSBocpyn-XctqLl1qkns-rPQuonvXcTUFS3-YsD_XpIuzCwRPCJGj-PNjp_NbwNHEch8nXlILNgF_X](https://github.com/steffanossa/tm/assets/94658723/ad076175-a976-4346-b2af-3b87889a949d)
 </details>
 
-## DAO
+## DAO, DTO
 
 Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Konzept des Data Access Object (DAO) gearbeitet. So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwedungsschicht davon unberührt, lediglich die DAO-Ebene müsste angepasst werden.
 
