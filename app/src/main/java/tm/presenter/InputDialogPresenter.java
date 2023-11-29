@@ -17,6 +17,7 @@ import tm.model.InputDialogModel;
 import tm.model.daos.GenericDAO;
 import tm.model.dtos.StudentDTO;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
+import tm.presenter.interfaces.MainPresenterInterface;
 import tm.view.alerts.ErrorAlert;
 import tm.view.alerts.ExceptionAlert;
 import tm.view.dialogs.InputDialogView;
@@ -142,11 +143,23 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             }
             try
             {
-                this.inputDialogModel.addStudent(
-                    patternTextFieldMap.get("First Name").getText(),
-                    patternTextFieldMap.get("Surname").getText(),
-                    patternTextFieldMap.get("FH Identifier").getText(),
-                    Integer.valueOf(patternTextFieldMap.get("Matriculation Nr.").getText()));
+                String firstName = patternTextFieldMap.get("First Name").getText();
+                String surname = patternTextFieldMap.get("Surname").getText();
+                int matriculationNumber = Integer.valueOf(patternTextFieldMap.get("Matriculation Nr.").getText());
+                String fhIdentifier = patternTextFieldMap.get("FH Identifier").getText();
+                inputDialogModel.addStudent(
+                    firstName,
+                    surname,
+                    matriculationNumber,
+                    fhIdentifier
+                    );
+                mainPresenter.getStudentDTOs().add(new StudentDTO(
+                    firstName,
+                    surname,
+                    matriculationNumber,
+                    fhIdentifier
+                    )
+                );
                 return inputIsValid.get();
             }
             catch (SQLException e)
@@ -184,8 +197,9 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                 inputDialogModel.addStudent(
                     student.getFirstName(),
                     student.getSurname(),
-                    student.getFhIdentifier().toLowerCase(),
-                    Integer.valueOf(student.getMatriculationNumber()));
+                    Integer.valueOf(student.getMatriculationNumber()),
+                    student.getFhIdentifier().toLowerCase()
+                    );
             }
             catch (SQLException e) {
                 ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());

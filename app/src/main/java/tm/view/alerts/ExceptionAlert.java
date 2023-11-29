@@ -39,6 +39,5 @@ public class ExceptionAlert extends Alert {
         setGraphic(imageView);
 
         getDialogPane().setContent(gridPane);
-        // getDialogPane().setPadding(new Insets(10, 0,10, 0));
     }
 }

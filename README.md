@@ -77,8 +77,8 @@
   - [x] not hideable
   - [x] not in clipboard & saveTo
   - [ ] update what happens after exception alert: always exit app no good
-
-im moment ist der uniqueness check: add to sql methode schlägt fehl oder nicht. sollte anhand der schon gezogenen daten stattfindne, so ist unnützer verbindungsaufbau..
+- [ ] __CHECKBOXCOLUMN HAT ENDLOS VIELE ZEILEN!__
+- [ ] __toggleAll löst checkboxen nicht aus!__
 
 ## MVP
 

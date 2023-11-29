@@ -23,8 +23,9 @@ public class InputDialogModel {
     public boolean addStudent(
         String firstName,
         String surname,
-        String fhIdentifier,
-        int matriculationNumber) throws SQLException
+        int matriculationNumber,
+        String fhIdentifier
+        ) throws SQLException
     {
         StudentDTO student = new StudentDTO(firstName, surname, matriculationNumber, fhIdentifier);
         

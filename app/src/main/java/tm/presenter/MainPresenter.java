@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import tm.model.MainModel;
 import tm.model.dtos.StudentDTO;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
+import tm.presenter.interfaces.MainPresenterInterface;
 import tm.view.AboutView;
 import tm.view.HelpView;
 import tm.view.MainView;
@@ -42,11 +43,13 @@ public class MainPresenter implements MainPresenterInterface {
     private String separator;
     private ObservableList<StudentDTO> students;
     private ObservableList<StudentDTO> selectedStudents;
+    private boolean toggle;
 
     public MainPresenter()
     {
         mainModel = new MainModel();
         separator = ",";
+        toggle = false;
         mainView = new MainView();
         selectedStudents = FXCollections.observableArrayList();
         prepareAll();
@@ -108,6 +111,7 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     /**
+     * TODO: es werden unendlich viele zeilen in der checkboxcolumn erstellt!
      * Adds TableColumns to the TableView, sets the selection mode to allow multi row selection,
      * adds a listener to the ObservableList of columns of the TableView to update the PreviewString
      * on any changes
@@ -116,13 +120,14 @@ public class MainPresenter implements MainPresenterInterface {
     private void prepareTableView(TableView<StudentDTO> tableView)
     {
         ArrayList<TableColumn<StudentDTO, ?>> columns = new ArrayList<>();
-        TableColumn<StudentDTO, Boolean> checkBoxColumn = createCheckBoxColumn();
-        columns.add(checkBoxColumn);
         
         columns.add(createTableColumn("First name", "firstName", String.class));
         columns.add(createTableColumn("Surname", "surname", String.class));
         columns.add(createTableColumn("Matriculation Nr.", "matriculationNumber", Integer.class));
         columns.add(createTableColumn("FH Identifier", "fhIdentifier", String.class));
+        
+        TableColumn<StudentDTO, Boolean> checkBoxColumn = createCheckBoxColumn(mainView.getTableView().getItems().size());
+        columns.add(checkBoxColumn);
 
         tableView.getColumns().addAll(columns);
 
@@ -137,18 +142,19 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     /**
+     * TODO: es werden unendlich viele zeilen erstellt!!!
      * Creates a TableColumn with checkboxes
      * @return
      * TODO: too specific
      */
-    private TableColumn<StudentDTO, Boolean> createCheckBoxColumn() {
+    private TableColumn<StudentDTO, Boolean> createCheckBoxColumn(int numberOfRows) {
         TableColumn<StudentDTO, Boolean> checkBoxColumn = new TableColumn<>("Select");
         checkBoxColumn.setCellValueFactory(cellData -> {
             return null;
         });
         checkBoxColumn.setCellFactory(column -> {
             CheckBoxTableCell<StudentDTO, Boolean> cell = new CheckBoxTableCell<>();
-            cell.getCheckBox().selectedProperty().addListener((observale, oldValue, newValue) -> {
+            cell.getCheckBox().selectedProperty().addListener((_observale, _oldValue, newValue) -> {
                 if (cell.getTableRow() != null && cell.getTableRow().getItem() != null) {
                     handleSelectedRow(
                         cell.getTableRow().getItem(), 
@@ -162,7 +168,6 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     /**
-     * 
      * @param student
      * @param isSelected
      */
@@ -238,6 +243,7 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     /**
+     * TODO: toggleAll does not change checkbox states! this could lead to duplicate entries in selectedStudents and is wrong even if not
      * Adds a context menu to the tableview that enables hiding/displaying columns
      * @param tableView
      */
@@ -255,9 +261,22 @@ public class MainPresenter implements MainPresenterInterface {
                     updatePreviewString();
                 });
                 mainView.getContextMenu().getItems().add(menuItem);
+            }
         }
-        }
-       tableView.setContextMenu(mainView.getContextMenu());
+        // dirty, bad, shame, sorry
+        CheckMenuItem toggleAll = new CheckMenuItem("Select all");
+        toggleAll.setOnAction(event -> {
+            if (!toggle) {
+                selectedStudents.clear();
+                selectedStudents.addAll(students);
+            } else {
+                selectedStudents.clear();
+            }
+            toggle = !toggle;
+        });
+        toggleAll.setSelected(false);
+        mainView.getContextMenu().getItems().add(toggleAll);
+        tableView.setContextMenu(mainView.getContextMenu());
     }
 
     /**
@@ -271,7 +290,7 @@ public class MainPresenter implements MainPresenterInterface {
                     this,
                     "Add entity");
             inputDialogPresenterInterface.showAndWait();
-            updateTableView();
+            mainView.getTableView().refresh();
         });
     }
 
@@ -293,11 +312,13 @@ public class MainPresenter implements MainPresenterInterface {
                     "Edit entity");
             inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
             updateTableView();
+            selectedStudents.remove(tempStudent);
             } catch (SQLException e) {
                 ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
                 alert.show();
                 System.exit(0);
             }
+            mainView.getTableView().refresh();
         });
     }
 
@@ -310,16 +331,18 @@ public class MainPresenter implements MainPresenterInterface {
         {
             if (showConfirmDeletionAlert(selectedStudents.size()))
             {
-                selectedStudents.forEach(student -> {
+                ArrayList<StudentDTO> studentsToRemove = new ArrayList<>(selectedStudents);
+                studentsToRemove.forEach(student -> {
                     try {
                         mainModel.removeStudent(student);
                         students.remove(student);
+                        selectedStudents.remove(student);
                     } catch (SQLException e) {
                         ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
                         alert.show();
-                        System.exit(0);
                     }
-                } );
+                });
+                mainView.getTableView().refresh();
             }
         });
     }
