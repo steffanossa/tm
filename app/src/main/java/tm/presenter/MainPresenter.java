@@ -28,6 +28,7 @@ import tm.view.HelpView;
 import tm.view.MainView;
 import tm.view.alerts.BadDatabaseAlertView;
 import tm.view.alerts.ConfirmDeletionAlertView;
+import tm.view.alerts.ExceptionAlert;
 
 /**
  * Presenter for the main window
@@ -153,9 +154,17 @@ public class MainPresenter implements MainPresenterInterface {
      */
     private void updateTableView()
     {
-        ArrayList<StudentDTO> studentsArrayList = mainModel.retrieveStudents();
-        students = FXCollections.observableArrayList(studentsArrayList);
-        mainView.getTableView().setItems(students);
+        ArrayList<StudentDTO> studentsArrayList;
+        try {
+            studentsArrayList = mainModel.retrieveStudents();
+            students = FXCollections.observableArrayList(studentsArrayList);
+            mainView.getTableView().setItems(students);
+        } catch (SQLException e) {
+            ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+            alert.show();
+            System.exit(0);
+            //TODO
+        }
     }
 
     /**
@@ -231,15 +240,22 @@ public class MainPresenter implements MainPresenterInterface {
     private void addEditButtonAction() {
         mainView.getEditButton().setOnAction(event -> {
             StudentDTO tempStudent = selectedStudents.get(0);
-            mainModel.removeStudent(tempStudent);
-            ArrayList<StudentDTO> studentsArrayList = mainModel.retrieveStudents();
-            students = FXCollections.observableArrayList(studentsArrayList);
-            InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(
+            ArrayList<StudentDTO> studentsArrayList;
+            try {
+                mainModel.removeStudent(tempStudent);
+                studentsArrayList = mainModel.retrieveStudents();
+                students = FXCollections.observableArrayList(studentsArrayList);
+                InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(
                     mainModel.getStudentDAO(),
                     this,
                     "Edit entity");
             inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
             updateTableView();
+            } catch (SQLException e) {
+                ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+                alert.show();
+                System.exit(0);
+            }
         });
     }
 
@@ -253,8 +269,14 @@ public class MainPresenter implements MainPresenterInterface {
             if (showConfirmDeletionAlert(selectedStudents.size()))
             {
                 selectedStudents.forEach(student -> {
-                    mainModel.removeStudent(student);
-                    students.remove(student);
+                    try {
+                        mainModel.removeStudent(student);
+                        students.remove(student);
+                    } catch (SQLException e) {
+                        ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+                        alert.show();
+                        System.exit(0);
+                    }
                 } );
             }
         });

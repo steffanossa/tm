@@ -8,13 +8,13 @@ import javafx.stage.Stage;
 /**
  * Alert informing about why the data put in is bad
  */
-public class BadInputAlertView extends Alert {
+public class ErrorAlert extends Alert {
 
-    public BadInputAlertView(String message)
+    public ErrorAlert(String title, String message)
     {
         super(Alert.AlertType.ERROR);
 
-        setTitle("Bad input");
+        setTitle(title);
         setHeaderText(null);
         setContentText(message);
 

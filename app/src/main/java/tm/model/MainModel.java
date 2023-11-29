@@ -93,7 +93,8 @@ public class MainModel {
         return COLUMN_GETTER_MAP;
     }
 
-    public boolean removeStudent(StudentDTO student) {
+    public boolean removeStudent(StudentDTO student)  throws SQLException
+    {
         return studentDAO.removeById(student.getMatriculationNumber());
     }
 
@@ -108,7 +109,8 @@ public class MainModel {
         clipboard.setContents(stringSelection, null);
     }
 
-    public ArrayList<StudentDTO> retrieveStudents() {
+    public ArrayList<StudentDTO> retrieveStudents() throws SQLException
+    {
         return studentDAO.getAll();
     }
 

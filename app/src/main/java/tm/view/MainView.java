@@ -18,6 +18,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tm.model.dtos.StudentDTO;
+import tm.view.alerts.ConfirmDeletionAlertView;
+import tm.view.alerts.ErrorAlert;
+import tm.view.alerts.ExceptionAlert;
 
 /**
  * View for the main window
@@ -43,6 +46,7 @@ public class MainView extends VBox {
 
     public MainView()
     {
+        scene = new Scene(this);
         helpMenuItem = new MenuItem("Help");
         aboutMenuItem = new MenuItem("About");
         Menu aboutMenu = new Menu("Help", null, helpMenuItem, aboutMenuItem);
@@ -58,12 +62,18 @@ public class MainView extends VBox {
         imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
         StackPane tablePane = new StackPane(tableView, imageView);
         //
-        scene = new Scene(this);
+        Button tempButton = new Button("ExceptionAlert");
+        tempButton.setOnAction(event -> {
+            ExceptionAlert alert = new ExceptionAlert(" Resource Not Available or Operator Intervention ", "java.lang.ArithmeticException: / by zero\r\n" + //
+                    "\tat Program.foo(main.java:4)\r\n" + //
+                    "\tat Program.main(main.java:12)");
+            alert.show();
+        });
         
         comboBox = new ComboBox<>();
         clipboardButton = new Button("Clipboard");
         saveToFileButton = new Button("Save as...");
-        ToolBar buttonBar = new ToolBar(comboBox, clipboardButton, saveToFileButton);
+        ToolBar buttonBar = new ToolBar(comboBox, clipboardButton, saveToFileButton, tempButton);
         
         getChildren().addAll(
             menuBar,

@@ -71,39 +71,65 @@ public class StudentDAOTest {
 
     @Test
     public void testGetAllStudents() {
-        ArrayList<StudentDTO> allStudents = studentDAO.getAll();
-        assertEquals(10, allStudents.size());
+        ArrayList<StudentDTO> allStudents;
+        try {
+            allStudents = studentDAO.getAll();
+            assertEquals(10, allStudents.size());
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testAddStudent() {
-        int numberOfStudentsBefore = studentDAO.getAll().size();
-        System.out.println(numberOfStudentsBefore);
-        studentDAO.add(student);
-        int numberOfStudentsAfter = studentDAO.getAll().size();
-        assertEquals(numberOfStudentsAfter, numberOfStudentsBefore + 1);
-        removeBarbara();
+        try {
+            int numberOfStudentsBefore = studentDAO.getAll().size();
+            System.out.println(numberOfStudentsBefore);
+            studentDAO.add(student);
+            int numberOfStudentsAfter = studentDAO.getAll().size();
+            assertEquals(numberOfStudentsAfter, numberOfStudentsBefore + 1);
+            removeBarbara();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     
     @Test
     public void testAddDuplicateStudent() {
-        studentDAO.add(student);
-        assertThrows(SQLiteException.class, () -> { studentDAO.add(student); });
-        removeBarbara();
+        try {
+            studentDAO.add(student);
+            assertThrows(SQLiteException.class, () -> { studentDAO.add(student); });
+            removeBarbara();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testRemoveById() {
-        addBarbara();
-        int numberOfStudentsBefore = studentDAO.getAll().size();
-        studentDAO.removeById(student.getMatriculationNumber());
-        int numberOfStudentsAfter = studentDAO.getAll().size();
-        assertEquals(numberOfStudentsBefore - 1, numberOfStudentsAfter);
-        removeBarbara();
+        try {
+            addBarbara();
+            int numberOfStudentsBefore = studentDAO.getAll().size();
+            studentDAO.removeById(student.getMatriculationNumber());
+            int numberOfStudentsAfter = studentDAO.getAll().size();
+            assertEquals(numberOfStudentsBefore - 1, numberOfStudentsAfter);
+            removeBarbara();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testRemoveByIdNotExistent() {
-        assertEquals(false, studentDAO.removeById(999999));
+        try {
+            assertEquals(false, studentDAO.removeById(999999));
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

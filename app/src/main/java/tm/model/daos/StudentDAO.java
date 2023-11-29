@@ -30,7 +30,7 @@ public class StudentDAO implements GenericDAO<StudentDTO>
      * @return A list of Students
      */
     @Override
-    public ArrayList<StudentDTO> getAll()
+    public ArrayList<StudentDTO> getAll() throws SQLException
     {
         Connection connection = sqLiteBuddy.establishConnection();
         ArrayList<StudentDTO> students = new ArrayList<>();
@@ -59,7 +59,7 @@ public class StudentDAO implements GenericDAO<StudentDTO>
      * @throws SQLException
      */
     @Override
-    public boolean add(StudentDTO student)
+    public boolean add(StudentDTO student) throws SQLException
     {
         boolean wasSuccessful = false;
         Connection connection = sqLiteBuddy.establishConnection();
@@ -75,9 +75,7 @@ public class StudentDAO implements GenericDAO<StudentDTO>
             if (prepStmt.executeUpdate() == 1)
                 wasSuccessful = true;
         } catch (SQLException e) {
-            // e.printStackTrace();
-            //TODO
-            //throw e;
+            throw e;
         } finally {
             this.sqLiteBuddy.closeConnection();
         }
@@ -89,7 +87,7 @@ public class StudentDAO implements GenericDAO<StudentDTO>
      * @return {@code true} if successful
      */
     @Override
-    public boolean removeById(int id)
+    public boolean removeById(int id) throws SQLException
     {
         boolean wasSuccessful = false;
         Connection connection = sqLiteBuddy.establishConnection();

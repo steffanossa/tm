@@ -16,7 +16,8 @@ import tm.model.InputDialogModel;
 import tm.model.daos.GenericDAO;
 import tm.model.dtos.StudentDTO;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
-import tm.view.alerts.BadInputAlertView;
+import tm.view.alerts.ErrorAlert;
+import tm.view.alerts.ExceptionAlert;
 import tm.view.dialogs.InputDialogView;
 
 
@@ -149,6 +150,8 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             }
             catch (SQLException e)
             {
+                ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+                alert.show();
                 return !inputIsValid.get();
             }
         }
@@ -160,7 +163,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      */
     private void showBadInputAlert(String message)
     {
-        BadInputAlertView alert = new BadInputAlertView(message);
+        ErrorAlert alert = new ErrorAlert("Bad input", message);
         alert.show();
     }
 
@@ -183,7 +186,10 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                     student.getFhIdentifier().toLowerCase(),
                     Integer.valueOf(student.getMatriculationNumber()));
             }
-            catch (SQLException e) { e.getStackTrace(); }
+            catch (SQLException e) {
+                ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+                alert.show();
+            }
         }
     }
 
