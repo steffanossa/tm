@@ -48,7 +48,7 @@
   - [x] sqlitebuddy
   - [x] mainmodel
   - [x] inputdialogmodel
-- [ ] custom exceptions
+- [ ] custom exceptions MEH
 - [x] edit window umbennenen
 - [x] bad input sprache
 - [x] uniquenessmessage sprache
@@ -69,7 +69,14 @@
   - [ ] remove
   - [ ] edit
   - [ ] add
-- [ ] __generic alert for any errors!__
+- [x] __generic alert for any errors!__
+- [x] checkbox column
+  - [x] adds to selected
+  - [x] not in preview
+  - [ ] not in reordering -> setReorderable=false still allows "passive reordering" :(
+  - [x] not hideable
+  - [x] not in clipboard & saveTo
+  - [ ] update what happens after exception alert: always exit app no good
 
 im moment ist der uniqueness check: add to sql methode schlägt fehl oder nicht. sollte anhand der schon gezogenen daten stattfindne, so ist unnützer verbindungsaufbau..
 
@@ -85,7 +92,8 @@ Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert 
 
 ## DAO, DTO
 
-Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Konzept des Data Access Object (DAO) gearbeitet. So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwedungsschicht davon unberührt, lediglich die DAO-Ebene müsste angepasst werden.
+Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Konzept des Data Access Object (DAO) gearbeitet. So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwendungsschicht davon unberührt, lediglich die DAO-Ebene müsste angepasst werden.
+Die in der Anwendung gezeigten Daten sind keine Livedaten, sondern Transferobjekte (Data Tranfer Objects). Die Daten wurden einmal aus der Datenbank herausgelesen und in diese DTOs verwandelt. Sämtliche Operationen können mit ihnen durchgeführt werden, ohne dass die Datenbank permanent verbunden oder befragt werden muss.
 
 ## Gradle
 

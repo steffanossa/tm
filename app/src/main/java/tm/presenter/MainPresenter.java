@@ -4,8 +4,8 @@ import java.io.File;
 
 import java.sql.SQLException;
 
-import java.util.Optional;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -29,6 +29,7 @@ import tm.view.MainView;
 import tm.view.alerts.BadDatabaseAlertView;
 import tm.view.alerts.ConfirmDeletionAlertView;
 import tm.view.alerts.ExceptionAlert;
+import tm.customcontrols.CheckBoxTableCell;
 
 /**
  * Presenter for the main window
@@ -47,6 +48,7 @@ public class MainPresenter implements MainPresenterInterface {
         mainModel = new MainModel();
         separator = ",";
         mainView = new MainView();
+        selectedStudents = FXCollections.observableArrayList();
         prepareAll();
     }
 
@@ -61,8 +63,6 @@ public class MainPresenter implements MainPresenterInterface {
         showOpenDatabaseFileWindow();
         prepareTableView(mainView.getTableView());
 
-        selectedStudents = mainView.getTableView().getSelectionModel().getSelectedItems();
-
         selectedStudents.addListener((ListChangeListener.Change<? extends StudentDTO> change) -> updateButtonStates());
 
         //actions
@@ -72,6 +72,7 @@ public class MainPresenter implements MainPresenterInterface {
         addClipboardButtonAction();
         addSaveToFileButtonAction();
         //meun
+        addReloadMenuiItemAction();
         addHelpMenuItemAction();
         addAboutMenuItemAction();
 
@@ -115,6 +116,9 @@ public class MainPresenter implements MainPresenterInterface {
     private void prepareTableView(TableView<StudentDTO> tableView)
     {
         ArrayList<TableColumn<StudentDTO, ?>> columns = new ArrayList<>();
+        TableColumn<StudentDTO, Boolean> checkBoxColumn = createCheckBoxColumn();
+        columns.add(checkBoxColumn);
+        
         columns.add(createTableColumn("First name", "firstName", String.class));
         columns.add(createTableColumn("Surname", "surname", String.class));
         columns.add(createTableColumn("Matriculation Nr.", "matriculationNumber", Integer.class));
@@ -130,6 +134,41 @@ public class MainPresenter implements MainPresenterInterface {
         {
             updatePreviewString();
         });
+    }
+
+    /**
+     * Creates a TableColumn with checkboxes
+     * @return
+     * TODO: too specific
+     */
+    private TableColumn<StudentDTO, Boolean> createCheckBoxColumn() {
+        TableColumn<StudentDTO, Boolean> checkBoxColumn = new TableColumn<>("Select");
+        checkBoxColumn.setCellValueFactory(cellData -> {
+            return null;
+        });
+        checkBoxColumn.setCellFactory(column -> {
+            CheckBoxTableCell<StudentDTO, Boolean> cell = new CheckBoxTableCell<>();
+            cell.getCheckBox().selectedProperty().addListener((observale, oldValue, newValue) -> {
+                if (cell.getTableRow() != null && cell.getTableRow().getItem() != null) {
+                    handleSelectedRow(
+                        cell.getTableRow().getItem(), 
+                        newValue);
+                }
+            });
+            return cell;
+        });
+        checkBoxColumn.setReorderable(false);
+        return checkBoxColumn;
+    }
+
+    /**
+     * 
+     * @param student
+     * @param isSelected
+     */
+    private void handleSelectedRow(StudentDTO student, boolean isSelected) {
+        if (isSelected) selectedStudents.add(student);
+        else selectedStudents.remove(student);
     }
 
     /**
@@ -206,20 +245,23 @@ public class MainPresenter implements MainPresenterInterface {
     {
         for (TableColumn<StudentDTO, ?> column : tableView.getColumns())
         {
-            CheckMenuItem menuItem = new CheckMenuItem(column.getText());
-            menuItem.setSelected(true);
-            menuItem.setOnAction(event ->
+            if (!column.getText().equals("Select")) // meh
             {
-                column.setVisible(menuItem.isSelected());
-                updatePreviewString();
-            });
-            mainView.getContextMenu().getItems().add(menuItem);
+                CheckMenuItem menuItem = new CheckMenuItem(column.getText());
+                menuItem.setSelected(true);
+                menuItem.setOnAction(event ->
+                {
+                    column.setVisible(menuItem.isSelected());
+                    updatePreviewString();
+                });
+                mainView.getContextMenu().getItems().add(menuItem);
+        }
         }
        tableView.setContextMenu(mainView.getContextMenu());
     }
 
     /**
-     * TODO
+     * TODO: direkte datenbank operation
      * instatiasid the inputdialog from where a row can be added to the database
      */
     private void addAddButtonAction() {
@@ -331,7 +373,7 @@ public class MainPresenter implements MainPresenterInterface {
         ArrayList<String> visibleColumns = new ArrayList<>();
         for (TableColumn<StudentDTO, ?> column : mainView.getTableView().getColumns())
         {
-            if (column.isVisible())
+            if (!column.getText().equals("Select") && column.isVisible())
                 visibleColumns.add(column.getText());
         }
         return visibleColumns;
@@ -375,6 +417,13 @@ public class MainPresenter implements MainPresenterInterface {
     public void hide(){
         System.out.println("unused by now");
     };
+
+    /**
+     * Adds button function
+     */
+    private void addReloadMenuiItemAction() {
+        mainView.getReloadMenuItem().setOnAction( unused -> updateTableView() );
+    }
 
     /**
      * Adds button function

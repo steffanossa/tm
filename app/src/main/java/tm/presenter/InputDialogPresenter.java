@@ -3,6 +3,7 @@ package tm.presenter;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 
 import java.sql.SQLException;
@@ -41,15 +42,15 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     }
 
     /**
-     * Fills PatternTextFields of the view with the data of the student object provided
+     * Fills TextFields of the view with the data of the student object provided
      * @param student
      */
     private void fillTextFields(StudentDTO student)
     {
-        PatternTextField firstnameTextField = inputDialogView.getPatternTextFieldByName("firstName");
-        PatternTextField lastnameTextField = inputDialogView.getPatternTextFieldByName("surname");
-        PatternTextField matrikelnummerTextField = inputDialogView.getPatternTextFieldByName("matriculationNumber");
-        PatternTextField fhKennungTextField = inputDialogView.getPatternTextFieldByName("fhIdentifier");
+        TextField firstnameTextField = inputDialogView.getPatternTextFieldByName("firstName");
+        TextField lastnameTextField = inputDialogView.getPatternTextFieldByName("surname");
+        TextField matrikelnummerTextField = inputDialogView.getPatternTextFieldByName("matriculationNumber");
+        TextField fhKennungTextField = inputDialogView.getPatternTextFieldByName("fhIdentifier");
 
         firstnameTextField.setText(student.getFirstName());
         lastnameTextField.setText(student.getSurname());

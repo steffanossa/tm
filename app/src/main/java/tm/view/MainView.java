@@ -18,8 +18,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tm.model.dtos.StudentDTO;
-import tm.view.alerts.ConfirmDeletionAlertView;
-import tm.view.alerts.ErrorAlert;
 import tm.view.alerts.ExceptionAlert;
 
 /**
@@ -38,6 +36,7 @@ public class MainView extends VBox {
     private Button saveToFileButton;
     private ImageView imageView;
     //
+    private MenuItem reloadMenuItem;
     private MenuItem helpMenuItem;
     private MenuItem aboutMenuItem;
 
@@ -50,7 +49,9 @@ public class MainView extends VBox {
         helpMenuItem = new MenuItem("Help");
         aboutMenuItem = new MenuItem("About");
         Menu aboutMenu = new Menu("Help", null, helpMenuItem, aboutMenuItem);
-        MenuBar menuBar = new MenuBar(aboutMenu);
+        reloadMenuItem = new MenuItem("Reload data");
+        Menu fileMenu = new Menu("File", null, reloadMenuItem);
+        MenuBar menuBar = new MenuBar(fileMenu, aboutMenu);
         addButton = new Button("Add");
         removeButton = new Button("Remove");
         editButton = new Button("Edit");
@@ -92,12 +93,16 @@ public class MainView extends VBox {
             LocalDate.now().getDayOfWeek().toString().substring(1).toLowerCase()));
         
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
-        stage.setResizable(false);
+        // stage.setResizable(false);
         stage.setScene(scene);
-        stage.setWidth(414);
+        stage.setWidth(461);
         stage.setHeight(480);
         
         stage.show();
+    }
+
+    public MenuItem getReloadMenuItem() {
+        return reloadMenuItem;
     }
 
     public MenuItem getHelpMenuItem() {

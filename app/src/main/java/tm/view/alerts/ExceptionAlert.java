@@ -7,7 +7,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -19,7 +18,7 @@ public class ExceptionAlert extends Alert {
     {
         super(Alert.AlertType.ERROR);
 
-        setTitle("Something happened...");
+        setTitle("Something bad happened...");
         setHeaderText(title);
 
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
@@ -28,10 +27,9 @@ public class ExceptionAlert extends Alert {
         TextArea textArea = new TextArea(message);
         textArea.setEditable(false);
         textArea.setWrapText(false);
-        // textArea.setMaxSize(300, 114);
+        textArea.setMaxSize(300, 80);
         GridPane gridPane = new GridPane();
         gridPane.add(textArea, 0, 0);
-        gridPane.setMaxSize(300, 114);
         gridPane.setPadding(new Insets(10,10,0,10));
         gridPane.setAlignment(Pos.CENTER);
         
