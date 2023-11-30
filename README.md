@@ -53,7 +53,7 @@
 - [x] DAO Interface
 - [x] Edit-Button
 - [x] bilder updaten
-- [x] menubar mit open database, preferences, help und about
+- [x] menubar mit reload data, help und about
 - [x] about view
 - [x] help view
 - [x] howTo schreiben
@@ -67,7 +67,7 @@
   - [ ] remove
   - [ ] edit
   - [ ] add
-- [x] __generic alert for any errors!__
+- [x] generic alert for any errors!
 - [x] checkbox column
   - [x] adds to selected
   - [x] not in preview
@@ -76,6 +76,7 @@
   - [x] not in clipboard & saveTo
   - [x] update what happens after exception alert
 - [ ] fix toggleAll (disabled)
+- [ ] fix cancelling add-process unselects everything
 
 ## MVP
 
