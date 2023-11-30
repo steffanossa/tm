@@ -454,7 +454,21 @@ public class MainPresenter implements MainPresenterInterface {
             try
             {
                 isAccepted = mainModel.openDatabase(file);
-                if (!isAccepted) showBadDatabaseAlert();
+                if (!isAccepted) {
+                    // showBadDatabaseAlert();
+                    new ExceptionAlert("Bad Database selected.\n"+
+                                             "You need a table created like this:",
+                    """
+                    CREATE TABLE "Students" (
+                        "first_name"	TEXT NOT NULL,
+                        "surname"	TEXT NOT NULL,
+                        "matriculation_number"	INTEGER NOT NULL UNIQUE,
+                        "fh_identifier"	TEXT NOT NULL UNIQUE,
+                        PRIMARY KEY("matriculation_number")
+                    )"""
+                ).showAndWait();
+                showOpenDatabaseFileWindow();
+                }
             }
             catch (SQLException e) { showBadDatabaseAlert(); }
         }

@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
- * Alert informing about why the data put in is bad
+ * Alert informing about the exception encountered
  */
 public class ExceptionAlert extends Alert {
 
@@ -27,7 +27,7 @@ public class ExceptionAlert extends Alert {
         TextArea textArea = new TextArea(message);
         textArea.setEditable(false);
         textArea.setWrapText(false);
-        textArea.setMaxSize(300, 80);
+        textArea.setMaxSize(340, 80);
         GridPane gridPane = new GridPane();
         gridPane.add(textArea, 0, 0);
         gridPane.setPadding(new Insets(10,10,0,10));
