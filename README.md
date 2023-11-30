@@ -80,7 +80,8 @@
 
 ## MVP
 
-Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).
+Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
+[^5] Reference: https://support.touchgfx.com/docs/development/ui-development/software-architecture/model-view-presenter-design-pattern
 <details>
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
@@ -90,14 +91,15 @@ Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert 
 
 ## DAO, DTO
 
-Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Konzept des Data Access Object (DAO) gearbeitet. So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwendungsschicht davon unberührt, lediglich die DAO-Ebene müsste angepasst werden.
-Die in der Anwendung gezeigten Daten sind keine Livedaten, sondern Transferobjekte (Data Tranfer Objects). Die Daten wurden einmal aus der Datenbank herausgelesen und in diese DTOs verwandelt. Sämtliche Operationen können mit ihnen durchgeführt werden, ohne dass die Datenbank permanent verbunden oder befragt werden muss.
+Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Konzept des Data Access Object (DAO) gearbeitet. So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwendungsschicht davon unberührt, lediglich die DAO müssten angepasst werden.
+
+Die in der Anwendung gezeigten Daten sind keine Livedaten, sondern Transferobjekte (Data Tranfer Objects). Die Daten wurden einmal aus der Datenbank herausgelesen und in diese DTOs verwandelt. Operationen können smoit an ihnen durchgeführt werden, ohne dass die Datenbank permanent verbunden oder befragt werden muss.
 
 ## Gradle
 
-<a href="https://gradle.org/releases/">Gradle</a> ist ein open source Build-Management-Tool. Es vereinfacht die Entwicklung, das Testen und die Bereitstelung von Anwendungen verschiedener Programmiersprachen. Alternativ hätte Maven genutzt werden können.
+<a href="https://gradle.org/releases/">Gradle</a> ist ein open source Build-Management-Tool. Es vereinfacht die Entwicklung, das Testen und die Bereitstelung von Anwendungen verschiedener Programmiersprachen. Alternativ hätte Maven genutzt werden können. Maven arbeitet allerdings mit XML.
 
-## Grafische Nutzeroberfläche (JavaFX)
+## Eine Tour durch die Graphische Nutzeroberfläche (JavaFX)
 
 Dem Start des Programms folgt die Anzeige eines Dialogfensters, über das die zu öffnende Datenbank selektiert werden kann.
 <details>
