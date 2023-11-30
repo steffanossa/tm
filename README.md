@@ -40,6 +40,8 @@
 - Hinzufügen & Löschen einzelner bzw. mehrerer Studenten
 
 ## TODO
+<details>
+  
 - [x] mock db in test dir
 - [x] unit tests
   - [x] studentDAO
@@ -57,13 +59,13 @@
 - [x] about view
 - [x] help view
 - [x] howTo schreiben
-- [x] __testen unter linux / mac__ (debian 12)
+- [x] testen unter linux / mac (debian 12 workde)
 - [x] uml gedöns
   - [x] mvp
   - [x] dao
   - [x] add process
   - [x] class diagram
-- [ ] __datenbank interaktionen minimieren!__
+- [ ] datenbank interaktionen minimieren
   - [ ] remove
   - [ ] edit
   - [ ] add
@@ -77,11 +79,13 @@
   - [x] update what happens after exception alert
 - [ ] fix toggleAll (disabled)
 - [ ] fix cancelling add-process unselects everything
-
+- [ ] add screenshot of exception alert
+- [ ] redo alerts, enum for image selection?
+</details>
 ## MVP
 
 Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
-[^5] Reference: https://support.touchgfx.com/docs/development/ui-development/software-architecture/model-view-presenter-design-pattern
+
 <details>
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
@@ -114,7 +118,8 @@ Die Auswahl einer inkompatiblen Datei löst ein weiteres Dialogfenster aus, das 
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/1b3e4941-a51d-49cf-b506-fcb5c0a5ec71)
+![image](https://github.com/steffanossa/tm/assets/94658723/f892090d-64e8-46a4-bafa-172e32a6f8e2)
+
 </details>
 
 Ist eine gültige Auswahl getroffen worden, wird das Hauptfenster geöffnet.
@@ -122,10 +127,11 @@ Ist eine gültige Auswahl getroffen worden, wird das Hauptfenster geöffnet.
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/59ff4840-2e36-49b0-876b-aec49706482c)
+![image](https://github.com/steffanossa/tm/assets/94658723/6fe06e5a-836a-42e7-99b5-031ac84f0701)
+
 </details>
 
-Die Daten der Studententabelle werden in einem TableView-Objekt angezeigt. Die Spaltenreihenfolge lässt sich per Drag-And-Drop der jeweiligen Spaltenüberschriftfelder anpassen. Über das mit einem Rechtsklick in den TableView erreichbare Kontextmenü lassen sich die Spalten einzeln de- oder aktivieren, d.h. un- bzw. sichtbar machen. Einzelne Zeilen lassen sich mit gedrücktgehaltener STRG-Taste und Linksklicks aus- und abwählen.
+Die Daten der Studententabelle werden in einem TableView-Objekt angezeigt. Die Spaltenreihenfolge lässt sich per Drag-And-Drop der jeweiligen Spaltenüberschriftfelder anpassen. Über das mit einem Rechtsklick in den TableView erreichbare Kontextmenü lassen sich die Spalten einzeln de- oder aktivieren, d.h. un- bzw. sichtbar machen. Einzelne Zeilen lassen sich mithilfe der Checkboxen aus- und abwählen.
 Für das Hinzufügen, Editieren und Entfernen von Einträgen gibt es jeweils einen Button oberhalb der Tabelle.
 Ein Klick auf den Add-Button öffnet ein Dialogfenster, in dem die Daten des hinzuzufügenden Studenten eingegeben werden können.
 <details>
@@ -141,8 +147,9 @@ Das Klicken des OK-Buttons fügt die Daten nach Überprüfung auf formelle Richt
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/34e3430a-67df-46a5-b773-324787b842bf)
-![image](https://github.com/steffanossa/tm/assets/94658723/dab26eab-91bc-455c-bb99-eadb13de6b52)
+![image](https://github.com/steffanossa/tm/assets/94658723/481c3a7e-0edc-4875-b450-04e1de4c7cd3)
+![image](https://github.com/steffanossa/tm/assets/94658723/5864af6a-fb14-4228-9fd4-af97f5cbed0e)
+
 </details>
 
 Der Edit-Button ist nur klickbar, wenn genau eine Zeile ausgewählt ist. Er löst ebenfalls ein Dialogfenster aus, nur dass die Textfelder jetzt die Daten des Studenten enthalten, der zuvor ausgewählt wurde. Der weitere Ablauf ist analog zum Hinzufügen.
@@ -158,7 +165,8 @@ Der Remove-Button nur, wenn mindestens eine Zeile ausgewählt ist. Über ihn las
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/0782f9d3-b00f-4114-b919-b0292f326e96)
+![image](https://github.com/steffanossa/tm/assets/94658723/d1553e4b-0866-459c-b4cb-81b82ace66cf)
+
 </details>
 
 Unterhalb der Tabelle befindet sich der Previewstring. Durch ihn wird beispielhaft dargestellt, wie die Daten später ausgegeben würden. Die Reihenfolge der Spalten sowie die Information, welche Spalten aktiviert sind, finden sich hier wieder. Dazu wird das Trennzeichen, das über ein Auswahlfeld selektiert werden kann mit dargestellt. Über dieses Auswahlfeld lässt sich eines von vier festgelegten Trennzeichen auswählen.
@@ -214,3 +222,5 @@ Der Scenebuilder wurde nicht verwendet, da er mit (F)XML arbeitet. XML ist Mist.
 [^3]: Reference: https://sqlite.org/mostdeployed.html
 
 [^4]: Reference: https://sqlite.org/about.html
+
+[^5]: Reference: https://support.touchgfx.com/docs/development/ui-development/software-architecture/model-view-presenter-design-pattern
