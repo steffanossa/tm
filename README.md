@@ -15,11 +15,9 @@
 
 ```
   mkdir /opt/gradle
-  unzip -d /opt/gradle gradle-8.4-bin.zip
-  ls /opt/gradle/gradle-8.4
-  LICENSE  NOTICE  bin  getting-started.html  init.d  lib  media
+  unzip -d /opt/gradle gradle-8.5-bin.zip
 ```
-- add to path:  `export PATH=$PATH:/opt/gradle/gradle-8.4/bin`
+- add to path:  `export PATH=$PATH:/opt/gradle/gradle-8.5/bin`
 - clone this repo: `git clone https://github.com/steffanossa/tm.git`
 - execute <order66> `gradle run` in cloned dir
 
@@ -59,12 +57,12 @@
 - [x] about view
 - [x] help view
 - [x] howTo schreiben
-- [ ] __testen unter linux / mac__
-- [ ] uml gedöns
+- [x] __testen unter linux / mac__ (debian 12)
+- [x] uml gedöns
   - [x] mvp
-  - [ ] dao
-  - [ ] add process
-  - [ ] class diagram
+  - [x] dao
+  - [x] add process
+  - [x] class diagram
 - [ ] __datenbank interaktionen minimieren!__
   - [ ] remove
   - [ ] edit
@@ -76,9 +74,8 @@
   - [ ] not in reordering -> setReorderable=false still allows "passive reordering" :(
   - [x] not hideable
   - [x] not in clipboard & saveTo
-  - [ ] update what happens after exception alert: always exit app no good
-- [ ] __CHECKBOXCOLUMN HAT ENDLOS VIELE ZEILEN!__
-- [ ] __toggleAll löst checkboxen nicht aus!__
+  - [x] update what happens after exception alert
+- [ ] fix toggleAll (disabled)
 
 ## MVP
 
