@@ -2,6 +2,6 @@ package tm.presenter.interfaces;
 
 public interface GenericPresenterInterface {
     
-    void showAndWait();
+    boolean showAndWait();
     void hide();
 }

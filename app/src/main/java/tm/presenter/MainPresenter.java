@@ -127,6 +127,7 @@ public class MainPresenter implements MainPresenterInterface {
         columns.add(createTableColumn("FH Identifier", "fhIdentifier", String.class));
         
         TableColumn<StudentDTO, Boolean> checkBoxColumn = createCheckBoxColumn();
+        checkBoxColumn.setReorderable(false);
         
         columns.add(checkBoxColumn);
 
@@ -191,11 +192,6 @@ public class MainPresenter implements MainPresenterInterface {
         boolean isEmpty = checkBoxMap.entrySet().stream()
                                                 .filter(key -> key.getValue().get())
                                                 .count() < 1;
-        System.out.println(isEmpty);
-        long testInt = checkBoxMap.entrySet().stream()
-                                                .filter(key -> key.getValue().get())
-                                                .count();
-                                                System.out.println(testInt);
         mainView.getClipboardButton().setDisable(isEmpty);
         mainView.getRemoveButton().setDisable(isEmpty);
         mainView.getSaveToFileButton().setDisable(isEmpty);
@@ -306,10 +302,11 @@ public class MainPresenter implements MainPresenterInterface {
                     mainModel.getStudentDAO(),
                     this,
                     "Add entity");
-            inputDialogPresenterInterface.showAndWait();
-            mainView.getTableView().refresh();
-            refreshCheckBoxMap();
-            updateButtonStates();
+             if(inputDialogPresenterInterface.showAndWait()) {
+                mainView.getTableView().refresh();
+                refreshCheckBoxMap();
+                updateButtonStates();
+            }
         });
     }
 
@@ -403,7 +400,7 @@ public class MainPresenter implements MainPresenterInterface {
                                      .toArray(StudentDTO[]::new);
     }
 
-    //TODO:das ziemlcih schei0e?
+    //TODO: relocate
     private void addSaveToFileButtonAction() 
     {
         mainView.getSaveToFileButton().setOnAction((_event) ->
@@ -442,7 +439,7 @@ public class MainPresenter implements MainPresenterInterface {
         return visibleColumns;
     }
 
-    //TODO:das ziemlich scheisse
+    //TODO: relocate
     private void showOpenDatabaseFileWindow ()
     {
         FileChooser fileChooser = new FileChooser();
@@ -474,8 +471,9 @@ public class MainPresenter implements MainPresenterInterface {
         showOpenDatabaseFileWindow();
     }
 
-    public void showAndWait(){
+    public boolean showAndWait(){
         System.out.println("unused by now");
+        return false;
     };
     public void hide(){
         System.out.println("unused by now");

@@ -31,7 +31,7 @@ public class HelpView extends Alert {
             include a table created with the following statement:
             """
         );
-        //TODO
+        //TODO: too static
         TextArea createStatement = new TextArea(
             """
             CREATE TABLE "Students" (

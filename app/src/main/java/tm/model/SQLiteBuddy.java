@@ -61,7 +61,7 @@ public class SQLiteBuddy implements GenericDatabaseBuddy
     }
 
     /**
-     * Verifies whether connection is of correct structure to be handled. TODO: macht alles wird
+     * Verifies whether connection is of correct structure to be handled.
      * @return {@code true} if successful
      * @throws SQLException
      */

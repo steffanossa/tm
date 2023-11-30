@@ -72,8 +72,13 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     }
     
     @Override
-    public void showAndWait() {
-        inputDialogView.showAndWait();
+    public boolean showAndWait() {
+        //inputDialogView.showAndWait();
+        Optional<ButtonType> result = inputDialogView.showAndWait();
+        if (result.isPresent() && result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
