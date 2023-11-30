@@ -18,7 +18,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tm.model.dtos.StudentDTO;
-import tm.view.alerts.ExceptionAlert;
 
 /**
  * View for the main window
@@ -48,14 +47,27 @@ public class MainView extends VBox {
         scene = new Scene(this);
         helpMenuItem = new MenuItem("Help");
         aboutMenuItem = new MenuItem("About");
-        Menu aboutMenu = new Menu("Help", null, helpMenuItem, aboutMenuItem);
+        Menu aboutMenu = new Menu(
+            "Help",
+            null,
+            helpMenuItem,
+            aboutMenuItem
+            );
         reloadMenuItem = new MenuItem("Reload data");
-        Menu fileMenu = new Menu("File", null, reloadMenuItem);
+        Menu fileMenu = new Menu(
+            "File",
+            null,
+            reloadMenuItem
+            );
         MenuBar menuBar = new MenuBar(fileMenu, aboutMenu);
         addButton = new Button("Add");
         removeButton = new Button("Remove");
         editButton = new Button("Edit");
-        ToolBar toolBar = new ToolBar(addButton, editButton, removeButton);
+        ToolBar toolBar = new ToolBar(
+            addButton,
+            editButton,
+            removeButton
+            );
         tableView = new TableView<>();
         contextMenu = new ContextMenu();
         labelPreviewString = new Label();
@@ -63,18 +75,15 @@ public class MainView extends VBox {
         imageView = new ImageView(new Image(getClass().getResourceAsStream("/images/Grin256_transparent.png")));
         StackPane tablePane = new StackPane(tableView, imageView);
         //
-        Button tempButton = new Button("ExceptionAlert");
-        tempButton.setOnAction(event -> {
-            ExceptionAlert alert = new ExceptionAlert(" Resource Not Available or Operator Intervention ", "java.lang.ArithmeticException: / by zero\r\n" + //
-                    "\tat Program.foo(main.java:4)\r\n" + //
-                    "\tat Program.main(main.java:12)");
-            alert.show();
-        });
         
         comboBox = new ComboBox<>();
         clipboardButton = new Button("Clipboard");
         saveToFileButton = new Button("Save as...");
-        ToolBar buttonBar = new ToolBar(comboBox, clipboardButton, saveToFileButton, tempButton);
+        ToolBar buttonBar = new ToolBar(
+            comboBox,
+            clipboardButton,
+            saveToFileButton
+            );
         
         getChildren().addAll(
             menuBar,
@@ -82,7 +91,7 @@ public class MainView extends VBox {
             tablePane,
             labelPreviewString,
             buttonBar
-        );
+            );
     }
 
     public void initialise(Stage stage) {
@@ -95,7 +104,7 @@ public class MainView extends VBox {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
         // stage.setResizable(false);
         stage.setScene(scene);
-        stage.setWidth(461);
+        stage.setWidth(480);
         stage.setHeight(480);
         
         stage.show();

@@ -5,15 +5,20 @@ import java.io.File;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener.Change;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -30,7 +35,6 @@ import tm.view.MainView;
 import tm.view.alerts.BadDatabaseAlertView;
 import tm.view.alerts.ConfirmDeletionAlertView;
 import tm.view.alerts.ExceptionAlert;
-import tm.customcontrols.CheckBoxTableCell;
 
 /**
  * Presenter for the main window
@@ -42,16 +46,14 @@ public class MainPresenter implements MainPresenterInterface {
 
     private String separator;
     private ObservableList<StudentDTO> students;
-    private ObservableList<StudentDTO> selectedStudents;
-    private boolean toggle;
+    private Map<StudentDTO, BooleanProperty> checkBoxMap;
 
     public MainPresenter()
     {
         mainModel = new MainModel();
         separator = ",";
-        toggle = false;
+        checkBoxMap = new HashMap<>();
         mainView = new MainView();
-        selectedStudents = FXCollections.observableArrayList();
         prepareAll();
     }
 
@@ -65,8 +67,7 @@ public class MainPresenter implements MainPresenterInterface {
     private void prepareAll() {
         showOpenDatabaseFileWindow();
         prepareTableView(mainView.getTableView());
-
-        selectedStudents.addListener((ListChangeListener.Change<? extends StudentDTO> change) -> updateButtonStates());
+        students.forEach(student -> checkBoxMap.put(student, new SimpleBooleanProperty(false)));
 
         //actions
         addAddButtonAction();
@@ -86,7 +87,7 @@ public class MainPresenter implements MainPresenterInterface {
 
         updatePreviewString();
 
-        mainView.getComboBox().setOnAction(event ->
+        mainView.getComboBox().setOnAction( _event ->
         {
             separator = mainModel.getSeparator(mainView.getComboBox().getValue());
             updatePreviewString();
@@ -111,7 +112,6 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     /**
-     * TODO: es werden unendlich viele zeilen in der checkboxcolumn erstellt!
      * Adds TableColumns to the TableView, sets the selection mode to allow multi row selection,
      * adds a listener to the ObservableList of columns of the TableView to update the PreviewString
      * on any changes
@@ -126,14 +126,15 @@ public class MainPresenter implements MainPresenterInterface {
         columns.add(createTableColumn("Matriculation Nr.", "matriculationNumber", Integer.class));
         columns.add(createTableColumn("FH Identifier", "fhIdentifier", String.class));
         
-        TableColumn<StudentDTO, Boolean> checkBoxColumn = createCheckBoxColumn(mainView.getTableView().getItems().size());
+        TableColumn<StudentDTO, Boolean> checkBoxColumn = createCheckBoxColumn();
+        
         columns.add(checkBoxColumn);
 
         tableView.getColumns().addAll(columns);
 
         updateTableView();
 
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableView.getSelectionModel().setCellSelectionEnabled(false);
         //TableColumn<?,?> oder eine Unterklasse davon
         tableView.getColumns().addListener((Change<? extends TableColumn<?, ?>> change) ->
         {
@@ -142,55 +143,67 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     /**
-     * TODO: es werden unendlich viele zeilen erstellt!!!
-     * Creates a TableColumn with checkboxes
+     * Creates a Column with CheckBoxes, adds listeners
      * @return
-     * TODO: too specific
      */
-    private TableColumn<StudentDTO, Boolean> createCheckBoxColumn(int numberOfRows) {
-        TableColumn<StudentDTO, Boolean> checkBoxColumn = new TableColumn<>("Select");
-        checkBoxColumn.setCellValueFactory(cellData -> {
-            return null;
+    private TableColumn<StudentDTO, Boolean> createCheckBoxColumn() {
+        TableColumn<StudentDTO, Boolean> checkBoxColumn = new TableColumn<>("Selected");
+        checkBoxColumn.setCellValueFactory(param -> {
+            StudentDTO student = param.getValue();
+            BooleanProperty observable = checkBoxMap.get(student);
+            if (observable == null) {
+                observable = new SimpleBooleanProperty(false);
+            }
+            observable.addListener((_observable, _oldValue, newValue) -> {
+                    updateButtonStates();
+                });
+            return observable;
         });
-        checkBoxColumn.setCellFactory(column -> {
-            CheckBoxTableCell<StudentDTO, Boolean> cell = new CheckBoxTableCell<>();
-            cell.getCheckBox().selectedProperty().addListener((_observale, _oldValue, newValue) -> {
-                if (cell.getTableRow() != null && cell.getTableRow().getItem() != null) {
-                    handleSelectedRow(
-                        cell.getTableRow().getItem(), 
-                        newValue);
+        checkBoxColumn.setCellFactory(column ->  {
+            return new TableCell<StudentDTO, Boolean>() {
+                private final CheckBox checkBox = new CheckBox();
+                {
+                    checkBox.setOnAction( _event -> {
+                        BooleanProperty selectedProperty = (BooleanProperty) getTableColumn().getCellObservableValue(getIndex());
+                        if (selectedProperty != null) selectedProperty.set(checkBox.isSelected());
+                    });
                 }
-            });
-            return cell;
-        });
-        checkBoxColumn.setReorderable(false);
-        return checkBoxColumn;
-    }
 
-    /**
-     * @param student
-     * @param isSelected
-     */
-    private void handleSelectedRow(StudentDTO student, boolean isSelected) {
-        if (isSelected) selectedStudents.add(student);
-        else selectedStudents.remove(student);
+                @Override
+                protected void updateItem(Boolean item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) setGraphic(null);
+                    else {
+                        setGraphic(checkBox);
+                        checkBox.setSelected(item);
+                    }
+                }
+            };
+        });
+        return checkBoxColumn;
     }
 
     /**
      * En-/Disables the Clipboard-, Remove-, Edit- and SaveToFileButton
      * according to the number of students selected
      */
-    private void updateButtonStates()
-    {
-        boolean isEmpty = selectedStudents.isEmpty();
-
+    private void updateButtonStates() {
+        boolean isEmpty = checkBoxMap.entrySet().stream()
+                                                .filter(key -> key.getValue().get())
+                                                .count() < 1;
+        System.out.println(isEmpty);
+        long testInt = checkBoxMap.entrySet().stream()
+                                                .filter(key -> key.getValue().get())
+                                                .count();
+                                                System.out.println(testInt);
         mainView.getClipboardButton().setDisable(isEmpty);
         mainView.getRemoveButton().setDisable(isEmpty);
         mainView.getSaveToFileButton().setDisable(isEmpty);
 
-        if (selectedStudents.size() != 1)
-            mainView.getEditButton().setDisable(true);
-        else mainView.getEditButton().setDisable(false);
+        boolean isSingleEntitySelected = checkBoxMap.entrySet().stream()
+                                                               .filter(key -> key.getValue().get())
+                                                               .count() == 1;
+        mainView.getEditButton().setDisable(!isSingleEntitySelected);    
     }
 
     /**
@@ -203,12 +216,18 @@ public class MainPresenter implements MainPresenterInterface {
             studentsArrayList = mainModel.retrieveStudents();
             students = FXCollections.observableArrayList(studentsArrayList);
             mainView.getTableView().setItems(students);
+            refreshCheckBoxMap();
+            updateButtonStates();
         } catch (SQLException e) {
             ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
             alert.show();
-            System.exit(0);
-            //TODO
+            //System.exit(0);
         }
+    }
+
+    private void refreshCheckBoxMap() {
+        checkBoxMap.clear();
+        students.forEach(student -> checkBoxMap.put(student, new SimpleBooleanProperty(false)));
     }
 
     /**
@@ -243,7 +262,9 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     /**
-     * TODO: toggleAll does not change checkbox states! this could lead to duplicate entries in selectedStudents and is wrong even if not
+     * TODO: toggleAll is bugged: select all works; unselect all leaves 1 untouched (only in checkBoxMap, checkBox itself stays unchecked).
+     * happened with 1000+ entries, worked fine with 10, idk
+     * feature disabled for now :(
      * Adds a context menu to the tableview that enables hiding/displaying columns
      * @param tableView
      */
@@ -251,11 +272,11 @@ public class MainPresenter implements MainPresenterInterface {
     {
         for (TableColumn<StudentDTO, ?> column : tableView.getColumns())
         {
-            if (!column.getText().equals("Select")) // meh
+            if (!column.getText().equals("Selected")) // meh
             {
                 CheckMenuItem menuItem = new CheckMenuItem(column.getText());
                 menuItem.setSelected(true);
-                menuItem.setOnAction(event ->
+                menuItem.setOnAction( _event ->
                 {
                     column.setVisible(menuItem.isSelected());
                     updatePreviewString();
@@ -263,44 +284,45 @@ public class MainPresenter implements MainPresenterInterface {
                 mainView.getContextMenu().getItems().add(menuItem);
             }
         }
-        // dirty, bad, shame, sorry
+        /*
         CheckMenuItem toggleAll = new CheckMenuItem("Select all");
-        toggleAll.setOnAction(event -> {
-            if (!toggle) {
-                selectedStudents.clear();
-                selectedStudents.addAll(students);
-            } else {
-                selectedStudents.clear();
-            }
-            toggle = !toggle;
+        toggleAll.setOnAction( _event -> {
+            boolean selected = !toggleAll.isSelected();
+            checkBoxMap.values().forEach(booleanProperty -> booleanProperty.set(!selected));
+            checkBoxMap.forEach((_student, value) -> value.set(!selected));
         });
+        tableView.refresh();
         toggleAll.setSelected(false);
-        mainView.getContextMenu().getItems().add(toggleAll);
+        mainView.getContextMenu().getItems().add(toggleAll);*/
         tableView.setContextMenu(mainView.getContextMenu());
     }
 
     /**
-     * TODO: direkte datenbank operation
      * instatiasid the inputdialog from where a row can be added to the database
      */
     private void addAddButtonAction() {
-        mainView.getAddButton().setOnAction(event -> {
+        mainView.getAddButton().setOnAction( _event -> {
             InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(
                     mainModel.getStudentDAO(),
                     this,
                     "Add entity");
             inputDialogPresenterInterface.showAndWait();
             mainView.getTableView().refresh();
+            refreshCheckBoxMap();
+            updateButtonStates();
         });
     }
 
     /**
-     * TODO: hier wird noch direkt aus der datenbank gelöscht
      * Starts up inputdialog with prefilled data from the selected row to be eidterd
      */
     private void addEditButtonAction() {
-        mainView.getEditButton().setOnAction(event -> {
-            StudentDTO tempStudent = selectedStudents.get(0);
+        mainView.getEditButton().setOnAction( _event -> {
+            StudentDTO tempStudent = checkBoxMap.entrySet().stream()
+                                                           .filter(key -> key.getValue().get())
+                                                           .map(Map.Entry::getKey)
+                                                           .findFirst()
+                                                           .orElse(null);
             ArrayList<StudentDTO> studentsArrayList;
             try {
                 mainModel.removeStudent(tempStudent);
@@ -310,13 +332,12 @@ public class MainPresenter implements MainPresenterInterface {
                     mainModel.getStudentDAO(),
                     this,
                     "Edit entity");
-            inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
-            updateTableView();
-            selectedStudents.remove(tempStudent);
+                inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
+                updateTableView();
+                checkBoxMap.remove(tempStudent);
             } catch (SQLException e) {
                 ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
                 alert.show();
-                System.exit(0);
             }
             mainView.getTableView().refresh();
         });
@@ -327,21 +348,29 @@ public class MainPresenter implements MainPresenterInterface {
      */
     private void addRemoveButtonAction()
     {
-        mainView.getRemoveButton().setOnAction(event ->
+        mainView.getRemoveButton().setOnAction( _event ->
         {
-            if (showConfirmDeletionAlert(selectedStudents.size()))
+            // danger zone
+            int amountSelectedStudents = (int) checkBoxMap.entrySet().stream()
+                                                               .filter(key -> key.getValue().get())
+                                                               .count();
+            if (showConfirmDeletionAlert(amountSelectedStudents))
             {
-                ArrayList<StudentDTO> studentsToRemove = new ArrayList<>(selectedStudents);
+                ArrayList<StudentDTO> studentsToRemove = checkBoxMap.entrySet().stream()
+                                                                               .filter(key -> key.getValue().get())
+                                                                               .map(Map.Entry::getKey)
+                                                                               .collect(Collectors.toCollection(ArrayList::new));
                 studentsToRemove.forEach(student -> {
                     try {
                         mainModel.removeStudent(student);
                         students.remove(student);
-                        selectedStudents.remove(student);
+                        checkBoxMap.remove(student);
                     } catch (SQLException e) {
                         ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
                         alert.show();
                     }
                 });
+                updateButtonStates();
                 mainView.getTableView().refresh();
             }
         });
@@ -352,10 +381,11 @@ public class MainPresenter implements MainPresenterInterface {
      */
     private void addClipboardButtonAction() 
     {
-        mainView.getClipboardButton().setOnAction(event ->
+        mainView.getClipboardButton().setOnAction( _event ->
         {
             String concatenatedString = mainModel.concatenate(
-                selectedStudents.toArray(new StudentDTO[selectedStudents.size()]),
+                
+                getSelectedStudentsArray(),
                 getVisibleColumns(),
                 separator
             );
@@ -363,10 +393,20 @@ public class MainPresenter implements MainPresenterInterface {
         });
     }
 
+    /**
+     * @return
+     */
+    private StudentDTO[] getSelectedStudentsArray() {
+        return checkBoxMap.entrySet().stream()
+                                     .filter(key -> key.getValue().get())
+                                     .map(Map.Entry::getKey)
+                                     .toArray(StudentDTO[]::new);
+    }
+
     //TODO:das ziemlcih schei0e?
     private void addSaveToFileButtonAction() 
     {
-        mainView.getSaveToFileButton().setOnAction(event ->
+        mainView.getSaveToFileButton().setOnAction((_event) ->
         {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
@@ -378,7 +418,7 @@ public class MainPresenter implements MainPresenterInterface {
             if (file != null)
             {
                 String concatenatedString = mainModel.concatenate(
-                    selectedStudents.toArray(new StudentDTO[selectedStudents.size()]),
+                    getSelectedStudentsArray(),
                     getVisibleColumns(),
                     separator
                 );
@@ -396,13 +436,13 @@ public class MainPresenter implements MainPresenterInterface {
         ArrayList<String> visibleColumns = new ArrayList<>();
         for (TableColumn<StudentDTO, ?> column : mainView.getTableView().getColumns())
         {
-            if (!column.getText().equals("Select") && column.isVisible())
+            if (!column.getText().equals("Selected") && column.isVisible())
                 visibleColumns.add(column.getText());
         }
         return visibleColumns;
     }
 
-    //TODO:das ziemlich scheiße
+    //TODO:das ziemlich scheisse
     private void showOpenDatabaseFileWindow ()
     {
         FileChooser fileChooser = new FileChooser();
@@ -445,21 +485,21 @@ public class MainPresenter implements MainPresenterInterface {
      * Adds button function
      */
     private void addReloadMenuiItemAction() {
-        mainView.getReloadMenuItem().setOnAction( unused -> updateTableView() );
+        mainView.getReloadMenuItem().setOnAction( _event -> updateTableView() );
     }
 
     /**
      * Adds button function
      */
     private void addAboutMenuItemAction() {
-        mainView.getAboutMenuItem().setOnAction( event -> new AboutView().showAndWait() );
+        mainView.getAboutMenuItem().setOnAction( _event -> new AboutView().showAndWait() );
     }
 
     /**
      * Adds button function
      */
     private void addHelpMenuItemAction() {
-        mainView.getHelpMenuItem().setOnAction( event -> new HelpView().showAndWait() );
+        mainView.getHelpMenuItem().setOnAction( _event -> new HelpView().showAndWait() );
     }
 
     @Override

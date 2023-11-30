@@ -6,4 +6,5 @@ public interface InputDialogPresenterInterface extends GenericPresenterInterface
     void showAndWait();
     void hide();
     void showAndWaitWithData(StudentDTO student);
+    //boolean showAndWaitWithData(StudentDTO student);
 }

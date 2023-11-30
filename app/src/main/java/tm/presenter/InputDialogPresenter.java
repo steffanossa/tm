@@ -90,9 +90,9 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      */
     private boolean validateAndAppendToErrorMessage(PatternTextField patternTextField, String string, StringBuilder stringBuilder)
     {
-        //walross?
         boolean isValid = patternTextField.validate();
-        if (!isValid) stringBuilder.append("\n- ").append(string); 
+        if (!isValid) stringBuilder.append("\n- ")
+                                   .append(string); 
         return isValid;
     }
 
@@ -111,6 +111,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     }
 
     /**
+     * TODO: what a mess
      * validate user input + add data to database if valid
      * @return {@code true} if successful
      */
@@ -118,6 +119,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         LinkedHashMap<String, PatternTextField> patternTextFieldMap = createPatternTextFieldMap();
         StringBuilder errorMessage = new StringBuilder("Please revisit the following inputs:");
         AtomicBoolean inputIsValid = new AtomicBoolean(true);
+
         patternTextFieldMap.keySet().forEach(patternTextFieldName ->
         {
             inputIsValid.set(inputIsValid.get() & validateAndAppendToErrorMessage(patternTextFieldMap.get(patternTextFieldName), patternTextFieldName, errorMessage));
@@ -129,8 +131,10 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         }
         else 
         {
-            boolean isMatriculationNumberUnique = checkMatriculationNumberUniqueness(Integer.valueOf(patternTextFieldMap.get("Matriculation Nr.").getText()));
-            boolean isFhIdentifierUnique = checkFhIdentifierUniqueness(patternTextFieldMap.get("FH Identifier").getText());
+            int matriculationNumber = Integer.valueOf(patternTextFieldMap.get("Matriculation Nr.").getText());
+            String fhIdentifier = patternTextFieldMap.get("FH Identifier").getText();
+            boolean isMatriculationNumberUnique = checkMatriculationNumberUniqueness(matriculationNumber);
+            boolean isFhIdentifierUnique = checkFhIdentifierUniqueness(fhIdentifier);
             String badInputMessage = "Value intended to unique already exists in the database:";
 
             if (!isMatriculationNumberUnique) badInputMessage += "\n- Matriculation Nr.";
@@ -141,33 +145,24 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                 showBadInputAlert(badInputMessage);
                 return !inputIsValid.get();
             }
-            try
-            {
-                String firstName = patternTextFieldMap.get("First Name").getText();
-                String surname = patternTextFieldMap.get("Surname").getText();
-                int matriculationNumber = Integer.valueOf(patternTextFieldMap.get("Matriculation Nr.").getText());
-                String fhIdentifier = patternTextFieldMap.get("FH Identifier").getText();
-                inputDialogModel.addStudent(
-                    firstName,
-                    surname,
-                    matriculationNumber,
-                    fhIdentifier
-                    );
-                mainPresenter.getStudentDTOs().add(new StudentDTO(
-                    firstName,
-                    surname,
-                    matriculationNumber,
-                    fhIdentifier
-                    )
-                );
-                return inputIsValid.get();
-            }
-            catch (SQLException e)
-            {
-                ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
-                alert.show();
-                return !inputIsValid.get();
-            }
+
+            return addStudent(
+                patternTextFieldMap.get("First Name").getText(),
+                patternTextFieldMap.get("Surname").getText(),
+                matriculationNumber,
+                fhIdentifier);
+        }
+    }
+
+    private boolean addStudent(String firstName, String surname, int matriculationNumber, String fhIdentifier) {
+        try {
+            inputDialogModel.addStudent(firstName, surname, matriculationNumber, fhIdentifier);
+            mainPresenter.getStudentDTOs().add(new StudentDTO(firstName, surname, matriculationNumber, fhIdentifier));
+            return true;
+        } catch (SQLException e) {
+            ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+            alert.show();
+            return false;
         }
     }
 
