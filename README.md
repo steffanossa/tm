@@ -56,7 +56,9 @@ Die in der Anwendung gezeigten Daten sind keine Livedaten, sondern Transferobjek
 
 <a href="https://gradle.org/releases/">Gradle</a> ist ein open source Build-Management-Tool. Es vereinfacht die Entwicklung, das Testen und die Bereitstelung von Anwendungen verschiedener Programmiersprachen. Alternativ hätte Maven genutzt werden können. Maven arbeitet allerdings mit XML.
 
-## MVP
+
+## MVP<img src="https://github.com/steffanossa/tm/assets/94658723/090e2533-95d1-49d5-98d5-7bcdaa2e2afe" width="64">
+
 
 
 Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
