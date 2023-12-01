@@ -56,13 +56,13 @@ Einzelne Schnittstelle für verschiedene Datenbanktypen ermöglicht unkomplizier
 
 ## DAO, DTO
 
-Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Konzept des Data Access Object (DAO) gearbeitet. So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwendungsschicht davon unberührt, lediglich die DAO müssten angepasst werden.
+Zur Trennung der persistenten Daten- von der Anwendungsschicht, wurde das Konzept des Data Access Object (DAO) genutzt. Dadurch ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt. Jegliche Kommunikation findet über die DAO-Schnittstelle statt. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bliebe die Anwendungsschicht davon unberührt. Lediglich Anpassungen am DAO würden nötig.
 
-Die in der Anwendung gezeigten Daten sind keine Livedaten, sondern Transferobjekte (Data Tranfer Objects). Die Daten wurden einmal aus der Datenbank herausgelesen und in diese DTOs verwandelt. Operationen können smoit an ihnen durchgeführt werden, ohne dass die Datenbank permanent verbunden oder befragt werden muss.
+Die in der Anwendung gezeigten Daten sind keine Live-Daten, sondern Transferobjekte (Data Tranfer Objects). Diese Daten wurden einmalig aus der Datenbank herausgelesen und in DTOs umgewandelt. Operationen können an ihnen durchgeführt werden, ohne dass eine Datenbankverbindung permanent erforderlich ist.
 
 ## MVP-Architektur&emsp;<picture><img src="https://github.com/steffanossa/tm/assets/94658723/090e2533-95d1-49d5-98d5-7bcdaa2e2afe" width="64"></picture>
 
-Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
+Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als Vermittler. Alle Interaktionen mit der Nutzeroberfläche werden vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen, die Rückgaben im Anschluss verarbeitet und die Nutzeroberfläche aktualisiert. Durch diese strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
 
 <details>
   <summary>(<i>click to show/hide image</i>)</summary>
