@@ -1,4 +1,4 @@
-![Untitled-5s](https://github.com/steffanossa/tm/assets/94658723/0528db5d-502f-4324-8df7-1b1699f03307)
+<picture><img src="https://github.com/steffanossa/tm/assets/94658723/0528db5d-502f-4324-8df7-1b1699f03307"></picture>
 
 
 ## HowTo
@@ -8,7 +8,7 @@
 - get and unzip <a href="https://gradle.org/releases/">gradle</a>
 - add gradle/bin to PATH
 - clone this repo: `git clone https://github.com/steffanossa/tm.git`
-- run ``gradlew run`` in cloned dir
+- execute ``gradlew run`` in cloned dir
 ### Linux & Mac
 - have Java JDK version 8 or higher 
 - get and unzip <a href="https://gradle.org/releases/">gradle</a>
@@ -22,11 +22,11 @@
 - clone this repo: `git clone https://github.com/steffanossa/tm.git`
 - execute <order66> `gradle run` in cloned dir
 
-## Anforderungen<img src="https://github.com/steffanossa/tm/assets/94658723/a03dad82-7fe1-47e8-ba1f-28105c2143af" width="96">
+## Anforderungen&ensp;<picture><img src="https://github.com/steffanossa/tm/assets/94658723/a03dad82-7fe1-47e8-ba1f-28105c2143af" width="96"></picture>
 <details>
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
-<img src="https://github.com/steffanossa/tm/assets/94658723/0551d5fe-8406-42fb-92d0-6b25ba029b2b" width="400">
+<picture><img src="https://github.com/steffanossa/tm/assets/94658723/0551d5fe-8406-42fb-92d0-6b25ba029b2b" width="400"></picture>
 </details>
 
 
@@ -46,20 +46,21 @@
 - weit verbreitet[^2][^3]
 - leichtgewichtig[^4]
 
+## Datenbankschnittstelle: JDBC
+
+- eine Schnittstelle für verschiedene Datenbanktypen
+
+## Gradle
+
+<a href="https://gradle.org/releases/">Gradle</a> ist ein open source Build-Management-Tool. Es vereinfacht die Entwicklung, das Testen und die Bereitstelung von Anwendungen verschiedener Programmiersprachen. Alternativ hätte Maven genutzt werden können. Maven arbeitet allerdings mit XML.
+
 ## DAO, DTO
 
 Um die persistente Datenschicht von der Anwendungsschicht zu trennen, wurde mit dem Konzept des Data Access Object (DAO) gearbeitet. So ist es für die Anwendungsschicht irrelevant, welche Art von Datenbank zum Einsatz kommt, jegliche Berührungspunkte zu ihr gehen über die DAO-Schnittstelle. Sollte zukünftig von SQLite auf MongoDB o.ä. gewechselt werden, bleibt die Anwendungsschicht davon unberührt, lediglich die DAO müssten angepasst werden.
 
 Die in der Anwendung gezeigten Daten sind keine Livedaten, sondern Transferobjekte (Data Tranfer Objects). Die Daten wurden einmal aus der Datenbank herausgelesen und in diese DTOs verwandelt. Operationen können smoit an ihnen durchgeführt werden, ohne dass die Datenbank permanent verbunden oder befragt werden muss.
 
-## Gradle
-
-<a href="https://gradle.org/releases/">Gradle</a> ist ein open source Build-Management-Tool. Es vereinfacht die Entwicklung, das Testen und die Bereitstelung von Anwendungen verschiedener Programmiersprachen. Alternativ hätte Maven genutzt werden können. Maven arbeitet allerdings mit XML.
-
-
-## MVP<img src="https://github.com/steffanossa/tm/assets/94658723/090e2533-95d1-49d5-98d5-7bcdaa2e2afe" width="64">
-
-
+## MVP-Architektur&emsp;<picture><img src="https://github.com/steffanossa/tm/assets/94658723/090e2533-95d1-49d5-98d5-7bcdaa2e2afe" width="64"></picture>
 
 Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
 
@@ -67,11 +68,13 @@ Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert 
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![NOsxJiGm44LxVyNWQXVa5RGq92K5We97RUmB6ScFO8z9WVXteYGGYNREkMUwAhP8Yq6ToO08YbPGs2fX2Q2-k845hXNGeN8S0xyn_56vO6kbXuAA92ZqfIxebPD_OVyEUSoz4yxfSBocpyn-XctqLl1qkns-rPQuonvXcTUFS3-YsD_XpIuzCwRPCJGj-PNjp_NbwNHEch8nXlILNgF_X](https://github.com/steffanossa/tm/assets/94658723/ad076175-a976-4346-b2af-3b87889a949d)
+<picture>![NOsxJiGm44LxVyNWQXVa5RGq92K5We97RUmB6ScFO8z9WVXteYGGYNREkMUwAhP8Yq6ToO08YbPGs2fX2Q2-k845hXNGeN8S0xyn_56vO6kbXuAA92ZqfIxebPD_OVyEUSoz4yxfSBocpyn-XctqLl1qkns-rPQuonvXcTUFS3-YsD_XpIuzCwRPCJGj-PNjp_NbwNHEch8nXlILNgF_X](https://github.com/steffanossa/tm/assets/94658723/ad076175-a976-4346-b2af-3b87889a949d)</picture>
 </details>
 
 
-![logo copy](https://github.com/steffanossa/tm/assets/94658723/6a543b43-669f-4a62-a7be-2f727b927d2b)
+
+<picture><img src="https://github.com/steffanossa/tm/assets/94658723/6a543b43-669f-4a62-a7be-2f727b927d2b" width="480"></picture>
+
 ---
 
 
@@ -80,7 +83,7 @@ Dem Start des Programms folgt die Anzeige eines Dialogfensters, über das die zu
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/fceee68c-0d84-4b1e-b577-f64e217f150c)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/fceee68c-0d84-4b1e-b577-f64e217f150c)</picture>
 </details>
 
 Die Auswahl einer inkompatiblen Datei löst ein weiteres Dialogfenster aus, das über die fehlerhafte Auwahl informiert. Anschließend wird das vorige Fenster erneut angezeigt.
@@ -88,7 +91,7 @@ Die Auswahl einer inkompatiblen Datei löst ein weiteres Dialogfenster aus, das 
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/f892090d-64e8-46a4-bafa-172e32a6f8e2)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/f892090d-64e8-46a4-bafa-172e32a6f8e2)</picture>
 
 </details>
 
@@ -97,7 +100,7 @@ Ist eine gültige Auswahl getroffen worden, wird das Hauptfenster geöffnet.
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/6fe06e5a-836a-42e7-99b5-031ac84f0701)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/6fe06e5a-836a-42e7-99b5-031ac84f0701)</picture>
 
 </details>
 
@@ -108,7 +111,7 @@ Ein Klick auf den Add-Button öffnet ein Dialogfenster, in dem die Daten des hin
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/59ca2799-12db-4c5e-be45-c5285aa010fd)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/59ca2799-12db-4c5e-be45-c5285aa010fd)</picture>
 </details>
 
 Das Kreuz und der Cancel-Button beenden den Vorgang.
@@ -117,8 +120,8 @@ Das Klicken des OK-Buttons fügt die Daten nach Überprüfung auf formelle Richt
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/481c3a7e-0edc-4875-b450-04e1de4c7cd3)
-![image](https://github.com/steffanossa/tm/assets/94658723/5864af6a-fb14-4228-9fd4-af97f5cbed0e)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/481c3a7e-0edc-4875-b450-04e1de4c7cd3)</picture>
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/5864af6a-fb14-4228-9fd4-af97f5cbed0e)</picture>
 
 </details>
 
@@ -127,7 +130,7 @@ Der Edit-Button ist nur klickbar, wenn genau eine Zeile ausgewählt ist. Er lös
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/3bca4572-5d1c-4f42-a08f-a33ba251b40e)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/3bca4572-5d1c-4f42-a08f-a33ba251b40e)</picture>
 </details>
 
 Der Remove-Button nur, wenn mindestens eine Zeile ausgewählt ist. Über ihn lassen sich die ausgewählten Zeilen aus Tabelle und Datenbank entfernen, bevor dies geschieht wird jedoch mit einem Dialogfenster eine Bestätigung abgefragt.
@@ -135,7 +138,7 @@ Der Remove-Button nur, wenn mindestens eine Zeile ausgewählt ist. Über ihn las
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/d1553e4b-0866-459c-b4cb-81b82ace66cf)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/d1553e4b-0866-459c-b4cb-81b82ace66cf)</picture>
 
 </details>
 
@@ -144,7 +147,7 @@ Unterhalb der Tabelle befindet sich der Previewstring. Durch ihn wird beispielha
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/7cbaa57f-548f-494b-947a-80788ed56bc7)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/7cbaa57f-548f-494b-947a-80788ed56bc7)</picture>
 </details>
 
 Die Daten der ausgewählten Spalten können mit dem Clipboard-Button in die Zwischenablage kopiert werden. Die Formatierung folgt der Spaltenreihenfolge und dem gewählten Trennzeichen. Der Button ist nur aktiv, sollte mindestens eine Zeile ausgewählt sein.
@@ -153,7 +156,7 @@ Die Daten der ausgewählten Spalten können ebenso als Reintext in einer Datei g
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
   
-![image](https://github.com/steffanossa/tm/assets/94658723/e2206fa7-c5ec-4a8f-bb7c-e6092d1d1fbe)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/e2206fa7-c5ec-4a8f-bb7c-e6092d1d1fbe)</picture>
 </details>
 
 Hilfe
@@ -162,7 +165,7 @@ Hilfe
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
 
-![image](https://github.com/steffanossa/tm/assets/94658723/4fec96c9-1f3c-4995-ac16-5a58caf6b1bb)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/4fec96c9-1f3c-4995-ac16-5a58caf6b1bb)</picture>
 </details>
 
 Über
@@ -171,12 +174,12 @@ Hilfe
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
 
-![image](https://github.com/steffanossa/tm/assets/94658723/67cf0e4d-5ee6-4dd6-8ce0-a7c8fb9db951)
+<picture>![image](https://github.com/steffanossa/tm/assets/94658723/67cf0e4d-5ee6-4dd6-8ce0-a7c8fb9db951)</picture>
 </details>
 
 Der Scenebuilder wurde nicht verwendet, da er mit (F)XML arbeitet. XML ist Mist.
 
-## <img src="https://github.com/steffanossa/tm/assets/94658723/596780a5-53ec-4b71-94d4-1ebd08b73aba" width="64">TODOs, Bugs
+## ToDos, Bugs&ensp;<picture><img src="https://github.com/steffanossa/tm/assets/94658723/596780a5-53ec-4b71-94d4-1ebd08b73aba" width="64"></picture>
 <details>
   
 - [x] mock db in test dir
