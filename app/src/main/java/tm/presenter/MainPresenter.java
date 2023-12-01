@@ -15,6 +15,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener.Change;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckMenuItem;
@@ -27,14 +28,13 @@ import javafx.stage.Stage;
 
 import tm.model.MainModel;
 import tm.model.dtos.StudentDTO;
+import tm.model.enums.PattyImages;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.presenter.interfaces.MainPresenterInterface;
 import tm.view.AboutView;
 import tm.view.HelpView;
 import tm.view.MainView;
-import tm.view.alerts.BadDatabaseAlertView;
-import tm.view.alerts.ConfirmDeletionAlertView;
-import tm.view.alerts.ExceptionAlert;
+import tm.view.alerts.GenericAlert;
 
 /**
  * Presenter for the main window
@@ -215,7 +215,7 @@ public class MainPresenter implements MainPresenterInterface {
             refreshCheckBoxMap();
             updateButtonStates();
         } catch (SQLException e) {
-            ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+            GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, e.getSQLState(), e.getMessage(), PattyImages.ERROR);
             alert.show();
             //System.exit(0);
         }
@@ -248,11 +248,14 @@ public class MainPresenter implements MainPresenterInterface {
      * Shows the ShowConfirmDeletionAlert
      * @param amountSelectedStudents amount of rows to be removed
      * @return {@code true} if removal confirmed
-     * @see ConfirmDeletionAlertView
      */
     private boolean showConfirmDeletionAlert(int amountSelectedStudents)
     {
-        ConfirmDeletionAlertView alert = new ConfirmDeletionAlertView(amountSelectedStudents);
+        GenericAlert alert = new GenericAlert(
+            Alert.AlertType.CONFIRMATION,
+            "Confirm removal",
+            "Are you sure you want to delete " + amountSelectedStudents + " entity/entities?",
+            PattyImages.CONFIRMATION);
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }
@@ -333,7 +336,7 @@ public class MainPresenter implements MainPresenterInterface {
                 updateTableView();
                 checkBoxMap.remove(tempStudent);
             } catch (SQLException e) {
-                ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+                GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, e.getSQLState(), e.getMessage(), PattyImages.ERROR);
                 alert.show();
             }
             mainView.getTableView().refresh();
@@ -363,7 +366,7 @@ public class MainPresenter implements MainPresenterInterface {
                         students.remove(student);
                         checkBoxMap.remove(student);
                     } catch (SQLException e) {
-                        ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+                        GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, e.getSQLState(), e.getMessage(), PattyImages.ERROR);
                         alert.show();
                     }
                 });
@@ -455,9 +458,10 @@ public class MainPresenter implements MainPresenterInterface {
             {
                 isAccepted = mainModel.openDatabase(file);
                 if (!isAccepted) {
-                    // showBadDatabaseAlert();
-                    new ExceptionAlert("Bad Database selected.\n"+
-                                             "You need a table created like this:",
+                new GenericAlert(
+                    Alert.AlertType.ERROR,
+                    "Bad Database selected.\n"+
+                    "You need a table created like this:",
                     """
                     CREATE TABLE "Students" (
                         "first_name"	TEXT NOT NULL,
@@ -465,8 +469,8 @@ public class MainPresenter implements MainPresenterInterface {
                         "matriculation_number"	INTEGER NOT NULL UNIQUE,
                         "fh_identifier"	TEXT NOT NULL UNIQUE,
                         PRIMARY KEY("matriculation_number")
-                    )"""
-                ).showAndWait();
+                    )""",
+                    PattyImages.ERROR).showAndWait();
                 showOpenDatabaseFileWindow();
                 }
             }
@@ -480,7 +484,18 @@ public class MainPresenter implements MainPresenterInterface {
      */
     private void showBadDatabaseAlert()
     {
-        BadDatabaseAlertView alert = new BadDatabaseAlertView();
+        GenericAlert alert = new GenericAlert(
+            Alert.AlertType.INFORMATION,
+            "Bad Database",
+            """
+            CREATE TABLE "Students" (
+                "first_name"	TEXT NOT NULL,
+                "surname"	TEXT NOT NULL,
+                "matriculation_number"	INTEGER NOT NULL UNIQUE,
+                "fh_identifier"	TEXT NOT NULL UNIQUE,
+                PRIMARY KEY("matriculation_number")
+            )""",
+            PattyImages.INFO);
         alert.showAndWait();
         showOpenDatabaseFileWindow();
     }

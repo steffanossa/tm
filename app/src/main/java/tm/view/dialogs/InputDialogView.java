@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import tm.customcontrols.PatternTextField;
+import tm.model.enums.PattyImages;
 
 /**
  * View for the input window
@@ -64,7 +65,7 @@ public class InputDialogView extends Dialog<ButtonType> {
         setDialogPane(dialogPane);
         setTitle(title);
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream(PattyImages.LOGO.getPath())));
     }
 
     /**

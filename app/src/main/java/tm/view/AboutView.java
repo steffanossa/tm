@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import tm.model.enums.PattyImages;
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class AboutView extends Alert {
             "JavaFX\t\t21.0.1\n" +
             "SQLite-JDBC\t3.34.0"
         );
-        ImageView logoImageView = new ImageView(this.getClass().getResource("/images/Logo.png").toString());
+        ImageView logoImageView = new ImageView(this.getClass().getResource(PattyImages.LOGO.getPath()).toString());
         
         // weil transparente pixel ignoriert werden
         Pane coverPane = new Pane();
@@ -55,7 +56,7 @@ public class AboutView extends Alert {
 
 
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream(PattyImages.LOGO.getPath())));
 
         gridPane.addColumn(0, headerLabel);
         gridPane.addColumn(1, stackPane);

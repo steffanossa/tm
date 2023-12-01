@@ -18,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tm.model.dtos.StudentDTO;
+import tm.model.enums.PattyImages;
 
 /**
  * View for the main window
@@ -101,7 +102,7 @@ public class MainView extends VBox {
             LocalDate.now().getDayOfWeek().toString().substring(0, 1) +
             LocalDate.now().getDayOfWeek().toString().substring(1).toLowerCase()));
         
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream(PattyImages.LOGO.getPath())));
         // stage.setResizable(false);
         stage.setScene(scene);
         stage.setWidth(480);

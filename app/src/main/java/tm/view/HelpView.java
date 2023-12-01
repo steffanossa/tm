@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import tm.model.enums.PattyImages;
 
 
 /**
@@ -80,6 +81,8 @@ public class HelpView extends Alert {
 
         );
         VBox container = new VBox(databaseLabel, separator1, databaseInfo, createStatement, inputLabel, separator2, inputInfo, tableLabel, separator3, tableInfo);
+        // ImageView logoImageView = new ImageView(this.getClass().getResource("/images/Question256x512.png").toString());
+        //TODO
         ImageView logoImageView = new ImageView(this.getClass().getResource("/images/Question256x512.png").toString());
         logoImageView.setFitWidth(128);
         logoImageView.setPreserveRatio(true);
@@ -91,7 +94,7 @@ public class HelpView extends Alert {
 
 
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Logo.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream(PattyImages.LOGO.getPath())));
 
         
         getDialogPane().setHeaderText(null);

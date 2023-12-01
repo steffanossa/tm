@@ -48,7 +48,7 @@
 
 ## Datenbankschnittstelle: JDBC
 
-- eine Schnittstelle für verschiedene Datenbanktypen
+Einzelne Schnittstelle für verschiedene Datenbanktypen ermöglicht unkomplizierte Wechsel ebendieser.
 
 ## Gradle
 
@@ -209,7 +209,7 @@ Der Scenebuilder wurde nicht verwendet, da er mit (F)XML arbeitet. XML ist Mist.
   - [ ] remove
   - [ ] edit
   - [ ] add
-- [x] generic alert for any errors!
+- [x] generic alert for any errors
 - [x] checkbox column
   - [x] adds to selected
   - [x] not in preview
@@ -217,10 +217,10 @@ Der Scenebuilder wurde nicht verwendet, da er mit (F)XML arbeitet. XML ist Mist.
   - [x] not hideable
   - [x] not in clipboard & saveTo
   - [x] update what happens after exception alert
-- [ ] fix toggleAll (disabled)
-- [ ] fix cancelling add-process unselects everything
+- [ ] __fix toggleAll (disabled)__
+- [x] fix cancelling add-process unselects everything
 - [ ] add screenshot of exception alert
-- [ ] redo alerts, enum for image selection?
+- [x] redo alerts, enum for image selection => reduced to single malleable alert
 </details>
 
 [^2]: Reference: https://www.statista.com/statistics/809750/worldwide-popularity-ranking-database-management-systems/

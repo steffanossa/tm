@@ -1,7 +1,5 @@
 package tm.model.classes;
 
-import java.io.FileReader;
-
 import java.util.Properties;
 
 import java.io.FileInputStream;

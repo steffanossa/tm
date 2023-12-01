@@ -1,6 +1,7 @@
 package tm.presenter;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
@@ -16,10 +17,10 @@ import tm.customcontrols.PatternTextField;
 import tm.model.InputDialogModel;
 import tm.model.daos.GenericDAO;
 import tm.model.dtos.StudentDTO;
+import tm.model.enums.PattyImages;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
 import tm.presenter.interfaces.MainPresenterInterface;
-import tm.view.alerts.ErrorAlert;
-import tm.view.alerts.ExceptionAlert;
+import tm.view.alerts.GenericAlert;
 import tm.view.dialogs.InputDialogView;
 
 
@@ -116,7 +117,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     }
 
     /**
-     * TODO: what a mess
+     * TODO: DAS IST EINE ABSOLUTE KATASTROPHE HIER; MACH WAS
      * validate user input + add data to database if valid
      * @return {@code true} if successful
      */
@@ -165,7 +166,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             mainPresenter.getStudentDTOs().add(new StudentDTO(firstName, surname, matriculationNumber, fhIdentifier));
             return true;
         } catch (SQLException e) {
-            ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+            GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, e.getSQLState(), e.getMessage(), PattyImages.ERROR);
             alert.show();
             return false;
         }
@@ -177,8 +178,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      */
     private void showBadInputAlert(String message)
     {
-        ErrorAlert alert = new ErrorAlert("Bad input", message);
-        alert.show();
+        new GenericAlert( Alert.AlertType.INFORMATION, "Bad input", message, PattyImages.ERROR ).show();
     }
 
     /**
@@ -202,7 +202,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
                     );
             }
             catch (SQLException e) {
-                ExceptionAlert alert = new ExceptionAlert(e.getSQLState(), e.getMessage());
+                GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, e.getSQLState(), e.getMessage(), PattyImages.ERROR);
                 alert.show();
             }
         }
@@ -217,4 +217,5 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         boolean isUnique = !mainPresenter.getStudentDTOs().stream().anyMatch(student -> student.getFhIdentifier().equals(fhIdentifier));
         return isUnique;
     }
+
 }
