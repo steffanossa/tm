@@ -1,4 +1,5 @@
-# Transfermodul Programmieraufgabe
+![Untitled-5s](https://github.com/steffanossa/tm/assets/94658723/0528db5d-502f-4324-8df7-1b1699f03307)
+
 
 ## HowTo
 
@@ -21,14 +22,12 @@
 - clone this repo: `git clone https://github.com/steffanossa/tm.git`
 - execute <order66> `gradle run` in cloned dir
 
-## Anforderungen
+## Anforderungen<img src="https://github.com/steffanossa/tm/assets/94658723/a03dad82-7fe1-47e8-ba1f-28105c2143af" width="96">
 <details>
   <summary>(<i>click to show/hide image</i>)</summary>
   <!-- has to be followed by an empty line! -->
 <img src="https://github.com/steffanossa/tm/assets/94658723/0551d5fe-8406-42fb-92d0-6b25ba029b2b" width="400">
 </details>
-
-
 
 
 - Anbindung zu Datenbank mit JDBC
@@ -57,7 +56,7 @@ Die in der Anwendung gezeigten Daten sind keine Livedaten, sondern Transferobjek
 
 <a href="https://gradle.org/releases/">Gradle</a> ist ein open source Build-Management-Tool. Es vereinfacht die Entwicklung, das Testen und die Bereitstelung von Anwendungen verschiedener Programmiersprachen. Alternativ hätte Maven genutzt werden können. Maven arbeitet allerdings mit XML.
 
-## MVP<img src="https://github.com/steffanossa/tm/assets/94658723/a03dad82-7fe1-47e8-ba1f-28105c2143af" width="96">
+## MVP
 
 
 Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
