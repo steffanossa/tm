@@ -1,5 +1,4 @@
 # Transfermodul Programmieraufgabe
-#gradle, #javafx, #mvp, #jdbc, #sqlite
 
 ## HowTo
 
