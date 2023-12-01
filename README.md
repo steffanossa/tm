@@ -2,6 +2,7 @@
 #gradle, #javafx, #mvp, #jdbc, #sqlite
 
 ## HowTo
+
 ### Windows
 - have Java JDK version 8 or higher 
 - get and unzip <a href="https://gradle.org/releases/">gradle</a>
@@ -39,59 +40,13 @@
 - Freie Anordnung der Spalten
 - Hinzufügen & Löschen einzelner bzw. mehrerer Studenten
 
-## TODO
-<details>
-  
-- [x] mock db in test dir
-- [x] unit tests
-  - [x] studentDAO
-  - [x] sqlitebuddy
-  - [x] mainmodel
-  - [x] inputdialogmodel
-- [ ] custom exceptions MEH
-- [x] edit window umbennenen
-- [x] bad input sprache
-- [x] uniquenessmessage sprache
-- [x] DAO Interface
-- [x] Edit-Button
-- [x] bilder updaten
-- [x] menubar mit reload data, help und about
-- [x] about view
-- [x] help view
-- [x] howTo schreiben
-- [x] testen unter linux / mac (debian 12 workde)
-- [x] uml gedöns
-  - [x] mvp
-  - [x] dao
-  - [x] add process
-  - [x] class diagram
-- [ ] datenbank interaktionen minimieren
-  - [ ] remove
-  - [ ] edit
-  - [ ] add
-- [x] generic alert for any errors!
-- [x] checkbox column
-  - [x] adds to selected
-  - [x] not in preview
-  - [ ] not in reordering -> setReorderable=false still allows "passive reordering" :(
-  - [x] not hideable
-  - [x] not in clipboard & saveTo
-  - [x] update what happens after exception alert
-- [ ] fix toggleAll (disabled)
-- [ ] fix cancelling add-process unselects everything
-- [ ] add screenshot of exception alert
-- [ ] redo alerts, enum for image selection?
-</details>
-## MVP
+## Datenbank: SQLite
 
-Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
-
-<details>
-  <summary>(<i>click to show/hide image</i>)</summary>
-  <!-- has to be followed by an empty line! -->
-  
-![NOsxJiGm44LxVyNWQXVa5RGq92K5We97RUmB6ScFO8z9WVXteYGGYNREkMUwAhP8Yq6ToO08YbPGs2fX2Q2-k845hXNGeN8S0xyn_56vO6kbXuAA92ZqfIxebPD_OVyEUSoz4yxfSBocpyn-XctqLl1qkns-rPQuonvXcTUFS3-YsD_XpIuzCwRPCJGj-PNjp_NbwNHEch8nXlILNgF_X](https://github.com/steffanossa/tm/assets/94658723/ad076175-a976-4346-b2af-3b87889a949d)
-</details>
+- gemeinfreie (public domain) Programmbibliothek
+- keine Client-Server-Architektur
+- keine Verwaltung von Nutzer- und Zugriffsrechten
+- weit verbreitet[^2][^3]
+- leichtgewichtig[^4]
 
 ## DAO, DTO
 
@@ -103,7 +58,22 @@ Die in der Anwendung gezeigten Daten sind keine Livedaten, sondern Transferobjek
 
 <a href="https://gradle.org/releases/">Gradle</a> ist ein open source Build-Management-Tool. Es vereinfacht die Entwicklung, das Testen und die Bereitstelung von Anwendungen verschiedener Programmiersprachen. Alternativ hätte Maven genutzt werden können. Maven arbeitet allerdings mit XML.
 
-## Eine Tour durch die Graphische Nutzeroberfläche (JavaFX)
+## MVP<img src="https://github.com/steffanossa/tm/assets/94658723/a03dad82-7fe1-47e8-ba1f-28105c2143af" width="96">
+
+
+Business Logic im Model (M), GUI-Elemente im View (V), der Presenter (P) agiert als "Vermittler". Jegliche Interaktionen mit der Nutzeroberfläche wird vom Presenter verarbeitet. Die zugehörigen Methoden des Models werden von ihm aufgerufen und die Rückgaben im Anschluss von ihm verarbeitet und die Nutzeroberfläche aktualisiert. Durch die strikte Trennung von Nutzeroberfläche und Geschäftslogik wird eine Modularität erreicht, durch die Änderungen an einzelnen Komponenten möglich sind, ohne dadurch Änderungen an anderen Stellen nötig werden zu lassen (lose Kopplung).[^5]
+
+<details>
+  <summary>(<i>click to show/hide image</i>)</summary>
+  <!-- has to be followed by an empty line! -->
+  
+![NOsxJiGm44LxVyNWQXVa5RGq92K5We97RUmB6ScFO8z9WVXteYGGYNREkMUwAhP8Yq6ToO08YbPGs2fX2Q2-k845hXNGeN8S0xyn_56vO6kbXuAA92ZqfIxebPD_OVyEUSoz4yxfSBocpyn-XctqLl1qkns-rPQuonvXcTUFS3-YsD_XpIuzCwRPCJGj-PNjp_NbwNHEch8nXlILNgF_X](https://github.com/steffanossa/tm/assets/94658723/ad076175-a976-4346-b2af-3b87889a949d)
+</details>
+
+
+![logo copy](https://github.com/steffanossa/tm/assets/94658723/6a543b43-669f-4a62-a7be-2f727b927d2b)
+---
+
 
 Dem Start des Programms folgt die Anzeige eines Dialogfensters, über das die zu öffnende Datenbank selektiert werden kann.
 <details>
@@ -206,16 +176,49 @@ Hilfe
 
 Der Scenebuilder wurde nicht verwendet, da er mit (F)XML arbeitet. XML ist Mist.
 
-## 
-
-## SQLite
-
-- gemeinfreie (public domain) Programmbibliothek
-- keine Client-Server-Architektur
-- keine Verwaltung von Nutzer- und Zugriffsrechten
-- weit verbreitet[^2][^3]
-- leichtgewichtig[^4]
-
+## <img src="https://github.com/steffanossa/tm/assets/94658723/596780a5-53ec-4b71-94d4-1ebd08b73aba" width="64">TODOs, Bugs
+<details>
+  
+- [x] mock db in test dir
+- [x] unit tests
+  - [x] studentDAO
+  - [x] sqlitebuddy
+  - [x] mainmodel
+  - [x] inputdialogmodel
+- [ ] custom exceptions MEH
+- [x] edit window umbennenen
+- [x] bad input sprache
+- [x] uniquenessmessage sprache
+- [x] DAO Interface
+- [x] Edit-Button
+- [x] bilder updaten
+- [x] menubar mit reload data, help und about
+- [x] about view
+- [x] help view
+- [x] howTo schreiben
+- [x] testen unter linux / mac (debian 12 workde)
+- [x] uml gedöns
+  - [x] mvp
+  - [x] dao
+  - [x] add process
+  - [x] class diagram
+- [ ] datenbank interaktionen minimieren
+  - [ ] remove
+  - [ ] edit
+  - [ ] add
+- [x] generic alert for any errors!
+- [x] checkbox column
+  - [x] adds to selected
+  - [x] not in preview
+  - [ ] not in reordering -> setReorderable=false still allows "passive reordering" :(
+  - [x] not hideable
+  - [x] not in clipboard & saveTo
+  - [x] update what happens after exception alert
+- [ ] fix toggleAll (disabled)
+- [ ] fix cancelling add-process unselects everything
+- [ ] add screenshot of exception alert
+- [ ] redo alerts, enum for image selection?
+</details>
 
 [^2]: Reference: https://www.statista.com/statistics/809750/worldwide-popularity-ranking-database-management-systems/
 
