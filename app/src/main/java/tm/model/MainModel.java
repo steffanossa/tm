@@ -11,9 +11,12 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Function;
 
+import javafx.scene.control.Alert;
 import tm.model.daos.GenericDAO;
 import tm.model.daos.StudentDAO;
 import tm.model.dtos.StudentDTO;
+import tm.model.enums.PattyImages;
+import tm.view.alerts.GenericAlert;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
@@ -147,12 +150,14 @@ public class MainModel {
      */
     public void writeStringToFile( String string, File file ) {
         try {
-            PrintWriter writer;
-            writer = new PrintWriter(file);
+            PrintWriter writer = new PrintWriter(file);
             writer.println(string);
             writer.close();
         }
-        catch (IOException e) { System.out.println(e.getMessage()); }
+        catch (IOException e) {
+            GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, "Ooops...", e.getMessage(), PattyImages.ERROR);
+            alert.show();
+        }
     }
 
     /**

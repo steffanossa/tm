@@ -37,9 +37,9 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             GenericDAO<StudentDTO> studentDAO,
             MainPresenterInterface mainPresenter,
             String dialogTitle) {
-        inputDialogModel = new InputDialogModel(studentDAO);
-        inputDialogView = new InputDialogView(dialogTitle);
-        this.mainPresenter = mainPresenter;
+        inputDialogModel    = new InputDialogModel(studentDAO);
+        inputDialogView     = new InputDialogView(dialogTitle);
+        this.mainPresenter  = mainPresenter;
         addOkButtonAction();
     }
 
@@ -49,10 +49,10 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      */
     private void fillTextFields(StudentDTO student)
     {
-        TextField firstnameTextField = inputDialogView.getPatternTextFieldByName("firstName");
-        TextField lastnameTextField = inputDialogView.getPatternTextFieldByName("surname");
-        TextField matrikelnummerTextField = inputDialogView.getPatternTextFieldByName("matriculationNumber");
-        TextField fhKennungTextField = inputDialogView.getPatternTextFieldByName("fhIdentifier");
+        TextField firstnameTextField        = inputDialogView.getPatternTextFieldByName("firstName");
+        TextField lastnameTextField         = inputDialogView.getPatternTextFieldByName("surname");
+        TextField matrikelnummerTextField   = inputDialogView.getPatternTextFieldByName("matriculationNumber");
+        TextField fhKennungTextField        = inputDialogView.getPatternTextFieldByName("fhIdentifier");
 
         firstnameTextField.setText(student.getFirstName());
         lastnameTextField.setText(student.getSurname());
@@ -73,8 +73,8 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
     }
     
     @Override
-    public boolean showAndWait() {
-        //inputDialogView.showAndWait();
+    public boolean showAndWait()
+    {
         Optional<ButtonType> result = inputDialogView.showAndWait();
         if (result.isPresent() && result.get().getButtonData().equals(ButtonData.CANCEL_CLOSE)) {
             return false;
@@ -122,14 +122,12 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
      * @return {@code true} if successful
      */
     private boolean handleOkButtonClick() {
-        LinkedHashMap<String, PatternTextField> patternTextFieldMap = createPatternTextFieldMap();
+        LinkedHashMap<String, PatternTextField> pTFMap = createPatternTextFieldMap();
         StringBuilder errorMessage = new StringBuilder("Please revisit the following inputs:");
         AtomicBoolean inputIsValid = new AtomicBoolean(true);
 
-        patternTextFieldMap.keySet().forEach(patternTextFieldName ->
-        {
-            inputIsValid.set(inputIsValid.get() & validateAndAppendToErrorMessage(patternTextFieldMap.get(patternTextFieldName), patternTextFieldName, errorMessage));
-        });
+        pTFMap.keySet().forEach(pTFName ->
+        { inputIsValid.set(inputIsValid.get() & validateAndAppendToErrorMessage(pTFMap.get(pTFName), pTFName, errorMessage)); });
         if (!inputIsValid.get())
         {
             this.showBadInputAlert(errorMessage.toString());
@@ -137,33 +135,32 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         }
         else 
         {
-            int matriculationNumber = Integer.valueOf(patternTextFieldMap.get("Matriculation Nr.").getText());
-            String fhIdentifier = patternTextFieldMap.get("FH Identifier").getText();
+            int matriculationNumber             = Integer.valueOf(pTFMap.get("Matriculation Nr.").getText());
+            String fhIdentifier                 = pTFMap.get("FH Identifier").getText();
             boolean isMatriculationNumberUnique = checkMatriculationNumberUniqueness(matriculationNumber);
-            boolean isFhIdentifierUnique = checkFhIdentifierUniqueness(fhIdentifier);
-            String badInputMessage = "Value intended to unique already exists in the database:";
+            boolean isFhIdentifierUnique        = checkFhIdentifierUniqueness(fhIdentifier);
+            String badInputMessage              = "Value intended to unique already exists in the database:";
 
             if (!isMatriculationNumberUnique) badInputMessage += "\n- Matriculation Nr.";
-
             if (!isFhIdentifierUnique) badInputMessage += "\n- FH Identifier";
-            
             if (!isMatriculationNumberUnique || !isFhIdentifierUnique) {
                 showBadInputAlert(badInputMessage);
                 return !inputIsValid.get();
             }
 
             return addStudent(
-                patternTextFieldMap.get("First Name").getText(),
-                patternTextFieldMap.get("Surname").getText(),
+                pTFMap.get("First Name").getText(),
+                pTFMap.get("Surname").getText(),
                 matriculationNumber,
-                fhIdentifier);
+                fhIdentifier.toLowerCase());
         }
     }
 
     private boolean addStudent(String firstName, String surname, int matriculationNumber, String fhIdentifier) {
         try {
-            inputDialogModel.addStudent(firstName, surname, matriculationNumber, fhIdentifier);
-            mainPresenter.getStudentDTOs().add(new StudentDTO(firstName, surname, matriculationNumber, fhIdentifier));
+            StudentDTO studentDTO = new StudentDTO(firstName, surname, matriculationNumber, fhIdentifier);
+            inputDialogModel.addStudent(studentDTO);
+            // mainPresenter.getStudentDTOs().add(studentDTO);
             return true;
         } catch (SQLException e) {
             GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, e.getSQLState(), e.getMessage(), PattyImages.ERROR);
@@ -194,12 +191,12 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
         {
             try
             {
-                inputDialogModel.addStudent(
+                inputDialogModel.addStudent(new StudentDTO(
                     student.getFirstName(),
                     student.getSurname(),
                     Integer.valueOf(student.getMatriculationNumber()),
                     student.getFhIdentifier().toLowerCase()
-                    );
+                    ));
             }
             catch (SQLException e) {
                 GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, e.getSQLState(), e.getMessage(), PattyImages.ERROR);

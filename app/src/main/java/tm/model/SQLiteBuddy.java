@@ -68,10 +68,10 @@ public class SQLiteBuddy implements GenericDatabaseBuddy
     @Override
     public boolean isAcceptedDatabase()
     {
-        Connection connection = establishConnection();
+        // Connection connection = establishConnection();
         boolean isValid = false;
 
-        try {
+        try (Connection connection = establishConnection();) {
             DatabaseMetaData metaData = connection.getMetaData();
             ResultSet rs = metaData.getColumns(null, null, null, null);
         

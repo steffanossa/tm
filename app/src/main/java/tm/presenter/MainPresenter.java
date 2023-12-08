@@ -133,7 +133,7 @@ public class MainPresenter implements MainPresenterInterface {
 
         tableView.getColumns().addAll(columns);
 
-        updateTableView();
+        reloadDataToTableView();
 
         tableView.getSelectionModel().setCellSelectionEnabled(false);
         //TableColumn<?,?> oder eine Unterklasse davon
@@ -205,11 +205,12 @@ public class MainPresenter implements MainPresenterInterface {
     /**
      * Updates the TableView by reretrieving all students from the database etc.
      */
-    private void updateTableView()
+    private void reloadDataToTableView()
     {
         ArrayList<StudentDTO> studentsArrayList;
         try {
             studentsArrayList = mainModel.retrieveStudents();
+            mainModel.retrieveStudents().forEach(student -> checkBoxMap.put(student, new SimpleBooleanProperty(false)));
             students = FXCollections.observableArrayList(studentsArrayList);
             mainView.getTableView().setItems(students);
             refreshCheckBoxMap();
@@ -333,8 +334,8 @@ public class MainPresenter implements MainPresenterInterface {
                     this,
                     "Edit entity");
                 inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
-                updateTableView();
-                checkBoxMap.remove(tempStudent);
+                reloadDataToTableView();
+                mainView.getTableView().getItems().remove(tempStudent);
             } catch (SQLException e) {
                 GenericAlert alert = new GenericAlert(Alert.AlertType.ERROR, e.getSQLState(), e.getMessage(), PattyImages.ERROR);
                 alert.show();
@@ -512,7 +513,7 @@ public class MainPresenter implements MainPresenterInterface {
      * Adds button function
      */
     private void addReloadMenuiItemAction() {
-        mainView.getReloadMenuItem().setOnAction( _event -> updateTableView() );
+        mainView.getReloadMenuItem().setOnAction( _event -> reloadDataToTableView() );
     }
 
     /**

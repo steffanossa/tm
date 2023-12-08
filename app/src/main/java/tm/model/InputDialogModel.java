@@ -31,4 +31,11 @@ public class InputDialogModel {
         
         return studentDAO.add(student);
     }
+
+    public boolean addStudent(
+        StudentDTO studentDTO
+    ) throws SQLException
+    {
+        return studentDAO.add(studentDTO);
+    }
 }

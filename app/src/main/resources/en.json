@@ -47,12 +47,23 @@
     "previewName": {
         "firstName": "John",
         "surname": "Doe",
-        "matriculationNumber": 1234567,
+        "matriculationNumber": "1234567",
         "fhIdentity": "jd123456"
     },
     "patterns": {
-        "namePattern": "^[A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+(?: [A-Za-zÄÖÜäöüßÀÁÂàáâÇçÈÉÊèéêËëÌÍÎìíîÏïÑñÒÓÔÕØòóôõøÙÚÛùúûÝýŸÿŴŵ\\-]+)?$",
+        "namePattern": "^[\\p{L}'][ \\p{L}'-]*[\\p{L}]$",
         "matriculationNumberPattern": "^\\d{1,9}$",
         "fhIdentity": "^[A-Za-z]{2}\\d{6}$"
+    },
+    "menuBarItems": {
+        "fileMenu": "File",
+        "helpMenu": "Help"
+    },
+    "fileMenuItems": {
+        "realoadData": "Reload data"
+    },
+    "helpMenuItems": {
+        "help": "Help",
+        "about": "About"
     }
 }

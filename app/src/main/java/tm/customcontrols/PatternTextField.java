@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
  * @see TextField
  */
 public class PatternTextField extends TextField {
-    // private Pattern pattern;
     private String pattern;
 
     public PatternTextField(String pattern)
