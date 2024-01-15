@@ -141,7 +141,7 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             String fhIdentifier = patternTextFieldMap.get("FH Identifier").getText();
             boolean isMatriculationNumberUnique = checkMatriculationNumberUniqueness(matriculationNumber);
             boolean isFhIdentifierUnique = checkFhIdentifierUniqueness(fhIdentifier);
-            String badInputMessage = "Value intended to unique already exists in the database:";
+            String badInputMessage = "Value mandatory to be unique already exists in the database:";
 
             if (!isMatriculationNumberUnique) badInputMessage += "\n- Matriculation Nr.";
 
