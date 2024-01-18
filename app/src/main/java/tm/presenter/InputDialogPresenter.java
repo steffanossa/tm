@@ -138,8 +138,8 @@ public class InputDialogPresenter implements InputDialogPresenterInterface
             int matriculationNumber             = Integer.valueOf(pTFMap.get("Matriculation Nr.").getText());
             String fhIdentifier                 = pTFMap.get("FH Identifier").getText();
             boolean isMatriculationNumberUnique = checkMatriculationNumberUniqueness(matriculationNumber);
-            boolean isFhIdentifierUnique        = checkFhIdentifierUniqueness(fhIdentifier);
-            String badInputMessage              = "Value intended to unique already exists in the database:";
+            boolean isFhIdentifierUnique = checkFhIdentifierUniqueness(fhIdentifier);
+            String badInputMessage = "Value intended to be unique already exists in the database:";
 
             if (!isMatriculationNumberUnique) badInputMessage += "\n- Matriculation Nr.";
             if (!isFhIdentifierUnique) badInputMessage += "\n- FH Identifier";
