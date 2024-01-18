@@ -39,6 +39,9 @@ public class MainView extends VBox {
     private MenuItem reloadMenuItem;
     private MenuItem helpMenuItem;
     private MenuItem aboutMenuItem;
+    //
+    private Menu helpMenu;
+    private Menu fileMenu;
 
     private Scene scene;
 
@@ -48,19 +51,19 @@ public class MainView extends VBox {
         scene = new Scene(this);
         helpMenuItem = new MenuItem("Help");
         aboutMenuItem = new MenuItem("About");
-        Menu aboutMenu = new Menu(
+        helpMenu = new Menu(
             "Help",
             null,
             helpMenuItem,
             aboutMenuItem
             );
         reloadMenuItem = new MenuItem("Reload data");
-        Menu fileMenu = new Menu(
+        fileMenu = new Menu(
             "File",
             null,
             reloadMenuItem
             );
-        MenuBar menuBar = new MenuBar(fileMenu, aboutMenu);
+        MenuBar menuBar = new MenuBar(fileMenu, helpMenu);
         addButton = new Button("Add");
         removeButton = new Button("Remove");
         editButton = new Button("Edit");
@@ -110,6 +113,17 @@ public class MainView extends VBox {
         
         stage.show();
     }
+
+    public void setClipboardButtonLabel(String label) { clipboardButton.setText(label);}
+    public void setSaveToFileButtonLabel(String label) { saveToFileButton.setText(label);}
+    public void setAddButtonLabel(String label) { addButton.setText(label);}
+    public void setEditButtonLabel(String label) { editButton.setText(label);}
+    public void setRemoveButtonLabel(String label) { removeButton.setText(label);}
+    public void setReloadMenuItemLabel(String label) { reloadMenuItem.setText(label);}
+    public void setAboutMenuItemLabel(String label) { aboutMenuItem.setText(label);}
+    public void setHelpMenuItemLabel(String label) { helpMenuItem.setText(label);}
+    public void setHelpMenuLabel(String label) { helpMenu.setText(label);}
+    public void setFileMenuLabel(String label) { fileMenu.setText(label);}
 
     public MenuItem getReloadMenuItem() {
         return reloadMenuItem;

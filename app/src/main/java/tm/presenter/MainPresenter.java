@@ -27,6 +27,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import tm.model.MainModel;
+import tm.model.classes.LangParser;
 import tm.model.dtos.StudentDTO;
 import tm.model.enums.PattyImages;
 import tm.presenter.interfaces.InputDialogPresenterInterface;
@@ -43,6 +44,7 @@ public class MainPresenter implements MainPresenterInterface {
     
     private MainView mainView;
     private MainModel mainModel;
+    private LangParser langParser;
 
     private String separator;
     private ObservableList<StudentDTO> students;
@@ -51,6 +53,7 @@ public class MainPresenter implements MainPresenterInterface {
     public MainPresenter()
     {
         mainModel = new MainModel();
+        LangParser langParser = new LangParser();
         separator = ",";
         checkBoxMap = new HashMap<>();
         mainView = new MainView();
@@ -83,7 +86,7 @@ public class MainPresenter implements MainPresenterInterface {
         updateButtonStates();
 
         mainView.getComboBox().getItems().setAll(mainModel.getSeparatorKeySet());
-        mainView.getComboBox().setValue("Comma");
+        mainView.getComboBox().setValue(langParser.get("separators", "comma"));
 
         updatePreviewString();
 
@@ -121,10 +124,26 @@ public class MainPresenter implements MainPresenterInterface {
     {
         ArrayList<TableColumn<StudentDTO, ?>> columns = new ArrayList<>();
         
-        columns.add(createTableColumn("First name", "firstName", String.class));
-        columns.add(createTableColumn("Surname", "surname", String.class));
-        columns.add(createTableColumn("Matriculation Nr.", "matriculationNumber", Integer.class));
-        columns.add(createTableColumn("FH Identifier", "fhIdentifier", String.class));
+        columns.add(createTableColumn(
+            langParser.get("labels", "firstName"),
+            "firstName",
+            String.class
+            ));
+        columns.add(createTableColumn(
+            langParser.get("labels", "surname"),
+            "surname",
+            String.class
+            ));
+        columns.add(createTableColumn(
+            langParser.get("labels", "matriculationNumber"),
+            "matriculationNumber",
+            Integer.class
+            ));
+        columns.add(createTableColumn(
+            langParser.get("labels", "fhIdentifier"),
+            "fhIdentifier",
+            String.class
+            ));
         
         TableColumn<StudentDTO, Boolean> checkBoxColumn = createCheckBoxColumn();
         checkBoxColumn.setReorderable(false);
@@ -237,7 +256,7 @@ public class MainPresenter implements MainPresenterInterface {
         visibleColumns = getVisibleColumns();
         String previewString = mainModel.createPreviewString(separator, visibleColumns);
         mainView.getLabelPreviewString().setText(previewString);
-        if (previewString.equals("Nothing to show"))
+        if (previewString.equals(langParser.get("dialogMessages", "emptyPreviewString")))
         {
             mainView.showImage();
             mainView.getTableView().getSelectionModel().clearSelection();
@@ -305,7 +324,7 @@ public class MainPresenter implements MainPresenterInterface {
             InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(
                     mainModel.getStudentDAO(),
                     this,
-                    "Add entity");
+                    langParser.get("windowTitles", "inputDialog"));
              if(inputDialogPresenterInterface.showAndWait()) {
                 mainView.getTableView().refresh();
                 refreshCheckBoxMap();
@@ -332,7 +351,8 @@ public class MainPresenter implements MainPresenterInterface {
                 InputDialogPresenterInterface inputDialogPresenterInterface = (InputDialogPresenterInterface) new InputDialogPresenter(
                     mainModel.getStudentDAO(),
                     this,
-                    "Edit entity");
+                    langParser.get("windowTitles", "editDialog")
+                    );
                 inputDialogPresenterInterface.showAndWaitWithData(tempStudent);
                 reloadDataToTableView();
                 mainView.getTableView().getItems().remove(tempStudent);
@@ -533,6 +553,19 @@ public class MainPresenter implements MainPresenterInterface {
     @Override
     public ObservableList<StudentDTO> getStudentDTOs() {
         return students;
+    }
+
+    private void setLabels() {
+        mainView.setClipboardButtonLabel(langParser.get("buttonLabels", "clipboardButton"));
+        mainView.setSaveToFileButtonLabel(langParser.get("buttonLabels", "saveToFileButton"));
+        mainView.setAddButtonLabel(langParser.get("buttonLabels", "addButton"));
+        mainView.setEditButtonLabel(langParser.get("buttonLabel", "editButton"));
+        mainView.setRemoveButtonLabel(langParser.get("buttonLabel", "removeButton"));
+        mainView.setReloadMenuItemLabel(langParser.get("fileMenuItems", "realoadData"));
+        mainView.setAboutMenuItemLabel(langParser.get("helpMenuItems", "about"));
+        mainView.setHelpMenuItemLabel(langParser.get("helpMenuItems", "help"));
+        mainView.setHelpMenuLabel(langParser.get("menuBarItems", "aboutMenu"));
+        mainView.setFileMenuLabel(langParser.get("menuBarItems", "fileMenu"));
     }
 }
 

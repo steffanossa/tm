@@ -12,7 +12,7 @@
         "firstName": "First name",
         "surname": "Surname",
         "matriculationNumber": "Matriculation Nr.",
-        "fhIdentity": "FH Identity"
+        "fhIdentifier": "FH Identity"
     },
     "separators": {
         "comma": "Comma",
